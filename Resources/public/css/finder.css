@@ -1,0 +1,36 @@
+body {
+    background-color: #ddd;
+    margin: 10px;
+    text-align: left;
+}
+
+#paustianmelodymixermoduleItemContainer {
+    background-color: #eee;
+    height: 300px;
+    overflow: auto;
+    padding: 5px;
+}
+
+#paustianmelodymixermoduleItemContainer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#paustianmelodymixermoduleItemContainer a {
+    color: #000;
+    margin: 0.1em 0.2em;
+    text-decoration: underline;
+}
+#paustianmelodymixermoduleItemContainer a:hover,
+#paustianmelodymixermoduleItemContainer a:focus,
+#paustianmelodymixermoduleItemContainer a:active {
+    color: #900;
+    text-decoration: none;
+}
+
+.paustianmelodymixermodule-finderform fieldset,
+.paustianmelodymixermodule-finderform fieldset legend {
+    background-color: #fff;
+    border: none;
+}

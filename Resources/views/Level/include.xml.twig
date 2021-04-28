@@ -1,0 +1,21 @@
+{# purpose of this template: levels xml inclusion template #}
+{% trans_default_domain 'level' %}
+<level id="{{ level.getId() }}" createdon="{{ level.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ level.updatedDate|format_datetime('medium', 'short') }}">
+    <id>{{ level.id }}</id>
+    <levelName><![CDATA[{{ level.levelName }}]]></levelName>
+    <displayGraphicLevelId>{{ level.displayGraphicLevelId }}</displayGraphicLevelId>
+    <graphicsAndSound>
+    {% if level.graphicsAndSound|default %}
+        {% for relatedItem in level.graphicsAndSound %}
+        <graphicsAndSound>{{ relatedItem|paustianmelodymixermodule_formattedTitle }}</graphicsAndSound>
+        {% endfor %}
+    {% endif %}
+    </graphicsAndSound>
+    <musicScores>
+    {% if level.musicScores|default %}
+        {% for relatedItem in level.musicScores %}
+        <musicScore>{{ relatedItem|paustianmelodymixermodule_formattedTitle }}</musicScore>
+        {% endfor %}
+    {% endif %}
+    </musicScores>
+</level>

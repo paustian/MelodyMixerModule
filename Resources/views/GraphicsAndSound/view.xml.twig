@@ -1,0 +1,10 @@
+{# purpose of this template: graphics and sound view xml view #}
+{% trans_default_domain 'graphicsAndSound' %}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<graphicsAndSound>
+{% for graphicsAndSound in items %}
+    {{ include('@PaustianMelodyMixerModule/GraphicsAndSound/include.xml.twig') }}
+{% else %}
+    <noGraphicsAndSound />
+{% endfor %}
+</graphicsAndSound>

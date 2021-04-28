@@ -1,0 +1,5 @@
+paustianmelodymixermodule:
+    # define routing support for these controllers
+    resource: "@PaustianMelodyMixerModule/Controller"
+    # enable support for defining routes by annotations
+    type: annotation

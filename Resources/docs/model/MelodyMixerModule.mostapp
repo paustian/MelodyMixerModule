@@ -1,0 +1,239 @@
+application "MelodyMixer" targets ZK30 {
+    vendor "Paustian"
+    author "Timothy Paustian"
+    email "tdpaustian@gmail.com"
+    url "https://www.microbiologytextbook.com"
+    version "1.0.1"
+    prefix "melody"
+    generateAccountApi false
+    generateSearchApi false
+    generateScribitePlugins false
+    entities {
+        entity "gameScore" leading {
+            nameMultiple "gameScores"
+            displayPattern "#lastName,#firstName"
+            fields {
+                user "playerUid" unique,
+                email "playerEmail" {
+                    documentation "The email address of the player"
+                },
+                string "firstName" {
+                    documentation "The first name of the player"
+                },
+                string "lastName" {
+                    documentation "The last name of the player"
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                editAction "Edit"
+            ,
+                customAction "SetScores"
+            ,
+                deleteAction "Delete"
+            }
+        },
+        entity "score" {
+            nameMultiple "scores"
+            displayPattern "#levelName"
+            fields {
+                integer "levelId" {
+                    defaultValue "0"
+                },
+                string "levelName" {
+                    documentation "The name of the level"
+                },
+                integer "scoreOne" {
+                    documentation "Score on the first level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreTwo" {
+                    documentation "Score on the 2nd level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreThree" {
+                    documentation "Score on the third level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreFour" {
+                    documentation "Score on the fourth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreFive" {
+                    documentation "Score on the fifth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreSix" {
+                    documentation "Score on the sixth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreSeven" {
+                    documentation "Score on the seventh level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreEight" {
+                    documentation "Score on the eighth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreNine" {
+                    documentation "Score on the ninth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                },
+                integer "scoreTen" {
+                    documentation "Score on the tenth level"
+                    defaultValue "0"
+                    mandatory false
+                    maxValue 100
+                }
+            }
+            actions {
+                viewAction "View",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        }
+    ,
+        entity "level" {
+            nameMultiple "levels"
+            displayPattern "#levelName"
+            fields {
+                string "levelName" {
+                    documentation "The name of the level for Melody Mixer"
+                },
+                integer "displayGraphicLevelId" {
+                    documentation "The ID of this level. This must match the ID in Graphics and Sounds and Music Scores"
+                    defaultValue "0"
+                }
+            }
+            actions {
+                editAction "Edit",
+                viewAction "View",
+                deleteAction "Delete"
+            }
+        },
+        entity "graphicsAndSound" {
+            nameMultiple "graphicsAndSound"
+            displayPattern "#levelId,#gsName,#gsPath"
+            fields {
+                integer "levelid" {
+                    defaultValue "0"
+                },
+                string "gsName" {
+                    documentation "The name of the graphic"
+                },
+                string "gsPath" {
+                    documentation "The path to the graphic/sound"
+                },
+                integer "xPos" {
+                    documentation "The x position of the graphic on the stage"
+                    defaultValue "0"
+                    mandatory false
+                },
+                integer "yPos" {
+                    documentation "The y position of the graphic on the stage"
+                    defaultValue "0"
+                    mandatory false
+                },
+                text "descText" {
+                    documentation "Any text the graphic might want to say"
+                    mandatory false
+                },
+                integer "xDes" {
+                    documentation "The position of the descriptive text box"
+                    defaultValue "0"
+                    mandatory false
+                },
+                integer "yDes" {
+                    documentation "The y position of the descriptive text"
+                    defaultValue "0"
+                    mandatory false
+                },
+                integer "boxWidth" {
+                    documentation "The width of the descriptive text box"
+                    defaultValue "0"
+                    mandatory false
+                },
+                boolean "graphicAtBottom" {
+                    documentation "Shoud the graphic be placed at the bottom of the stage. "
+                    defaultValue "#gsName,#gsPath"
+                    mandatory false
+                }
+            }
+            actions {
+                editAction "Edit",
+                viewAction "View",
+                deleteAction "Delete"
+            }
+        },
+        entity "musicScore" {
+            nameMultiple "musicScores"
+            displayPattern "#levelId,#gsGraphic,#gsMidi"
+            fields {
+                integer "levelId" {
+                    defaultValue "0"
+                },
+                string "gsGraphic" {
+                    documentation "The name of the graphic to load and score"
+                },
+                string "gsMidi" {
+                    documentation "The name of the midi file to play"
+                },
+                integer "scoreIt" {
+                    defaultValue ""
+                    mandatory false
+                },
+                integer "musicOrder" {
+                    defaultValue ""
+                    mandatory false
+                    maxValue 4
+                }
+            }
+            actions {
+                viewAction "View",
+                editAction "Edit",
+                deleteAction "Delete"
+            }
+        }
+    }
+    relations {
+        one2many {
+            source 
+            "gameScore"
+            sourceAlias "gameScore"
+            target "score"
+            targetAlias "scores"
+        }
+    ,
+        one2many {
+            source "level"
+            sourceAlias "Level"
+            target "graphicsAndSound"
+            targetAlias "graphicsAndSound"
+        },
+        one2many {
+            source "level"
+            sourceAlias "Level"
+            target "musicScore"
+            targetAlias "musicScores"
+        }
+    }
+}

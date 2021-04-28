@@ -1,0 +1,8 @@
+{# purpose of this template: graphics and sound view json view #}
+{% trans_default_domain 'graphicsAndSound' %}
+[
+{% for graphicsAndSound in items %}
+    {% if not loop.first %},{% endif %}
+    {{ graphicsAndSound.toArray()|json_encode()|raw }}
+{% endfor %}
+]

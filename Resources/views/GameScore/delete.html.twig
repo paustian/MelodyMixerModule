@@ -1,0 +1,47 @@
+{# purpose of this template: game scores delete confirmation view #}
+{% extends routeArea == 'admin' ? '@PaustianMelodyMixerModule/adminBase.html.twig' : '@PaustianMelodyMixerModule/base.html.twig' %}
+{% trans_default_domain 'gameScore' %}
+{% block title 'Delete game score'|trans %}
+{% block admin_page_icon 'trash-alt' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-gamescore paustianmelodymixermodule-delete">
+        <p class="alert alert-warning">{% trans with {'%name%': gameScore|paustianmelodymixermodule_formattedTitle} %}Do you really want to delete this game score: "%name%" ?{% endtrans %}</p>
+
+        {% form_theme deleteForm with [
+            '@PaustianMelodyMixerModule/Form/bootstrap_4.html.twig',
+            '@ZikulaFormExtension/Form/form_div_layout.html.twig'
+        ] only %}
+        {{ form_start(deleteForm) }}
+        {{ form_errors(deleteForm) }}
+
+        {% if gameScore.supportsHookSubscribers() and formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+        <fieldset>
+            <legend>{% trans from 'messages' %}Confirmation prompt{% endtrans %}</legend>
+            <div class="form-group row">
+                <div class="col-md-9 offset-md-3">
+                    {{ form_widget(deleteForm.delete) }}
+                    {{ form_widget(deleteForm.cancel) }}
+                </div>
+            </div>
+        </fieldset>
+        {{ form_end(deleteForm) }}
+
+        {{ block('display_hooks') }}
+    </div>
+{% endblock %}
+{% block display_hooks %}
+    {% if gameScore.supportsHookSubscribers() %}
+        {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.gamescores.form_delete', id=gameScore.getKey(), outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

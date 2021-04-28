@@ -1,0 +1,34 @@
+framework:
+    workflows:
+        paustianmelodymixermodule_none:
+            type: state_machine
+            marking_store:
+                type: method
+                property: workflowState
+            supports:
+                - Paustian\MelodyMixerModule\Entity\GameScoreEntity
+                - Paustian\MelodyMixerModule\Entity\ScoreEntity
+                - Paustian\MelodyMixerModule\Entity\LevelEntity
+                - Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity
+                - Paustian\MelodyMixerModule\Entity\MusicScoreEntity
+            places:
+                - initial
+                - approved
+                - trashed
+                - deleted
+            transitions:
+                - name: submit
+                  from: initial
+                  to: approved
+                - name: update
+                  from: approved
+                  to: approved
+                - name: recover
+                  from: trashed
+                  to: approved
+                - name: trash
+                  from: approved
+                  to: trashed
+                - name: delete
+                  from: [approved, trashed]
+                  to: deleted

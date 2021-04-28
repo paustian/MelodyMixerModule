@@ -1,0 +1,10 @@
+{# purpose of this template: levels view xml view #}
+{% trans_default_domain 'level' %}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<levels>
+{% for level in items %}
+    {{ include('@PaustianMelodyMixerModule/Level/include.xml.twig') }}
+{% else %}
+    <noLevel />
+{% endfor %}
+</levels>

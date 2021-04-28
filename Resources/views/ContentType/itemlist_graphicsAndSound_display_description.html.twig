@@ -1,0 +1,12 @@
+{# purpose of this template: Display graphics and sound within an external context #}
+{% trans_default_domain 'graphicsAndSound' %}
+<dl>
+    {% for graphicsAndSound in items %}
+        <dt>{{ graphicsAndSound|paustianmelodymixermodule_formattedTitle }}</dt>
+        {% if graphicsAndSound.descText %}
+            <dd>{{ graphicsAndSound.descText|striptags|u.truncate(200, '…') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{% trans %}No graphics and sound found.{% endtrans %}</dt>
+    {% endfor %}
+</dl>

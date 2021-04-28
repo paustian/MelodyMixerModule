@@ -1,0 +1,39 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $extension: '@Paustian\MelodyMixerModule\PaustianMelodyMixerModule'
+            $twigLoader: '@twig.loader'
+
+    Paustian\MelodyMixerModule\:
+        resource: '../../*'
+        exclude: '../../{bootstrap.php,Base/bootstrap.php,Tests,vendor}'
+
+    Paustian\MelodyMixerModule\Helper\:
+        resource: '../../Helper/*'
+        lazy: true
+
+    # public because EntityLifecycleListener accesses this using container
+    Paustian\MelodyMixerModule\Entity\Factory\EntityFactory:
+        public: true
+    
+    _instanceof:
+        Zikula\ExtensionsModule\ModuleInterface\Content\ContentTypeInterface:
+            bind:
+                $permissionHelper: '@?Zikula\ContentModule\Helper\PermissionHelper'
+    
+    
+    Paustian\MelodyMixerModule\Form\Handler\:
+        resource: '../../Form/Handler'
+        calls:
+            - setLockingApi: ['@?Zikula\PageLockModule\Api\LockingApi']
+    
+    Paustian\MelodyMixerModule\Listener\EntityLifecycleListener:
+        tags: ['doctrine.event_subscriber']
+    
+    Paustian\MelodyMixerModule\Menu\MenuBuilder:
+        tags:
+            - { name: knp_menu.menu_builder, method: createItemActionsMenu, alias: paustianMelodyMixerMenuItemActions }
+            - { name: knp_menu.menu_builder, method: createViewActionsMenu, alias: paustianMelodyMixerMenuViewActions }

@@ -1,0 +1,8 @@
+{# purpose of this template: music scores view json view #}
+{% trans_default_domain 'musicScore' %}
+[
+{% for musicScore in items %}
+    {% if not loop.first %},{% endif %}
+    {{ musicScore.toArray()|json_encode()|raw }}
+{% endfor %}
+]

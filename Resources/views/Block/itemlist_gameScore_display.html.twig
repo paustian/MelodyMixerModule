@@ -1,0 +1,5 @@
+{# purpose of this template: Display game scores within an external context #}
+{% trans_default_domain 'gameScore' %}
+{% for gameScore in items %}
+    <h3>{{ gameScore|paustianmelodymixermodule_formattedTitle }}</h3>
+{% endfor %}

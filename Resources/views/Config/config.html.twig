@@ -1,0 +1,113 @@
+{# purpose of this template: module configuration page #}
+{% extends '@PaustianMelodyMixerModule/adminBase.html.twig' %}
+{% trans_default_domain 'config' %}
+{% block title 'Settings'|trans %}
+{% block admin_page_icon 'wrench' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-config">
+        {% form_theme form with [
+            '@PaustianMelodyMixerModule/Form/bootstrap_4.html.twig',
+            '@ZikulaFormExtension/Form/form_div_layout.html.twig'
+        ] only %}
+        {{ form_start(form) }}
+        <div class="zikula-bootstrap-tab-container">
+            <ul class="nav nav-tabs" role="tablist">
+                {% set tabTitle = 'List views'|trans %}
+                <li class="nav-item" role="presentation">
+                    <a id="vars1Tab" href="#tab1" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link active">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = 'Moderation'|trans %}
+                <li class="nav-item" role="presentation">
+                    <a id="vars2Tab" href="#tab2" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = 'Integration'|trans %}
+                <li class="nav-item" role="presentation">
+                    <a id="vars3Tab" href="#tab3" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
+                </li>
+                {% set tabTitle = 'Workflows'|trans %}
+                <li class="nav-item" role="presentation">
+                    <a id="workflowsTab" href="#tabWorkflows" title="{{ tabTitle|e('html_attr') }}" role="tab" data-toggle="tab" class="nav-link">{{ tabTitle }}</a>
+                </li>
+            </ul>
+
+            {{ form_errors(form) }}
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade show active" id="tab1" aria-labelledby="vars1Tab">
+                    {% set tabTitle = 'List views'|trans %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can configure parameters for list views.{% endtrans %}</p>
+                        
+                        {{ form_row(form.gameScoreEntriesPerPage) }}
+                        {{ form_row(form.scoreEntriesPerPage) }}
+                        {{ form_row(form.levelEntriesPerPage) }}
+                        {{ form_row(form.graphicsAndSoundEntriesPerPage) }}
+                        {{ form_row(form.musicScoreEntriesPerPage) }}
+                        {{ form_row(form.showOnlyOwnEntries) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab2" aria-labelledby="vars2Tab">
+                    {% set tabTitle = 'Moderation'|trans %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                        <p class="alert alert-info">{% trans from 'config' %}Here you can define moderation-related settings.{% endtrans %}</p>
+                        
+                        {{ form_row(form.allowModerationSpecificCreatorForGameScore) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForGameScore) }}
+                        {{ form_row(form.allowModerationSpecificCreatorForScore) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForScore) }}
+                        {{ form_row(form.allowModerationSpecificCreatorForLevel) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForLevel) }}
+                        {{ form_row(form.allowModerationSpecificCreatorForGraphicsAndSound) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForGraphicsAndSound) }}
+                        {{ form_row(form.allowModerationSpecificCreatorForMusicScore) }}
+                        {{ form_row(form.allowModerationSpecificCreationDateForMusicScore) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab3" aria-labelledby="vars3Tab">
+                    {% set tabTitle = 'Integration'|trans %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                        <p class="alert alert-info">{% trans from 'config' %}These options allow you to configure integration aspects.{% endtrans %}</p>
+                        
+                        {{ form_row(form.enabledFinderTypes) }}
+                    </fieldset>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tabWorkflows" aria-labelledby="workflowsTab">
+                    {% set tabTitle = 'Workflows'|trans %}
+                    <fieldset>
+                        <legend>{{ tabTitle }}</legend>
+                
+                        <p class="alert alert-info">{% trans %}Here you can inspect and amend the existing workflows.{% endtrans %}</p>
+                
+                        <h4>{% trans %}Game scores{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'paustianmelodymixermodule_none'}) }}" title="{{ 'Edit workflow for game scores'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit game scores workflow{% endtrans %}</a>
+                        <h4>{% trans %}Scores{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'paustianmelodymixermodule_none'}) }}" title="{{ 'Edit workflow for scores'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit scores workflow{% endtrans %}</a>
+                        <h4>{% trans %}Levels{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'paustianmelodymixermodule_none'}) }}" title="{{ 'Edit workflow for levels'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit levels workflow{% endtrans %}</a>
+                        <h4>{% trans %}Graphics and sound{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'paustianmelodymixermodule_none'}) }}" title="{{ 'Edit workflow for graphics and sound'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit graphics and sound workflow{% endtrans %}</a>
+                        <h4>{% trans %}Music scores{% endtrans %}</h4>
+                        <p><a href="{{ path('zikula_workflow_editor_index', {workflow: 'paustianmelodymixermodule_none'}) }}" title="{{ 'Edit workflow for music scores'|trans|e('html_attr') }}" target="_blank"><i class="fas fa-cubes"></i> {% trans %}Edit music scores workflow{% endtrans %}</a>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
+                {{ form_widget(form.save) }}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.EditFunctions.js'), 99) }}
+    <div id="formEditingDefinition" data-mode="edit" data-entityid="1"></div>
+{% endblock %}

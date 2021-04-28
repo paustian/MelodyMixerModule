@@ -1,0 +1,6 @@
+{# purpose of this template: levels view csv view #}
+{% trans_default_domain 'level' %}
+"{% trans %}Level name{% endtrans %}";"{% trans %}Display graphic level id{% endtrans %}";"{% trans %}Graphics and sound{% endtrans %}";"{% trans %}Music scores{% endtrans %}"
+{% for level in items %}
+"{{ level.levelName }}";"{{ level.displayGraphicLevelId }}";"{% if level.graphicsAndSound|default %}{% for relatedItem in level.graphicsAndSound %}{{ relatedItem|paustianmelodymixermodule_formattedTitle }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}";"{% if level.musicScores|default %}{% for relatedItem in level.musicScores %}{{ relatedItem|paustianmelodymixermodule_formattedTitle }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}"
+{% endfor %}

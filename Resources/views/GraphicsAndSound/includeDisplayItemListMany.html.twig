@@ -1,0 +1,16 @@
+{# purpose of this template: inclusion template for display of related graphics and sound #}
+{% trans_default_domain 'graphicsAndSound' %}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('graphicsAndSound', constant('ACCESS_EDIT')) %}
+{% if items|default and items|length > 0 %}
+<ul class="list-group paustianmelodymixermodule-related-item-list graphicsandsound">
+{% for item in items %}
+    {% if hasAdminPermission or (item.workflowState == 'approved' and permissionHelper.mayRead(item)) %}
+    <li class="list-group-item">
+<h5>
+    {{ item|paustianmelodymixermodule_formattedTitle }}
+</h5>
+    </li>
+    {% endif %}
+{% endfor %}
+</ul>
+{% endif %}

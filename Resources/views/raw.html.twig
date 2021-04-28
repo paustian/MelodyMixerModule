@@ -1,0 +1,27 @@
+{# purpose of this template: display pages without the theme #}
+{% trans_default_domain 'messages' %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ app.request.locale }}" lang="{{ app.request.locale }}">
+<head>
+    <title>{{ block('pageTitle') is defined ? block('pageTitle') : block('title') }}</title>
+</head>
+<body>
+    {% if useFinder|default != true %}
+        <h2>{{ block('title') }}</h2>
+    {% endif %}
+    {% block content %}{% endblock %}
+    {% block footer %}
+        <p id="poweredByMost" class="text-center">
+            Powered by <a href="https://modulestudio.de" title="Get the MOST out of Zikula!">ModuleStudio 1.4.0</a>
+        </p>
+        {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.Backlink.Integration.js')) }}
+        {{ pageAddAsset('stylesheet', zasset('@PaustianMelodyMixerModule:css/custom.css'), 120) }}
+        {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
+        {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js'), constant('Zikula\\ThemeModule\\Engine\\AssetBag::WEIGHT_JQUERY_UI')) }}
+        {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.js')) }}
+        {% if useFinder|default != true %}
+            {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.RawPage.js')) }}
+        {% endif %}
+    {% endblock %}
+</body>
+</html>

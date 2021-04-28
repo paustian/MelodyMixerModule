@@ -1,0 +1,12 @@
+{# purpose of this template: Display game scores within an external context #}
+{% trans_default_domain 'gameScore' %}
+<dl>
+    {% for gameScore in items %}
+        <dt>{{ gameScore|paustianmelodymixermodule_formattedTitle }}</dt>
+        {% if gameScore.firstName %}
+            <dd>{{ gameScore.firstName|striptags|u.truncate(200, '…') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{% trans %}No game scores found.{% endtrans %}</dt>
+    {% endfor %}
+</dl>

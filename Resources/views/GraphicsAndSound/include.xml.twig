@@ -1,0 +1,15 @@
+{# purpose of this template: graphics and sound xml inclusion template #}
+{% trans_default_domain 'graphicsAndSound' %}
+<graphicsandsound id="{{ graphicsAndSound.getId() }}" createdon="{{ graphicsAndSound.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ graphicsAndSound.updatedDate|format_datetime('medium', 'short') }}">
+    <id>{{ graphicsAndSound.id }}</id>
+    <levelid>{{ graphicsAndSound.levelid }}</levelid>
+    <gsName><![CDATA[{{ graphicsAndSound.gsName }}]]></gsName>
+    <gsPath><![CDATA[{{ graphicsAndSound.gsPath }}]]></gsPath>
+    <xPos>{{ graphicsAndSound.xPos }}</xPos>
+    <yPos>{{ graphicsAndSound.yPos }}</yPos>
+    <descText><![CDATA[{{ graphicsAndSound.descText|safeHtml }}]]></descText>
+    <xDes>{{ graphicsAndSound.xDes }}</xDes>
+    <yDes>{{ graphicsAndSound.yDes }}</yDes>
+    <boxWidth>{{ graphicsAndSound.boxWidth }}</boxWidth>
+    <graphicAtBottom>{% if not graphicsAndSound.graphicAtBottom %}0{% else %}1{% endif %}</graphicAtBottom>
+</graphicsandsound>

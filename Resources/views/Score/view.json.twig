@@ -1,0 +1,8 @@
+{# purpose of this template: scores view json view #}
+{% trans_default_domain 'score' %}
+[
+{% for score in items %}
+    {% if not loop.first %},{% endif %}
+    {{ score.toArray()|json_encode()|raw }}
+{% endfor %}
+]

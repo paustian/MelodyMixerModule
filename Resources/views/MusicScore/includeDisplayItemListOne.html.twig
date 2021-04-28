@@ -1,0 +1,6 @@
+{# purpose of this template: inclusion template for display of related music scores #}
+{% trans_default_domain 'musicScore' %}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('musicScore', constant('ACCESS_EDIT')) %}
+<h5>
+    {{ item|paustianmelodymixermodule_formattedTitle }}
+</h5>

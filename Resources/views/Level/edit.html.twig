@@ -1,0 +1,92 @@
+{# purpose of this template: build the form to edit an instance of level #}
+{% set baseTemplate = app.request.query.getBoolean('raw', false) ? 'raw' : (routeArea == 'admin' ? 'adminBase' : 'base') %}
+{% extends '@PaustianMelodyMixerModule/' ~ baseTemplate ~ '.html.twig' %}
+{% trans_default_domain 'level' %}
+{% block title mode == 'create' ? 'Create level'|trans : 'Edit level'|trans %}
+{% block admin_page_icon mode == 'create' ? 'plus' : 'edit' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-level paustianmelodymixermodule-edit">
+        {% form_theme form with [
+            '@PaustianMelodyMixerModule/Form/bootstrap_4.html.twig',
+            '@ZikulaFormExtension/Form/form_div_layout.html.twig'
+        ] only %}
+        {{ form_start(form, {attr: {id: 'levelEditForm', class: 'paustianmelodymixer-edit-form'}}) }}
+        {{ form_errors(form) }}
+        <fieldset>
+            <legend>{% trans from 'messages' %}Content{% endtrans %}</legend>
+            {{ form_row(form.levelName) }}
+            {{ form_row(form.displayGraphicLevelId) }}
+        </fieldset>
+        
+        {% if mode != 'create' %}
+            {{ include('@PaustianMelodyMixerModule/Helper/includeStandardFieldsEdit.html.twig', {obj: level}) }}
+        {% endif %}
+        
+        {% if supportsHookSubscribers and formHookTemplates|length > 0 %}
+            <fieldset>
+                {% for hookTemplate in formHookTemplates %}
+                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
+                {% endfor %}
+            </fieldset>
+        {% endif %}
+        
+        {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
+            <fieldset id="moderationFieldsSection">
+                <legend>{% trans from 'messages' %}Moderation{% endtrans %} <i class="fas fa-expand"></i></legend>
+                <div id="moderationFieldsContent">
+                    {% if form.moderationSpecificCreator is defined %}
+                        {{ form_row(form.moderationSpecificCreator) }}
+                    {% endif %}
+                    {% if form.moderationSpecificCreationDate is defined %}
+                        {{ form_row(form.moderationSpecificCreationDate) }}
+                    {% endif %}
+                </div>
+            </fieldset>
+        {% endif %}
+        
+        
+        {# include possible submit actions #}
+        <div class="form-group form-buttons row">
+            <div class="col-md-9 offset-md-3">
+                {% for action in actions %}
+                    {{ form_widget(attribute(form, action.id)) }}
+                    {% if mode == 'create' and action.id == 'submit' and form.submitrepeat is defined %}
+                        {{ form_widget(attribute(form, 'submitrepeat')) }}
+                    {% endif %}
+                {% endfor %}
+                {{ form_widget(form.reset) }}
+                {{ form_widget(form.cancel) }}
+            </div>
+        </div>
+        {% if mode != 'create' and not workflow_can(level, 'delete') %}
+            <div class="alert alert-info">
+                <h4>{% trans %}Deletion of this level is not possible{% endtrans %}</h4>
+                <ul>
+                    {% for blocker in workflow_transition_blockers(level, 'delete') %}
+                        <li>{{ blocker.message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {{ form_end(form) }}
+        {% if supportsHookSubscribers %}
+            {% set hookId = mode != 'create' ? level.id : null %}
+            {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.levels.form_edit', id=hookId, outputAsArray=true) %}
+            {% if hooks is iterable and hooks|length > 0 %}
+                {% for area, hook in hooks %}
+                    <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        
+    </div>
+{% endblock %}
+{% block footer %}
+    {{ parent() }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.Validation.js'), 98) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.EditFunctions.js'), 99) }}
+    <div id="formEditingDefinition" data-mode="{{ mode|e('html_attr') }}" data-entityid="{% if mode != 'create' %}{{ level.id|e('html_attr') }}{% endif %}"></div>
+    {% if form.moderationSpecificCreator is defined %}
+        <div class="field-editing-definition" data-field-type="user" data-field-name="paustianmelodymixermodule_level_moderationSpecificCreator"></div>
+    {% endif %}
+{% endblock %}

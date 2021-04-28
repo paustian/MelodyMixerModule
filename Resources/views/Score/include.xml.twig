@@ -1,0 +1,17 @@
+{# purpose of this template: scores xml inclusion template #}
+{% trans_default_domain 'score' %}
+<score id="{{ score.getId() }}" createdon="{{ score.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ score.updatedDate|format_datetime('medium', 'short') }}">
+    <id>{{ score.id }}</id>
+    <levelId>{{ score.levelId }}</levelId>
+    <levelName><![CDATA[{{ score.levelName }}]]></levelName>
+    <scoreOne>{{ score.scoreOne }}</scoreOne>
+    <scoreTwo>{{ score.scoreTwo }}</scoreTwo>
+    <scoreThree>{{ score.scoreThree }}</scoreThree>
+    <scoreFour>{{ score.scoreFour }}</scoreFour>
+    <scoreFive>{{ score.scoreFive }}</scoreFive>
+    <scoreSix>{{ score.scoreSix }}</scoreSix>
+    <scoreSeven>{{ score.scoreSeven }}</scoreSeven>
+    <scoreEight>{{ score.scoreEight }}</scoreEight>
+    <scoreNine>{{ score.scoreNine }}</scoreNine>
+    <scoreTen>{{ score.scoreTen }}</scoreTen>
+</score>

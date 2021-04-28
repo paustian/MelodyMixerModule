@@ -1,0 +1,10 @@
+{# purpose of this template: game scores index view #}
+{% extends routeArea == 'admin' ? '@PaustianMelodyMixerModule/adminBase.html.twig' : '@PaustianMelodyMixerModule/base.html.twig' %}
+{% trans_default_domain 'gameScore' %}
+{% block title 'Game scores'|trans %}
+{% block admin_page_icon 'home' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-gamescore paustianmelodymixermodule-index">
+        <p>{% trans %}Welcome to the game score section of the Melody mixer application.{% endtrans %}</p>
+    </div>
+{% endblock %}

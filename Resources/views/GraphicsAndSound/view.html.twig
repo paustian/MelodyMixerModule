@@ -1,0 +1,173 @@
+{# purpose of this template: graphics and sound list view #}
+{% extends routeArea == 'admin' ? '@PaustianMelodyMixerModule/adminBase.html.twig' : '@PaustianMelodyMixerModule/base.html.twig' %}
+{% trans_default_domain 'graphicsAndSound' %}
+{% block title own ? 'My graphics and sound'|trans : 'Graphics and sound list'|trans %}
+{% block admin_page_icon 'list-alt' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-graphicsandsound paustianmelodymixermodule-view">
+        {% set viewActions = knp_menu_get('paustianMelodyMixerMenuViewActions', [], {objectType: 'graphicsAndSound', area: routeArea}) %}
+        {{ knp_menu_render(viewActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+        
+        {{ include('@PaustianMelodyMixerModule/GraphicsAndSound/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
+
+        {% if routeArea == 'admin' %}
+        <form action="{{ path('paustianmelodymixermodule_graphicsandsound_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="graphicsAndSoundViewForm">
+            <div>
+        {% endif %}
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <colgroup>
+                    {% if routeArea == 'admin' %}
+                        <col id="cSelect" />
+                    {% endif %}
+                    <col id="cItemActionsStart" />
+                    <col id="cLevelid" />
+                    <col id="cGsName" />
+                    <col id="cGsPath" />
+                    <col id="cXPos" />
+                    <col id="cYPos" />
+                    <col id="cDescText" />
+                    <col id="cXDes" />
+                    <col id="cYDes" />
+                    <col id="cBoxWidth" />
+                    <col id="cGraphicAtBottom" />
+                </colgroup>
+                <thead>
+                <tr>
+                    {% if routeArea == 'admin' %}
+                        <th id="hSelect" scope="col" class="text-center">
+                            <input type="checkbox" class="paustianmelodymixer-mass-toggle" />
+                        </th>
+                    {% endif %}
+                    <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
+                    <th id="hLevelid" scope="col" class="text-right">
+                        <a href="{{ sort.levelid.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'levelid'}, 'messages')|e('html_attr') }}" class="{{ sort.levelid.class }}">{% trans %}Levelid{% endtrans %}</a>
+                    </th>
+                    <th id="hGsName" scope="col" class="text-left">
+                        <a href="{{ sort.gsName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs name'}, 'messages')|e('html_attr') }}" class="{{ sort.gsName.class }}">{% trans %}Gs name{% endtrans %}</a>
+                    </th>
+                    <th id="hGsPath" scope="col" class="text-left">
+                        <a href="{{ sort.gsPath.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs path'}, 'messages')|e('html_attr') }}" class="{{ sort.gsPath.class }}">{% trans %}Gs path{% endtrans %}</a>
+                    </th>
+                    <th id="hXPos" scope="col" class="text-right">
+                        <a href="{{ sort.xPos.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'x pos'}, 'messages')|e('html_attr') }}" class="{{ sort.xPos.class }}">{% trans %}X pos{% endtrans %}</a>
+                    </th>
+                    <th id="hYPos" scope="col" class="text-right">
+                        <a href="{{ sort.yPos.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'y pos'}, 'messages')|e('html_attr') }}" class="{{ sort.yPos.class }}">{% trans %}Y pos{% endtrans %}</a>
+                    </th>
+                    <th id="hDescText" scope="col" class="text-left">
+                        <a href="{{ sort.descText.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'desc text'}, 'messages')|e('html_attr') }}" class="{{ sort.descText.class }}">{% trans %}Desc text{% endtrans %}</a>
+                    </th>
+                    <th id="hXDes" scope="col" class="text-right">
+                        <a href="{{ sort.xDes.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'x des'}, 'messages')|e('html_attr') }}" class="{{ sort.xDes.class }}">{% trans %}X des{% endtrans %}</a>
+                    </th>
+                    <th id="hYDes" scope="col" class="text-right">
+                        <a href="{{ sort.yDes.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'y des'}, 'messages')|e('html_attr') }}" class="{{ sort.yDes.class }}">{% trans %}Y des{% endtrans %}</a>
+                    </th>
+                    <th id="hBoxWidth" scope="col" class="text-right">
+                        <a href="{{ sort.boxWidth.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'box width'}, 'messages')|e('html_attr') }}" class="{{ sort.boxWidth.class }}">{% trans %}Box width{% endtrans %}</a>
+                    </th>
+                    <th id="hGraphicAtBottom" scope="col" class="text-center">
+                        <a href="{{ sort.graphicAtBottom.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'graphic at bottom'}, 'messages')|e('html_attr') }}" class="{{ sort.graphicAtBottom.class }}">{% trans %}Graphic at bottom{% endtrans %}</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+            
+            {% for graphicsAndSound in items %}
+                <tr>
+                    {% if routeArea == 'admin' %}
+                        <td headers="hSelect" class="text-center">
+                            <input type="checkbox" name="items[]" value="{{ graphicsAndSound.getKey() }}" class="paustianmelodymixer-toggle-checkbox" />
+                        </td>
+                    {% endif %}
+                    <td id="itemActions{{ graphicsAndSound.getKey() }}Start" headers="hItemActionsStart" class="actions">
+                        {% set itemActions = knp_menu_get('paustianMelodyMixerMenuItemActions', [], {entity: graphicsAndSound, area: routeArea, context: 'view'}) %}
+                        <div class="dropdown item-actions">
+                            <a id="itemActions{{ graphicsAndSound.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="d-none dropdown-toggle"><i class="fas fa-tasks"></i></a>
+                            {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+                        </div>
+                    </td>
+                    <td headers="hLevelid" class="text-right">
+                        {{ graphicsAndSound.levelid }}
+                    </td>
+                    <td headers="hGsName" class="text-left">
+                        {{ graphicsAndSound.gsName }}
+                    </td>
+                    <td headers="hGsPath" class="text-left">
+                        {{ graphicsAndSound.gsPath }}
+                    </td>
+                    <td headers="hXPos" class="text-right">
+                        {{ graphicsAndSound.xPos }}
+                    </td>
+                    <td headers="hYPos" class="text-right">
+                        {{ graphicsAndSound.yPos }}
+                    </td>
+                    <td headers="hDescText" class="text-left">
+                        {{ graphicsAndSound.descText|striptags|u.truncate(50) }}
+                    </td>
+                    <td headers="hXDes" class="text-right">
+                        {{ graphicsAndSound.xDes }}
+                    </td>
+                    <td headers="hYDes" class="text-right">
+                        {{ graphicsAndSound.yDes }}
+                    </td>
+                    <td headers="hBoxWidth" class="text-right">
+                        {{ graphicsAndSound.boxWidth }}
+                    </td>
+                    <td headers="hGraphicAtBottom" class="text-center">
+                        {% if graphicsAndSound.graphicAtBottom %}
+                            <i class="fas fa-check text-success" title="{{ 'Yes'|trans({}, 'messages')|e('html_attr') }}"></i>
+                        {% else %}
+                            <i class="fas fa-times text-danger" title="{{ 'No'|trans({}, 'messages')|e('html_attr') }}"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr class="table-info">
+                    <td colspan="{% if routeArea == 'admin' %}12{% else %}11{% endif %}" class="text-center">
+                {% trans %}No graphics and sound found.{% endtrans %}
+                  </td>
+                </tr>
+            {% endfor %}
+            
+                </tbody>
+            </table>
+            </div>
+            
+            {% if all != 1 %}
+                {{ include(paginator.template) }}
+            {% endif %}
+        {% if routeArea == 'admin' %}
+                <fieldset class="my-3 pt-3">
+                    <div class="row">
+                        <label for="paustianMelodyMixerModuleAction" class="col-md-3 col-form-label">{% trans %}With selected graphics and sound{% endtrans %}</label>
+                        <div class="col-md-6">
+                            <select id="paustianMelodyMixerModuleAction" name="action" class="form-control form-control-sm">
+                                <option value="">{% trans from 'messages' %}Choose action{% endtrans %}</option>
+                                <option value="delete" title="{{ 'Delete content permanently.'|trans({}, 'messages')|e('html_attr') }}">{% trans from 'messages' %}Delete{% endtrans %}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="submit" value="{{ 'Submit'|trans({}, 'messages')|e('html_attr') }}" class="btn btn-secondary btn-sm" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+        {% endif %}
+
+        {{ block('display_hooks') }}
+    </div>
+{% endblock %}
+{% block display_hooks %}
+    {# here you can activate calling display hooks for the view page if you need it #}
+    {# % if routeArea != 'admin' %}
+        {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.graphicsandsound.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif % #}
+{% endblock %}

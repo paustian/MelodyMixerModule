@@ -1,0 +1,32 @@
+{# purpose of this template: general base layout #}
+{% trans_default_domain 'messages' %}
+{% block header %}
+{% endblock %}
+
+{% block appTitle %}
+    {{ moduleHeader('user', '', '', false, true, false, true) }}
+{% endblock %}
+
+{% block titleArea %}
+    <h2>{% block title %}{% endblock %}</h2>
+{% endblock %}
+{{ pageSetVar('title', block('pageTitle') is defined ? block('pageTitle') : block('title')) }}
+
+{{ showflashes() }}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+    {{ moduleFooter() }}
+{% endblock %}
+
+{% block assets %}
+    <p id="poweredByMost" class="text-center">
+        Powered by <a href="https://modulestudio.de" title="Get the MOST out of Zikula!">ModuleStudio 1.4.0</a>
+    </p>
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.Backlink.Integration.js')) }}
+    {{ pageAddAsset('stylesheet', zasset('@PaustianMelodyMixerModule:css/custom.css'), 120) }}
+    {{ pageAddAsset('stylesheet', asset('jquery-ui/themes/base/jquery-ui.min.css')) }}
+    {{ pageAddAsset('javascript', asset('jquery-ui/jquery-ui.min.js'), constant('Zikula\\ThemeModule\\Engine\\AssetBag::WEIGHT_JQUERY_UI')) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/PaustianMelodyMixerModule.js')) }}
+{% endblock %}

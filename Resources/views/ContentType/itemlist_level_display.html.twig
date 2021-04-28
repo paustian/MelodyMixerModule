@@ -1,0 +1,5 @@
+{# purpose of this template: Display levels within an external context #}
+{% trans_default_domain 'level' %}
+{% for level in items %}
+    <h3>{{ level|paustianmelodymixermodule_formattedTitle }}</h3>
+{% endfor %}

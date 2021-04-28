@@ -1,0 +1,6 @@
+{# purpose of this template: game scores view csv view #}
+{% trans_default_domain 'gameScore' %}
+"{% trans %}Player uid{% endtrans %}";"{% trans %}Player email{% endtrans %}";"{% trans %}First name{% endtrans %}";"{% trans %}Last name{% endtrans %}";"{% trans %}Scores{% endtrans %}"
+{% for gameScore in items %}
+"{{ gameScore.playerUid.getUname() }}";"{{ gameScore.playerEmail }}";"{{ gameScore.firstName }}";"{{ gameScore.lastName }}";"{% if gameScore.scores|default %}{% for relatedItem in gameScore.scores %}{{ relatedItem|paustianmelodymixermodule_formattedTitle }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}"
+{% endfor %}

@@ -1,0 +1,10 @@
+{# purpose of this template: show output of set scores action in game score area #}
+{% extends routeArea == 'admin' ? '@PaustianMelodyMixerModule/adminBase.html.twig' : '@PaustianMelodyMixerModule/base.html.twig' %}
+{% trans_default_domain 'gameScore' %}
+{% block title 'Set scores'|trans %}
+{% block admin_page_icon 'square' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-gamescore paustianmelodymixermodule-setscores">
+        <p class="alert alert-info">Please override this template by moving it from <em>/extensions/Paustian/MelodyMixerModule/Resources/views/GameScore/setScores.html.twig</em> to either <em>/themes/YourTheme/Resources/PaustianMelodyMixerModule/views/GameScore/setScores.html.twig</em> or <em>/app/Resources/PaustianMelodyMixerModule/views/GameScore/setScores.html.twig</em>.</p>
+    </div>
+{% endblock %}

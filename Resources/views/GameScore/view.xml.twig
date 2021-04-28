@@ -1,0 +1,10 @@
+{# purpose of this template: game scores view xml view #}
+{% trans_default_domain 'gameScore' %}
+<?xml version="1.0" encoding="{{ pageGetVar('meta.charset') }}" ?>
+<gameScores>
+{% for gameScore in items %}
+    {{ include('@PaustianMelodyMixerModule/GameScore/include.xml.twig') }}
+{% else %}
+    <noGameScore />
+{% endfor %}
+</gameScores>

@@ -1,0 +1,48 @@
+{# purpose of this template: graphics and sound rss feed #}
+{% trans_default_domain 'graphicsAndSound' %}
+<?xml version="1.0" encoding="{% set charset = pageGetVar('meta.charset') %}{% if charset == 'ISO-8859-15' %}ISO-8859-1{% else %}{{ charset }}{% endif %}" ?>
+<rss version="2.0"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+    xmlns:admin="http://webns.net/mvcb/"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:atom="http://www.w3.org/2005/Atom">
+{#<rss version="0.92">#}
+    <channel>
+        <title>{% trans %}Latest graphics and sound{% endtrans %}</title>
+        <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
+        <atom:link href="{{ app.request.schemeAndHttpHost ~ app.request.basePath ~ app.request.pathInfo }}" rel="self" type="application/rss+xml" />
+        <description>{% trans %}A direct feed showing the list of graphics and sound{% endtrans %} - {{ getSystemVar('slogan') }}</description>
+        <language>{{ app.request.locale }}</language>
+        {# commented out as imagepath is not defined and we can't know whether this logo exists or not
+        <image>
+            <title>{{ getSystemVar('sitename') }}</title>
+            <url>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}{{ imagepath }}/logo.jpg</url>
+            <link>{{ app.request.schemeAndHttpHost ~ app.request.basePath }}</link>
+        </image>
+        #}
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <copyright>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</copyright>
+        <webMaster>{{ getSystemVar('adminmail') }}</webMaster>
+{% for graphicsAndSound in items %}
+    <item>
+        <title><![CDATA[{{ graphicsAndSound|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.graphicsandsound')|safeHtml }}]]></title>
+        <link>{{ url('paustianmelodymixermodule_graphicsandsound_' ~ routeArea ~ 'view') }}</link>
+        <guid>{{ url('paustianmelodymixermodule_graphicsandsound_' ~ routeArea ~ 'view') }}</guid>
+        {% if graphicsAndSound.createdBy|default and graphicsAndSound.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = graphicsAndSound.createdBy.getAttributes() %}
+            <author>{{ graphicsAndSound.createdBy.getEmail() }} ({{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(graphicsAndSound.createdBy.getUname()) }})</author>
+        {% endif %}
+        <description>
+            <![CDATA[
+            {{ graphicsAndSound.descText|replace({'<br>': '<br />'}) }}
+            ]]>
+        </description>
+        {% if graphicsAndSound.createdDate|default %}
+            <pubDate>{{ graphicsAndSound.createdDate|date('r') }}</pubDate>
+        {% endif %}
+    </item>
+{% endfor %}
+    </channel>
+</rss>

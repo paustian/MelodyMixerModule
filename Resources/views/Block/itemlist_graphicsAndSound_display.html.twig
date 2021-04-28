@@ -1,0 +1,5 @@
+{# purpose of this template: Display graphics and sound within an external context #}
+{% trans_default_domain 'graphicsAndSound' %}
+{% for graphicsAndSound in items %}
+    <h3>{{ graphicsAndSound|paustianmelodymixermodule_formattedTitle }}</h3>
+{% endfor %}

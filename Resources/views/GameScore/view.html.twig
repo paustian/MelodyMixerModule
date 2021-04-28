@@ -1,0 +1,128 @@
+{# purpose of this template: game scores list view #}
+{% extends routeArea == 'admin' ? '@PaustianMelodyMixerModule/adminBase.html.twig' : '@PaustianMelodyMixerModule/base.html.twig' %}
+{% trans_default_domain 'gameScore' %}
+{% block title own ? 'My game scores'|trans : 'Game scores list'|trans %}
+{% block admin_page_icon 'list-alt' %}
+{% block content %}
+    <div class="paustianmelodymixermodule-gamescore paustianmelodymixermodule-view">
+        {% set viewActions = knp_menu_get('paustianMelodyMixerMenuViewActions', [], {objectType: 'gameScore', area: routeArea}) %}
+        {{ knp_menu_render(viewActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+        
+        {{ include('@PaustianMelodyMixerModule/GameScore/viewQuickNav.html.twig', {workflowStateFilter: false}) }}{# see template file for available options #}
+
+        {% if routeArea == 'admin' %}
+        <form action="{{ path('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'handleselectedentries') }}" method="post" id="gameScoresViewForm">
+            <div>
+        {% endif %}
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover{% if routeArea == 'admin' %} table-condensed{% endif %}">
+                <colgroup>
+                    {% if routeArea == 'admin' %}
+                        <col id="cSelect" />
+                    {% endif %}
+                    <col id="cItemActionsStart" />
+                    <col id="cPlayerUid" />
+                    <col id="cPlayerEmail" />
+                    <col id="cFirstName" />
+                    <col id="cLastName" />
+                </colgroup>
+                <thead>
+                <tr>
+                    {% if routeArea == 'admin' %}
+                        <th id="hSelect" scope="col" class="text-center">
+                            <input type="checkbox" class="paustianmelodymixer-mass-toggle" />
+                        </th>
+                    {% endif %}
+                    <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
+                    <th id="hPlayerUid" scope="col" class="text-left unsorted">
+                        {% trans %}Player uid{% endtrans %}
+                    </th>
+                    <th id="hPlayerEmail" scope="col" class="text-center">
+                        <a href="{{ sort.playerEmail.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'player email'}, 'messages')|e('html_attr') }}" class="{{ sort.playerEmail.class }}">{% trans %}Player email{% endtrans %}</a>
+                    </th>
+                    <th id="hFirstName" scope="col" class="text-left">
+                        <a href="{{ sort.firstName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'first name'}, 'messages')|e('html_attr') }}" class="{{ sort.firstName.class }}">{% trans %}First name{% endtrans %}</a>
+                    </th>
+                    <th id="hLastName" scope="col" class="text-left">
+                        <a href="{{ sort.lastName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'last name'}, 'messages')|e('html_attr') }}" class="{{ sort.lastName.class }}">{% trans %}Last name{% endtrans %}</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+            
+            {% for gameScore in items %}
+                <tr>
+                    {% if routeArea == 'admin' %}
+                        <td headers="hSelect" class="text-center">
+                            <input type="checkbox" name="items[]" value="{{ gameScore.getKey() }}" class="paustianmelodymixer-toggle-checkbox" />
+                        </td>
+                    {% endif %}
+                    <td id="itemActions{{ gameScore.getKey() }}Start" headers="hItemActionsStart" class="actions">
+                        {% set itemActions = knp_menu_get('paustianMelodyMixerMenuItemActions', [], {entity: gameScore, area: routeArea, context: 'view'}) %}
+                        <div class="dropdown item-actions">
+                            <a id="itemActions{{ gameScore.getKey() }}DropDownToggleStart" role="button" data-toggle="dropdown" href="javascript:void(0);" class="d-none dropdown-toggle"><i class="fas fa-tasks"></i></a>
+                            {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
+                        </div>
+                    </td>
+                    <td headers="hPlayerUid" class="text-left">
+                            {{ gameScore.playerUid.uid|profileLinkByUserId }}{% if currentUser.loggedIn %}{% set sendMessageUrl = gameScore.playerUid.uid|messageSendLink(urlOnly=true) %}{% if sendMessageUrl != '#' %}{% set linkTitle = 'Send private message to %userName%'|trans({'%userName%': gameScore.playerUid.uname}, 'messages') %}<a href="{{ sendMessageUrl }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-envelope"></i></a>{% endif %}{% endif %}
+                            <span class="avatar">{{ userAvatar(gameScore.playerUid.uid, {rating: 'g'}) }}</span>
+                    </td>
+                    <td headers="hPlayerEmail" class="text-center">
+                        <a href="mailto:{{ gameScore.playerEmail|protectMail }}" title="{{ 'Send an email'|trans({}, 'messages')|e('html_attr') }}"><i class="fas fa-envelope"></i></a>
+                    </td>
+                    <td headers="hFirstName" class="text-left">
+                        {{ gameScore.firstName }}
+                    </td>
+                    <td headers="hLastName" class="text-left">
+                        {{ gameScore.lastName }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr class="table-info">
+                    <td colspan="{% if routeArea == 'admin' %}6{% else %}5{% endif %}" class="text-center">
+                {% trans %}No game scores found.{% endtrans %}
+                  </td>
+                </tr>
+            {% endfor %}
+            
+                </tbody>
+            </table>
+            </div>
+            
+            {% if all != 1 %}
+                {{ include(paginator.template) }}
+            {% endif %}
+        {% if routeArea == 'admin' %}
+                <fieldset class="my-3 pt-3">
+                    <div class="row">
+                        <label for="paustianMelodyMixerModuleAction" class="col-md-3 col-form-label">{% trans %}With selected game scores{% endtrans %}</label>
+                        <div class="col-md-6">
+                            <select id="paustianMelodyMixerModuleAction" name="action" class="form-control form-control-sm">
+                                <option value="">{% trans from 'messages' %}Choose action{% endtrans %}</option>
+                                <option value="delete" title="{{ 'Delete content permanently.'|trans({}, 'messages')|e('html_attr') }}">{% trans from 'messages' %}Delete{% endtrans %}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="submit" value="{{ 'Submit'|trans({}, 'messages')|e('html_attr') }}" class="btn btn-secondary btn-sm" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </form>
+        {% endif %}
+
+        {{ block('display_hooks') }}
+    </div>
+{% endblock %}
+{% block display_hooks %}
+    {# here you can activate calling display hooks for the view page if you need it #}
+    {# % if routeArea != 'admin' %}
+        {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.gamescores.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
+        {% if hooks is iterable and hooks|length > 0 %}
+            {% for area, hook in hooks %}
+                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endif % #}
+{% endblock %}

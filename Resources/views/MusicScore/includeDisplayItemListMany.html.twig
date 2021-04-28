@@ -1,0 +1,16 @@
+{# purpose of this template: inclusion template for display of related music scores #}
+{% trans_default_domain 'musicScore' %}
+{% set hasAdminPermission = permissionHelper.hasComponentPermission('musicScore', constant('ACCESS_EDIT')) %}
+{% if items|default and items|length > 0 %}
+<ul class="list-group paustianmelodymixermodule-related-item-list musicscore">
+{% for item in items %}
+    {% if hasAdminPermission or (item.workflowState == 'approved' and permissionHelper.mayRead(item)) %}
+    <li class="list-group-item">
+<h5>
+    {{ item|paustianmelodymixermodule_formattedTitle }}
+</h5>
+    </li>
+    {% endif %}
+{% endfor %}
+</ul>
+{% endif %}

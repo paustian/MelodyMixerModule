@@ -1,0 +1,51 @@
+{# purpose of this template: game scores atom feed #}
+{% trans_default_domain 'gameScore' %}
+<?xml version="1.0" encoding="{% set charset = pageGetVar('meta.charset') %}{% if charset == 'ISO-8859-15' %}ISO-8859-1{% else %}{{ charset }}{% endif %}" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title type="text">{% trans %}Latest game scores{% endtrans %}</title>
+    <subtitle type="text">{% trans %}A direct feed showing the list of game scores{% endtrans %} - {{ getSystemVar('slogan') }}</subtitle>
+    <author>
+        <name>{{ getSystemVar('sitename') }}</name>
+    </author>
+{% set amountOfItems = items|length %}
+{% if amountOfItems > 0 %}
+{% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({'http://': '', '/': ''}) }},{{ items.first.createdDate|date('Y-m-d') }}:{{ path('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'view') }}{% endset %}
+    <id>{{ uniqueID }}</id>
+    <updated>{{ items[0].updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+{% endif %}
+    <link rel="alternate" type="text/html" hreflang="{{ app.request.locale }}" href="{{ url('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'index') }}" />
+    <link rel="self" type="application/atom+xml" href="{{ app.request.schemeAndHttpHost ~ app.request.basePath }}" />
+    <rights>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</rights>
+{% for gameScore in items %}
+    <entry>
+        <title type="html">{{ gameScore|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.gamescores')|safeHtml }}</title>
+        <link rel="alternate" type="text/html" href="{{ url('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'view') }}" />
+        {% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({ 'http://': '', '/': '' }) }},{{ gameScore.createdDate|date('Y-m-d') }}:{{ path('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'view') }}{% endset %}
+        <id>{{ uniqueID }}</id>
+        {% if gameScore.updatedDate|default %}
+            <updated>{{ gameScore.updatedDate|date('Y-m-dTH:M:SZ') }}</updated>
+        {% endif %}
+        {% if gameScore.createdDate|default %}
+            <published>{{ gameScore.createdDate|date('Y-m-dTH:M:SZ') }}</published>
+        {% endif %}
+        {% if gameScore.createdBy|default and gameScore.createdBy.getUid() > 0 %}
+            {% set creatorAttributes = gameScore.createdBy.getAttributes() %}
+            <author>
+               <name>{{ creatorAttributes.get('realname')|default(creatorAttributes.get('name'))|default(gameScore.createdBy.getUname()) }}</name>
+               <uri>{{ creatorAttributes.get('_UYOURHOMEPAGE')|default('-') }}</uri>
+               <email>{{ gameScore.createdBy.getEmail() }}</email>
+            </author>
+        {% endif %}
+        <summary type="html">
+            <![CDATA[
+            {{ gameScore.firstName|u.truncate(150, '…')|default('-') }}
+            ]]>
+        </summary>
+        <content type="html">
+            <![CDATA[
+            {{ gameScore.lastName|replace({ '<br>': '<br />' }) }}
+            ]]>
+        </content>
+    </entry>
+{% endfor %}
+</feed>

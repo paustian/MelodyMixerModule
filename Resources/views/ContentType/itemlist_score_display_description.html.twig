@@ -1,0 +1,12 @@
+{# purpose of this template: Display scores within an external context #}
+{% trans_default_domain 'score' %}
+<dl>
+    {% for score in items %}
+        <dt>{{ score|paustianmelodymixermodule_formattedTitle }}</dt>
+        {% if score.levelName %}
+            <dd>{{ score.levelName|striptags|u.truncate(200, '…') }}</dd>
+        {% endif %}
+    {% else %}
+        <dt>{% trans %}No scores found.{% endtrans %}</dt>
+    {% endfor %}
+</dl>

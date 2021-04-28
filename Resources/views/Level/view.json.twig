@@ -1,0 +1,8 @@
+{# purpose of this template: levels view json view #}
+{% trans_default_domain 'level' %}
+[
+{% for level in items %}
+    {% if not loop.first %},{% endif %}
+    {{ level.toArray()|json_encode()|raw }}
+{% endfor %}
+]
