@@ -59,6 +59,7 @@ abstract class AbstractMusicScoreRepository extends EntityRepository
     {
         return [
             'levelId',
+            'exNum',
             'gsGraphic',
             'gsMidi',
             'scoreIt',

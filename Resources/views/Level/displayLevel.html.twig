@@ -1,3 +1,47 @@
-<div>
-    <p>This is a test to see if this is working</p>
+{{ pageSetVar('title', level.levelName) }}
+<div id="interface_container">
+    <canvas id="melodyMixerArea" width="100" height="100"></canvas>
+    <div id="overlay">
+        <div class="slidecontainer">
+            <p class="tempo">Tempo: <span id="tempoSpan"></span></p>
+            <input type="range" min="50" max="150" value="100" class="tempo_slider" id="tempo_slider" data-slider-handle="custom">
+        </div>
+        <div class="flex_box">
+            <div class="sm_slider">
+                <span id="play" class="fas fa-play-circle custom-size" ></span>
+                <input type="range" min="0" max="100" value="0" class="time_slider" id="duration_slider">
+                <p>Instrument
+                    <select id="instrumentMenu">
+                        <option>Choose an Instrument</option>
+                    </select></p>
+                <p><button id="score">Score</button><input id="scoretext" type="text" value="0" min="0" max="100" readonly>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    document.addEventListener('readystatechange', (event) => {
+        if(document.readyState === 'complete'){
+            //A hack to get rid of the columns
+            let left = document.getElementById('themeLeftColumn');
+            left.style.display = "none";
+            let right = document.getElementById('themeRightColumn');
+            right.style.display = "none";
+            initLevel({{ level.displayGraphicLevelId }});
+        }
+    });
+</script>
+{% block footer %}
+{{ pageAddAsset('stylesheet', zasset('@PaustianMelodyMixerModule:css/custom.css')) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/easeljs.js'), 100) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/preloadjs.js'), 101) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundjs.js'), 103) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/tweenjs.js'), 102) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundfont-player.min.js'), 202) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midi-parser.js', 200)) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/ScaleBitmap.js'), 201) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midiplayer.js'), 203) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/abstractlevel.js'), 204) }}
+{{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/level.js'), 205) }}
+{% endblock %}

@@ -117,6 +117,7 @@ abstract class AbstractScoreQuickNavType extends AbstractType
                 ],
                 'choices' => [
                     'Level id' => 'levelId',
+                    'Player uid' => 'playerUid',
                     'Level name' => 'levelName',
                     'Score one' => 'scoreOne',
                     'Score two' => 'scoreTwo',

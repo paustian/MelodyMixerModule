@@ -32,4 +32,5 @@ use Doctrine\ORM\Mapping as ORM;
 class LevelEntity extends BaseEntity
 {
     // feel free to add your own methods here
+
 }

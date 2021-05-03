@@ -1,0 +1,8 @@
+{{ pageSetVar('title', "Log in First"|trans ) }}
+{% block content %}
+<div>
+    <h3>{{ "Log in First"|trans }}</h3>
+    <p>{{ "You need to log in or registrer first before you can use Melody Mixer. Make sure you also update your profile with your first and last name."|trans }}</p>
+    <p>{{ "You can log in or register at the "| trans }} <a href="{{ path('zikulausersmodule_access_login') }}" title={{ "Click here to go to the log in page.|trans" }}>{{ "Registration Page."|trans }}</a></p>
+</div>
+{% endblock %}

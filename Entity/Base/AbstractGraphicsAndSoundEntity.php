@@ -72,6 +72,18 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
     protected $levelid = 0;
     
     /**
+     * The example number for this level
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotBlank
+     * @Assert\NotEqualTo(value=0)
+     * @Assert\LessThan(value=100000000000)
+     * @var int $exNum
+     */
+    protected $exNum = 0;
+    
+    /**
      * The name of the graphic
      *
      * @ORM\Column(length=255)
@@ -114,6 +126,16 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
     protected $yPos = 0;
     
     /**
+     * A label to go under the graphic
+     *
+     * @ORM\Column(length=255)
+     * @Assert\NotNull
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
+     * @var string $gsLabel
+     */
+    protected $gsLabel = '';
+    
+    /**
      * Any text the graphic might want to say
      *
      * @ORM\Column(type="text", length=2000)
@@ -122,6 +144,16 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
      * @var string $descText
      */
     protected $descText = '';
+    
+    /**
+     * The path to the file this graphic navigates.
+     *
+     * @ORM\Column(length=255)
+     * @Assert\NotNull
+     * @Assert\Length(min="0", max="255", allowEmptyString="true")
+     * @var string $gsUrl
+     */
+    protected $gsUrl = '';
     
     /**
      * The position of the descriptive text box
@@ -227,6 +259,18 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
         }
     }
     
+    public function getExNum(): int
+    {
+        return $this->exNum;
+    }
+    
+    public function setExNum(int $exNum): void
+    {
+        if ((int)$this->exNum !== $exNum) {
+            $this->exNum = $exNum;
+        }
+    }
+    
     public function getGsName(): string
     {
         return $this->gsName;
@@ -275,6 +319,18 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
         }
     }
     
+    public function getGsLabel(): string
+    {
+        return $this->gsLabel;
+    }
+    
+    public function setGsLabel(string $gsLabel): void
+    {
+        if ($this->gsLabel !== $gsLabel) {
+            $this->gsLabel = $gsLabel ?? '';
+        }
+    }
+    
     public function getDescText(): string
     {
         return $this->descText;
@@ -284,6 +340,18 @@ abstract class AbstractGraphicsAndSoundEntity extends EntityAccess
     {
         if ($this->descText !== $descText) {
             $this->descText = $descText ?? '';
+        }
+    }
+    
+    public function getGsUrl(): string
+    {
+        return $this->gsUrl;
+    }
+    
+    public function setGsUrl(string $gsUrl): void
+    {
+        if ($this->gsUrl !== $gsUrl) {
+            $this->gsUrl = $gsUrl ?? '';
         }
     }
     

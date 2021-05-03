@@ -96,6 +96,22 @@ abstract class AbstractScoreType extends AbstractType
             'required' => true,
         ]);
         
+        $builder->add('playerUid', IntegerType::class, [
+            'label' => 'Player uid:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The uid of the player'
+            ],
+            'help' => 'The uid of the player',
+            'empty_data' => 0,
+            'attr' => [
+                'maxlength' => 11,
+                'class' => '',
+                'title' => 'Enter the player uid of the score. Only digits are allowed.'
+            ],
+            'required' => true,
+        ]);
+        
         $builder->add('levelName', TextType::class, [
             'label' => 'Level name:',
             'label_attr' => [

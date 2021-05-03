@@ -72,6 +72,18 @@ abstract class AbstractScoreEntity extends EntityAccess
     protected $levelId = 0;
     
     /**
+     * The uid of the player
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotBlank
+     * @Assert\NotEqualTo(value=0)
+     * @Assert\LessThan(value=100000000000)
+     * @var int $playerUid
+     */
+    protected $playerUid = 0;
+    
+    /**
      * The name of the level
      *
      * @ORM\Column(length=255)
@@ -249,6 +261,18 @@ abstract class AbstractScoreEntity extends EntityAccess
     {
         if ((int)$this->levelId !== $levelId) {
             $this->levelId = $levelId;
+        }
+    }
+    
+    public function getPlayerUid(): int
+    {
+        return $this->playerUid;
+    }
+    
+    public function setPlayerUid(int $playerUid): void
+    {
+        if ((int)$this->playerUid !== $playerUid) {
+            $this->playerUid = $playerUid;
         }
     }
     

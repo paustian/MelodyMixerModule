@@ -72,6 +72,18 @@ abstract class AbstractMusicScoreEntity extends EntityAccess
     protected $levelId = 0;
     
     /**
+     * The example number for this level
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotBlank
+     * @Assert\NotEqualTo(value=0)
+     * @Assert\LessThan(value=100000000000)
+     * @var int $exNum
+     */
+    protected $exNum = 0;
+    
+    /**
      * The name of the graphic to load and score
      *
      * @ORM\Column(length=255)
@@ -167,6 +179,18 @@ abstract class AbstractMusicScoreEntity extends EntityAccess
     {
         if ((int)$this->levelId !== $levelId) {
             $this->levelId = $levelId;
+        }
+    }
+    
+    public function getExNum(): int
+    {
+        return $this->exNum;
+    }
+    
+    public function setExNum(int $exNum): void
+    {
+        if ((int)$this->exNum !== $exNum) {
+            $this->exNum = $exNum;
         }
     }
     

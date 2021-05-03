@@ -59,6 +59,7 @@ abstract class AbstractScoreRepository extends EntityRepository
     {
         return [
             'levelId',
+            'playerUid',
             'levelName',
             'scoreOne',
             'scoreTwo',

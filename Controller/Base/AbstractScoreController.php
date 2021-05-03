@@ -84,6 +84,7 @@ abstract class AbstractScoreController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('levelId'),
+            new Column('playerUid'),
             new Column('levelName'),
             new Column('scoreOne'),
             new Column('scoreTwo'),

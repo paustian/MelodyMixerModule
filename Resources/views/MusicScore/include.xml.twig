@@ -3,6 +3,7 @@
 <musicscore id="{{ musicScore.getId() }}" createdon="{{ musicScore.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ musicScore.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ musicScore.id }}</id>
     <levelId>{{ musicScore.levelId }}</levelId>
+    <exNum>{{ musicScore.exNum }}</exNum>
     <gsGraphic><![CDATA[{{ musicScore.gsGraphic }}]]></gsGraphic>
     <gsMidi><![CDATA[{{ musicScore.gsMidi }}]]></gsMidi>
     <scoreIt>{{ musicScore.scoreIt }}</scoreIt>

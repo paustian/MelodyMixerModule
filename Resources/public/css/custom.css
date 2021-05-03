@@ -1,1 +1,151 @@
 /* this file is intended for custom styles */
+canvas {
+    position: absolute;
+    -webkit-tap-highlight-color: rgba(248, 244, 244, 0);
+}
+
+#choice_table {
+    position: relative;
+    top:50px;
+    left:300px;
+}
+#assignments {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+    background-color:aliceblue;
+}
+
+#assignments td, #assignments th {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 8px;
+}
+
+#assignments tr:nth-child(even){background-color: #f2f2f2;}
+
+#assignments tr:hover {background-color: #ddd;}
+
+#assignments th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: maroon;
+    color: white;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+#interface_container {
+    position: relative;
+}
+
+#interface_container canvas {
+    position: absolute;
+}
+
+#overlay {
+    position:absolute;
+    background-color: lightcyan;
+    top: 500px;
+    left: 700px;
+    border-color:black;
+    border-style: solid;
+    border-width: 3px;
+    width:400px;
+}
+
+.tempo_slider {
+    -webkit-appearance: none;
+    width: 90%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    margin-left:20px;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+.tempo_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 30px;
+    background: url("/images/assests/note.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.tempo_slider::-moz-range-thumb {
+    width: 18px;
+    height: 30px;
+    background: url("/images/assests/note.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.time_slider {
+    -webkit-appearance: none;
+    width: 84%;
+    height: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    margin-left:20px;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+
+.time_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 30px;
+    background: url("/images/assests/note.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.time_slider::-moz-range-thumb {
+    width: 18px;
+    height: 30px;
+    background: url("/images/assests/note.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+input {
+    margin-bottom: 6px;
+}
+
+span.time {
+    font-size: 2em;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+
+
+.tempo {
+    margin-left: auto;
+    margin-right: auto;
+    width: 8em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.custom-size{
+    font-size: 2em;
+}
+
+.flex_box{
+    white-space: nowrap;
+}
+.sm_slider{
+    margin-left: 20px;
+    margin-right: 15px;
+    width: 90%;
+}

@@ -59,11 +59,14 @@ abstract class AbstractGraphicsAndSoundRepository extends EntityRepository
     {
         return [
             'levelid',
+            'exNum',
             'gsName',
             'gsPath',
             'xPos',
             'yPos',
+            'gsLabel',
             'descText',
+            'gsUrl',
             'xDes',
             'yDes',
             'boxWidth',

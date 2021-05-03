@@ -96,6 +96,22 @@ abstract class AbstractMusicScoreType extends AbstractType
             'required' => true,
         ]);
         
+        $builder->add('exNum', IntegerType::class, [
+            'label' => 'Ex num:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The example number for this level'
+            ],
+            'help' => 'The example number for this level',
+            'empty_data' => 0,
+            'attr' => [
+                'maxlength' => 11,
+                'class' => '',
+                'title' => 'Enter the ex num of the music score. Only digits are allowed.'
+            ],
+            'required' => true,
+        ]);
+        
         $builder->add('gsGraphic', TextType::class, [
             'label' => 'Gs graphic:',
             'label_attr' => [

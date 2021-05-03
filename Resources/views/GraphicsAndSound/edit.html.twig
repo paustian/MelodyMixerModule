@@ -15,11 +15,14 @@
         <fieldset>
             <legend>{% trans from 'messages' %}Content{% endtrans %}</legend>
             {{ form_row(form.levelid) }}
+            {{ form_row(form.exNum) }}
             {{ form_row(form.gsName) }}
             {{ form_row(form.gsPath) }}
             {{ form_row(form.xPos) }}
             {{ form_row(form.yPos) }}
+            {{ form_row(form.gsLabel) }}
             {{ form_row(form.descText) }}
+            {{ form_row(form.gsUrl) }}
             {{ form_row(form.xDes) }}
             {{ form_row(form.yDes) }}
             {{ form_row(form.boxWidth) }}

@@ -697,6 +697,10 @@ abstract class AbstractCollectionFilterHelper
                 $filters[] = 'tbl.levelId = :searchLevelId';
                 $parameters['searchLevelId'] = $fragment;
             }
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.playerUid = :searchPlayerUid';
+                $parameters['searchPlayerUid'] = $fragment;
+            }
             $filters[] = 'tbl.levelName LIKE :searchLevelName';
             $parameters['searchLevelName'] = '%' . $fragment . '%';
             if (is_numeric($fragment)) {
@@ -753,6 +757,10 @@ abstract class AbstractCollectionFilterHelper
                 $filters[] = 'tbl.levelid = :searchLevelid';
                 $parameters['searchLevelid'] = $fragment;
             }
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.exNum = :searchExNum';
+                $parameters['searchExNum'] = $fragment;
+            }
             $filters[] = 'tbl.gsName LIKE :searchGsName';
             $parameters['searchGsName'] = '%' . $fragment . '%';
             $filters[] = 'tbl.gsPath LIKE :searchGsPath';
@@ -765,8 +773,12 @@ abstract class AbstractCollectionFilterHelper
                 $filters[] = 'tbl.yPos = :searchYPos';
                 $parameters['searchYPos'] = $fragment;
             }
+            $filters[] = 'tbl.gsLabel LIKE :searchGsLabel';
+            $parameters['searchGsLabel'] = '%' . $fragment . '%';
             $filters[] = 'tbl.descText LIKE :searchDescText';
             $parameters['searchDescText'] = '%' . $fragment . '%';
+            $filters[] = 'tbl.gsUrl LIKE :searchGsUrl';
+            $parameters['searchGsUrl'] = '%' . $fragment . '%';
             if (is_numeric($fragment)) {
                 $filters[] = 'tbl.xDes = :searchXDes';
                 $parameters['searchXDes'] = $fragment;
@@ -784,6 +796,10 @@ abstract class AbstractCollectionFilterHelper
             if (is_numeric($fragment)) {
                 $filters[] = 'tbl.levelId = :searchLevelId';
                 $parameters['searchLevelId'] = $fragment;
+            }
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.exNum = :searchExNum';
+                $parameters['searchExNum'] = $fragment;
             }
             $filters[] = 'tbl.gsGraphic LIKE :searchGsGraphic';
             $parameters['searchGsGraphic'] = '%' . $fragment . '%';

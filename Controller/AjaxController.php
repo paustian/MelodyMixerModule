@@ -17,12 +17,14 @@ namespace Paustian\MelodyMixerModule\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Paustian\MelodyMixerModule\Controller\Base\AbstractAjaxController;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
 use Paustian\MelodyMixerModule\Helper\EntityDisplayHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
+use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 
 /**
  * Ajax controller implementation class.
@@ -68,4 +70,51 @@ class AjaxController extends AbstractAjaxController
     }
 
     // feel free to add your own ajax controller methods here
+    /**
+     * @Route("/getLevelData", options={"expose"=true, "i18n"=false}, methods={"POST"})
+     */
+    public function getLevelDataAction(Request $request,
+                                       CurrentUserApiInterface $currentUserApi,
+                                       EntityFactory $entityFactory,
+                                       PermissionHelper $permissionHelper): JsonResponse {
+        // permission check
+        if (!$permissionHelper->hasComponentPermission('level', ACCESS_READ)) {
+            return new JsonResponse($this->trans('Access forbidden since you cannot play Melody Mixer.'), Response::HTTP_FORBIDDEN);
+        }
+        $level = $request->request->get('levelid');
+        $repo = $entityFactory->getRepository('GraphicsAndSound');
+        $levelData = $repo->selectWhere("tbl.levelid = $level");
+
+        $graphicData = [];
+        $itemData = [];
+        foreach($levelData as $levelItem){
+            $itemData['gsName'] = $levelItem->getGsName();
+            $itemData['gsPath'] = $levelItem->getGsPath();
+            $itemData['xPos'] = $levelItem->getXPos();
+            $itemData['yPos'] = $levelItem->getYPos();
+            $itemData['descText'] = $levelItem->getDescText();
+            $itemData['label'] = $levelItem->getGsLabel();
+            $itemData['url'] = $levelItem->getGsUrl();
+            $itemData['xDes'] = $levelItem->getXDes();
+            $itemData['yDes'] = $levelItem->getYDes();
+            $itemData['boxWidth'] = $levelItem->getBoxWidth();
+            $itemData['graphicAtBottom'] = $levelItem->getGraphicAtBottom();
+            $itemData['exNum'] = $levelItem->getExNum();
+            $graphicData[] = $itemData;
+        }
+
+        $repoScores = $entityFactory->getRepository('MusicScore');
+        $scores = $repoScores->selectWhere("tbl.levelId = $level");
+        $scoreData = [];
+        $scoreArray = [];
+        foreach($scores as $scoreItem){
+            $scoreArray['gsGraphic'] = $scoreItem->getGsGraphic();
+            $scoreArray['gsMidi'] = $scoreItem->getGsMidi();
+            $scoreArray['scoreIt'] = $scoreItem->getScoreIt();
+            $scoreArray['musicOrder'] = $scoreItem->getMusicOrder();
+            $scoreData[] = $scoreArray;
+        }
+        return  new JsonResponse(['graphicData' => $graphicData,
+            'scoreData' => $scoreData]);
+    }
 }

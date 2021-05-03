@@ -3,11 +3,14 @@
 <graphicsandsound id="{{ graphicsAndSound.getId() }}" createdon="{{ graphicsAndSound.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ graphicsAndSound.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ graphicsAndSound.id }}</id>
     <levelid>{{ graphicsAndSound.levelid }}</levelid>
+    <exNum>{{ graphicsAndSound.exNum }}</exNum>
     <gsName><![CDATA[{{ graphicsAndSound.gsName }}]]></gsName>
     <gsPath><![CDATA[{{ graphicsAndSound.gsPath }}]]></gsPath>
     <xPos>{{ graphicsAndSound.xPos }}</xPos>
     <yPos>{{ graphicsAndSound.yPos }}</yPos>
+    <gsLabel><![CDATA[{{ graphicsAndSound.gsLabel }}]]></gsLabel>
     <descText><![CDATA[{{ graphicsAndSound.descText|safeHtml }}]]></descText>
+    <gsUrl><![CDATA[{{ graphicsAndSound.gsUrl }}]]></gsUrl>
     <xDes>{{ graphicsAndSound.xDes }}</xDes>
     <yDes>{{ graphicsAndSound.yDes }}</yDes>
     <boxWidth>{{ graphicsAndSound.boxWidth }}</boxWidth>

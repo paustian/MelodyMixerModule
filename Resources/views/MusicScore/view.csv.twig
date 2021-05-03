@@ -1,6 +1,6 @@
 {# purpose of this template: music scores view csv view #}
 {% trans_default_domain 'musicScore' %}
-"{% trans %}Level id{% endtrans %}";"{% trans %}Gs graphic{% endtrans %}";"{% trans %}Gs midi{% endtrans %}";"{% trans %}Score it{% endtrans %}";"{% trans %}Music order{% endtrans %}"
+"{% trans %}Level id{% endtrans %}";"{% trans %}Ex num{% endtrans %}";"{% trans %}Gs graphic{% endtrans %}";"{% trans %}Gs midi{% endtrans %}";"{% trans %}Score it{% endtrans %}";"{% trans %}Music order{% endtrans %}"
 {% for musicScore in items %}
-"{{ musicScore.levelId }}";"{{ musicScore.gsGraphic }}";"{{ musicScore.gsMidi }}";"{{ musicScore.scoreIt }}";"{{ musicScore.musicOrder }}"
+"{{ musicScore.levelId }}";"{{ musicScore.exNum }}";"{{ musicScore.gsGraphic }}";"{{ musicScore.gsMidi }}";"{{ musicScore.scoreIt }}";"{{ musicScore.musicOrder }}"
 {% endfor %}

@@ -22,6 +22,7 @@
                     {% endif %}
                     <col id="cItemActionsStart" />
                     <col id="cLevelId" />
+                    <col id="cExNum" />
                     <col id="cGsGraphic" />
                     <col id="cGsMidi" />
                     <col id="cScoreIt" />
@@ -37,6 +38,9 @@
                     <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
                     <th id="hLevelId" scope="col" class="text-right">
                         <a href="{{ sort.levelId.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'level id'}, 'messages')|e('html_attr') }}" class="{{ sort.levelId.class }}">{% trans %}Level id{% endtrans %}</a>
+                    </th>
+                    <th id="hExNum" scope="col" class="text-right">
+                        <a href="{{ sort.exNum.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'ex num'}, 'messages')|e('html_attr') }}" class="{{ sort.exNum.class }}">{% trans %}Ex num{% endtrans %}</a>
                     </th>
                     <th id="hGsGraphic" scope="col" class="text-left">
                         <a href="{{ sort.gsGraphic.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs graphic'}, 'messages')|e('html_attr') }}" class="{{ sort.gsGraphic.class }}">{% trans %}Gs graphic{% endtrans %}</a>
@@ -71,6 +75,9 @@
                     <td headers="hLevelId" class="text-right">
                         {{ musicScore.levelId }}
                     </td>
+                    <td headers="hExNum" class="text-right">
+                        {{ musicScore.exNum }}
+                    </td>
                     <td headers="hGsGraphic" class="text-left">
                         {{ musicScore.gsGraphic }}
                     </td>
@@ -86,7 +93,7 @@
                 </tr>
             {% else %}
                 <tr class="table-info">
-                    <td colspan="{% if routeArea == 'admin' %}7{% else %}6{% endif %}" class="text-center">
+                    <td colspan="{% if routeArea == 'admin' %}8{% else %}7{% endif %}" class="text-center">
                 {% trans %}No music scores found.{% endtrans %}
                   </td>
                 </tr>

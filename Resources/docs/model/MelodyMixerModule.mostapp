@@ -7,6 +7,7 @@ application "MelodyMixer" targets ZK30 {
     prefix "melody"
     generateAccountApi false
     generateSearchApi false
+    generateModerationPanel false
     generateScribitePlugins false
     entities {
         entity "gameScore" leading {
@@ -39,6 +40,10 @@ application "MelodyMixer" targets ZK30 {
             displayPattern "#levelName"
             fields {
                 integer "levelId" {
+                    defaultValue "0"
+                },
+                integer "playerUid" {
+                    documentation "The uid of the player"
                     defaultValue "0"
                 },
                 string "levelName" {
@@ -137,6 +142,10 @@ application "MelodyMixer" targets ZK30 {
                 integer "levelid" {
                     defaultValue "0"
                 },
+                integer "exNum" {
+                    documentation "The example number for this level"
+                    defaultValue "0"
+                },
                 string "gsName" {
                     documentation "The name of the graphic"
                 },
@@ -153,8 +162,16 @@ application "MelodyMixer" targets ZK30 {
                     defaultValue "0"
                     mandatory false
                 },
+                string "gsLabel" {
+                    documentation "A label to go under the graphic"
+                    mandatory false
+                },
                 text "descText" {
                     documentation "Any text the graphic might want to say"
+                    mandatory false
+                },
+                string "gsUrl" {
+                    documentation "The path to the file this graphic navigates."
                     mandatory false
                 },
                 integer "xDes" {
@@ -189,6 +206,10 @@ application "MelodyMixer" targets ZK30 {
             displayPattern "#levelId,#gsGraphic,#gsMidi"
             fields {
                 integer "levelId" {
+                    defaultValue "0"
+                },
+                integer "exNum" {
+                    documentation "The example number for this level"
                     defaultValue "0"
                 },
                 string "gsGraphic" {

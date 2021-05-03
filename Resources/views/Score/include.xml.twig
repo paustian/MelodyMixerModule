@@ -3,6 +3,7 @@
 <score id="{{ score.getId() }}" createdon="{{ score.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ score.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ score.id }}</id>
     <levelId>{{ score.levelId }}</levelId>
+    <playerUid>{{ score.playerUid }}</playerUid>
     <levelName><![CDATA[{{ score.levelName }}]]></levelName>
     <scoreOne>{{ score.scoreOne }}</scoreOne>
     <scoreTwo>{{ score.scoreTwo }}</scoreTwo>

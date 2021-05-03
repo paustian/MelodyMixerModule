@@ -1,6 +1,6 @@
 {# purpose of this template: scores view csv view #}
 {% trans_default_domain 'score' %}
-"{% trans %}Level id{% endtrans %}";"{% trans %}Level name{% endtrans %}";"{% trans %}Score one{% endtrans %}";"{% trans %}Score two{% endtrans %}";"{% trans %}Score three{% endtrans %}";"{% trans %}Score four{% endtrans %}";"{% trans %}Score five{% endtrans %}";"{% trans %}Score six{% endtrans %}";"{% trans %}Score seven{% endtrans %}";"{% trans %}Score eight{% endtrans %}";"{% trans %}Score nine{% endtrans %}";"{% trans %}Score ten{% endtrans %}"
+"{% trans %}Level id{% endtrans %}";"{% trans %}Player uid{% endtrans %}";"{% trans %}Level name{% endtrans %}";"{% trans %}Score one{% endtrans %}";"{% trans %}Score two{% endtrans %}";"{% trans %}Score three{% endtrans %}";"{% trans %}Score four{% endtrans %}";"{% trans %}Score five{% endtrans %}";"{% trans %}Score six{% endtrans %}";"{% trans %}Score seven{% endtrans %}";"{% trans %}Score eight{% endtrans %}";"{% trans %}Score nine{% endtrans %}";"{% trans %}Score ten{% endtrans %}"
 {% for score in items %}
-"{{ score.levelId }}";"{{ score.levelName }}";"{{ score.scoreOne }}";"{{ score.scoreTwo }}";"{{ score.scoreThree }}";"{{ score.scoreFour }}";"{{ score.scoreFive }}";"{{ score.scoreSix }}";"{{ score.scoreSeven }}";"{{ score.scoreEight }}";"{{ score.scoreNine }}";"{{ score.scoreTen }}"
+"{{ score.levelId }}";"{{ score.playerUid }}";"{{ score.levelName }}";"{{ score.scoreOne }}";"{{ score.scoreTwo }}";"{{ score.scoreThree }}";"{{ score.scoreFour }}";"{{ score.scoreFive }}";"{{ score.scoreSix }}";"{{ score.scoreSeven }}";"{{ score.scoreEight }}";"{{ score.scoreNine }}";"{{ score.scoreTen }}"
 {% endfor %}

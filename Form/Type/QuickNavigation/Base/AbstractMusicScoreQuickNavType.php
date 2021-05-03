@@ -117,6 +117,7 @@ abstract class AbstractMusicScoreQuickNavType extends AbstractType
                 ],
                 'choices' => [
                     'Level id' => 'levelId',
+                    'Ex num' => 'exNum',
                     'Gs graphic' => 'gsGraphic',
                     'Gs midi' => 'gsMidi',
                     'Score it' => 'scoreIt',

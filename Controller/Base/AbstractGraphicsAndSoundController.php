@@ -125,11 +125,14 @@ abstract class AbstractGraphicsAndSoundController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('levelid'),
+            new Column('exNum'),
             new Column('gsName'),
             new Column('gsPath'),
             new Column('xPos'),
             new Column('yPos'),
+            new Column('gsLabel'),
             new Column('descText'),
+            new Column('gsUrl'),
             new Column('xDes'),
             new Column('yDes'),
             new Column('boxWidth'),

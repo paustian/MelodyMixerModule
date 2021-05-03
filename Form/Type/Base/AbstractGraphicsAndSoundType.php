@@ -98,6 +98,22 @@ abstract class AbstractGraphicsAndSoundType extends AbstractType
             'required' => true,
         ]);
         
+        $builder->add('exNum', IntegerType::class, [
+            'label' => 'Ex num:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The example number for this level'
+            ],
+            'help' => 'The example number for this level',
+            'empty_data' => 0,
+            'attr' => [
+                'maxlength' => 11,
+                'class' => '',
+                'title' => 'Enter the ex num of the graphics and sound. Only digits are allowed.'
+            ],
+            'required' => true,
+        ]);
+        
         $builder->add('gsName', TextType::class, [
             'label' => 'Gs name:',
             'label_attr' => [
@@ -162,6 +178,22 @@ abstract class AbstractGraphicsAndSoundType extends AbstractType
             'required' => false,
         ]);
         
+        $builder->add('gsLabel', TextType::class, [
+            'label' => 'Gs label:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'A label to go under the graphic'
+            ],
+            'help' => 'A label to go under the graphic',
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => 'Enter the gs label of the graphics and sound.'
+            ],
+            'required' => false,
+        ]);
+        
         $builder->add('descText', TextareaType::class, [
             'label' => 'Desc text:',
             'label_attr' => [
@@ -179,6 +211,22 @@ abstract class AbstractGraphicsAndSoundType extends AbstractType
                 'maxlength' => 2000,
                 'class' => '',
                 'title' => 'Enter the desc text of the graphics and sound.'
+            ],
+            'required' => false,
+        ]);
+        
+        $builder->add('gsUrl', TextType::class, [
+            'label' => 'Gs url:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The path to the file this graphic navigates.'
+            ],
+            'help' => 'The path to the file this graphic navigates.',
+            'empty_data' => '',
+            'attr' => [
+                'maxlength' => 255,
+                'class' => '',
+                'title' => 'Enter the gs url of the graphics and sound.'
             ],
             'required' => false,
         ]);

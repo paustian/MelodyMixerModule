@@ -22,6 +22,7 @@
                     {% endif %}
                     <col id="cItemActionsStart" />
                     <col id="cLevelId" />
+                    <col id="cPlayerUid" />
                     <col id="cLevelName" />
                     <col id="cScoreOne" />
                     <col id="cScoreTwo" />
@@ -44,6 +45,9 @@
                     <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
                     <th id="hLevelId" scope="col" class="text-right">
                         <a href="{{ sort.levelId.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'level id'}, 'messages')|e('html_attr') }}" class="{{ sort.levelId.class }}">{% trans %}Level id{% endtrans %}</a>
+                    </th>
+                    <th id="hPlayerUid" scope="col" class="text-right">
+                        <a href="{{ sort.playerUid.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'player uid'}, 'messages')|e('html_attr') }}" class="{{ sort.playerUid.class }}">{% trans %}Player uid{% endtrans %}</a>
                     </th>
                     <th id="hLevelName" scope="col" class="text-left">
                         <a href="{{ sort.levelName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'level name'}, 'messages')|e('html_attr') }}" class="{{ sort.levelName.class }}">{% trans %}Level name{% endtrans %}</a>
@@ -99,6 +103,9 @@
                     <td headers="hLevelId" class="text-right">
                         {{ score.levelId }}
                     </td>
+                    <td headers="hPlayerUid" class="text-right">
+                        {{ score.playerUid }}
+                    </td>
                     <td headers="hLevelName" class="text-left">
                         {{ score.levelName }}
                     </td>
@@ -135,7 +142,7 @@
                 </tr>
             {% else %}
                 <tr class="table-info">
-                    <td colspan="{% if routeArea == 'admin' %}14{% else %}13{% endif %}" class="text-center">
+                    <td colspan="{% if routeArea == 'admin' %}15{% else %}14{% endif %}" class="text-center">
                 {% trans %}No scores found.{% endtrans %}
                   </td>
                 </tr>

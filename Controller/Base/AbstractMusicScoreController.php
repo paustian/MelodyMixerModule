@@ -84,6 +84,7 @@ abstract class AbstractMusicScoreController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('levelId'),
+            new Column('exNum'),
             new Column('gsGraphic'),
             new Column('gsMidi'),
             new Column('scoreIt'),

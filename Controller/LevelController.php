@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
-use Doctrine\DBAL\Schema\View;
 use Paustian\MelodyMixerModule\Controller\Base\AbstractLevelController;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Paustian\MelodyMixerModule\Entity\LevelEntity;
@@ -282,25 +282,22 @@ class LevelController extends AbstractLevelController
     }
     
     // feel free to add your own controller methods here
-
     /**
-     * Display a level of the game
      *
-     * @Route("/levels/{id}", methods = {"POST", "GET"})
+     * @Route("/levels/display/{level}",
+     *        methods = {"GET", "POST"}
+     * )
      */
-    public function handleDisplayLevel( Request $request,
-                                        LevelEntity $level,
-                                        PermissionHelper $permissionHelper): Response
-    {
+    public function levelsDisplayAction(
+        Request $request,
+        LevelEntity $level,
+        PermissionHelper $permissionHelper): Response {
         //Make sure that the user is logged in, otherwise go to the registration page
-        if(!$permissionHelper->hasEntityPermission($level, ACCESS_READ)){
-            //Right now throw an exception, in the future redirect to the log in
-            //page and add an alert that says to create an account.
-            throw new AccessDeniedException();
+        if(!$permissionHelper->hasEntityPermission($level, ACCESS_COMMENT)){
+            return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
-        return $this->render('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', []);
+        //change to use PlainResponse
+        //Display the level listed.
+        return $this->render('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
     }
 }
-
-
-

@@ -22,11 +22,14 @@
                     {% endif %}
                     <col id="cItemActionsStart" />
                     <col id="cLevelid" />
+                    <col id="cExNum" />
                     <col id="cGsName" />
                     <col id="cGsPath" />
                     <col id="cXPos" />
                     <col id="cYPos" />
+                    <col id="cGsLabel" />
                     <col id="cDescText" />
+                    <col id="cGsUrl" />
                     <col id="cXDes" />
                     <col id="cYDes" />
                     <col id="cBoxWidth" />
@@ -43,6 +46,9 @@
                     <th id="hLevelid" scope="col" class="text-right">
                         <a href="{{ sort.levelid.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'levelid'}, 'messages')|e('html_attr') }}" class="{{ sort.levelid.class }}">{% trans %}Levelid{% endtrans %}</a>
                     </th>
+                    <th id="hExNum" scope="col" class="text-right">
+                        <a href="{{ sort.exNum.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'ex num'}, 'messages')|e('html_attr') }}" class="{{ sort.exNum.class }}">{% trans %}Ex num{% endtrans %}</a>
+                    </th>
                     <th id="hGsName" scope="col" class="text-left">
                         <a href="{{ sort.gsName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs name'}, 'messages')|e('html_attr') }}" class="{{ sort.gsName.class }}">{% trans %}Gs name{% endtrans %}</a>
                     </th>
@@ -55,8 +61,14 @@
                     <th id="hYPos" scope="col" class="text-right">
                         <a href="{{ sort.yPos.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'y pos'}, 'messages')|e('html_attr') }}" class="{{ sort.yPos.class }}">{% trans %}Y pos{% endtrans %}</a>
                     </th>
+                    <th id="hGsLabel" scope="col" class="text-left">
+                        <a href="{{ sort.gsLabel.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs label'}, 'messages')|e('html_attr') }}" class="{{ sort.gsLabel.class }}">{% trans %}Gs label{% endtrans %}</a>
+                    </th>
                     <th id="hDescText" scope="col" class="text-left">
                         <a href="{{ sort.descText.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'desc text'}, 'messages')|e('html_attr') }}" class="{{ sort.descText.class }}">{% trans %}Desc text{% endtrans %}</a>
+                    </th>
+                    <th id="hGsUrl" scope="col" class="text-left">
+                        <a href="{{ sort.gsUrl.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'gs url'}, 'messages')|e('html_attr') }}" class="{{ sort.gsUrl.class }}">{% trans %}Gs url{% endtrans %}</a>
                     </th>
                     <th id="hXDes" scope="col" class="text-right">
                         <a href="{{ sort.xDes.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'x des'}, 'messages')|e('html_attr') }}" class="{{ sort.xDes.class }}">{% trans %}X des{% endtrans %}</a>
@@ -91,6 +103,9 @@
                     <td headers="hLevelid" class="text-right">
                         {{ graphicsAndSound.levelid }}
                     </td>
+                    <td headers="hExNum" class="text-right">
+                        {{ graphicsAndSound.exNum }}
+                    </td>
                     <td headers="hGsName" class="text-left">
                         {{ graphicsAndSound.gsName }}
                     </td>
@@ -103,8 +118,14 @@
                     <td headers="hYPos" class="text-right">
                         {{ graphicsAndSound.yPos }}
                     </td>
+                    <td headers="hGsLabel" class="text-left">
+                        {{ graphicsAndSound.gsLabel }}
+                    </td>
                     <td headers="hDescText" class="text-left">
                         {{ graphicsAndSound.descText|striptags|u.truncate(50) }}
+                    </td>
+                    <td headers="hGsUrl" class="text-left">
+                        {{ graphicsAndSound.gsUrl }}
                     </td>
                     <td headers="hXDes" class="text-right">
                         {{ graphicsAndSound.xDes }}
@@ -125,7 +146,7 @@
                 </tr>
             {% else %}
                 <tr class="table-info">
-                    <td colspan="{% if routeArea == 'admin' %}12{% else %}11{% endif %}" class="text-center">
+                    <td colspan="{% if routeArea == 'admin' %}15{% else %}14{% endif %}" class="text-center">
                 {% trans %}No graphics and sound found.{% endtrans %}
                   </td>
                 </tr>

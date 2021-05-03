@@ -1,0 +1,29 @@
+<html>
+<head>
+
+</head>
+<body>
+<div>
+    <canvas id="melodyMixerArea" width="100" height="100"></canvas>
+</div>
+<script>
+    document.addEventListener('readystatechange', (event) => {
+        if(document.readyState === 'complete'){
+            initMain({{ level.displayGraphicLevelId }});
+        }
+    });
+</script>
+{% block footer %}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/easeljs.js'), 100) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/preloadjs.js'), 101) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundjs.js'), 103) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/tweenjs.js'), 102) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundfont-player.min.js'), 202) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midi-parser.js', 200)) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/ScaleBitmap.js'), 201) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midiplayer.js'), 203) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/abstractlevel.js'), 204) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/mainlevel.js'), 205) }}
+{% endblock %}
+</body>
+</html>
