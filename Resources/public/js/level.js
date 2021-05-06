@@ -8,24 +8,10 @@ class MelodyMixerLevel extends AbstractLevel {
 
     }
     resize(){
-        /*let ow = g_canvas.width;
-        if(window.innerWidth < 500){
-            g_canvas.width = 500;
-        } else if(window.innerWidth > gMaxWidth) {
-            g_canvas.width = gMaxWidth;
-        } else {
-            g_canvas.width = window.innerWidth;
-        }
-        g_stage.scaleX = g_canvas.width/ow;
-        g_canvas.height = window.innerHeight * g_stage.scaleX;
-        g_stage.scaleY = g_canvas.scaleX;*/
         g_stage.update();
     }
 
     calculate_positions(){
-        /*this.bach_pauer.x = 200;
-        let h = this.music_stage.getBounds().height * this.music_stage.scaleY;
-        this.bach_pauer.y = h - this.bach_pauer.getBounds().height * this.bach_pauer.scaleY - 10;*/
     }
 
     bach_clicked(){
@@ -47,10 +33,10 @@ class MelodyMixerLevel extends AbstractLevel {
 
 function initLevel (levelId){
 
-    g_mixer = new MelodyMixerLevel();
+    let mixer = new MelodyMixerLevel();
     //I probably can just change this back to a number
     gLevelId = levelId;
-    g_mixer.init_game();
+    mixer.init_game();
     g_midiPlayer = MidiPlayer;
-    window.addEventListener('resize', g_mixer, false);
+    window.addEventListener('resize', mixer, false);
 }

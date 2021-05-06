@@ -194,12 +194,12 @@ abstract class AbstractLevelController extends AbstractController
         $logArgs = ['app' => 'PaustianMelodyMixerModule', 'user' => $currentUserApi->get('uname'), 'entity' => 'level', 'id' => $level->getKey()];
         
         // determine available workflow actions
-        $actions = $workflowHelper->getActionsForObject($level);
+        /*$actions = $workflowHelper->getActionsForObject($level);
         if (false === $actions || !is_array($actions)) {
             $this->addFlash('error', 'Error! Could not determine workflow actions.');
             $logger->error('{app}: User {user} tried to delete the {entity} with id {id}, but failed to determine available workflow actions.', $logArgs);
             throw new RuntimeException($this->trans('Error! Could not determine workflow actions.'));
-        }
+        }*/
         
         // redirect to the list of levels
         $redirectRoute = 'paustianmelodymixermodule_level_' . ($isAdmin ? 'admin' : '') . 'view';

@@ -23,7 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zikula\Bundle\CoreBundle\Response\PlainResponse;
 use Zikula\ThemeModule\Engine\Annotation\Theme;
+use Zikula\ThemeModule\Engine\AssetFilter;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Paustian\MelodyMixerModule\Entity\LevelEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
@@ -291,13 +293,16 @@ class LevelController extends AbstractLevelController
     public function levelsDisplayAction(
         Request $request,
         LevelEntity $level,
-        PermissionHelper $permissionHelper): Response {
+        PermissionHelper $permissionHelper,
+        AssetFilter $assetFilter): Response
+    {
         //Make sure that the user is logged in, otherwise go to the registration page
         if(!$permissionHelper->hasEntityPermission($level, ACCESS_COMMENT)){
             return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
-        //change to use PlainResponse
-        //Display the level listed.
-        return $this->render('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
+        //return $this->render('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
+        $output = $this->renderView('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
+        $output = $assetFilter->filter($output);
+        return new PlainResponse($output);
     }
 }

@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
+use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +72,7 @@ class AjaxController extends AbstractAjaxController
 
     // feel free to add your own ajax controller methods here
     /**
-     * @Route("/getLevelData", options={"expose"=true, "i18n"=false}, methods={"POST"})
+     * @Route("/getleveldata", options={"expose"=true, "i18n"=false}, methods={"POST"})
      */
     public function getLevelDataAction(Request $request,
                                        CurrentUserApiInterface $currentUserApi,

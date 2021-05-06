@@ -1,6 +1,6 @@
 let g_canvas = '';
 let g_stage = '';
-let g_dir = "/images/assests/";
+let g_dir = "/images/assets/";
 let g_font = "16px Arial"
 let g_color = "#FFFFFF";
 let gLevelId = 0;
@@ -89,7 +89,7 @@ class AbstractLevel {
             let ext = item['gsPath'].split('.').pop();
             //If it's a midi file (ext 'mid') it's not a graphic and should not
             //be put on the screen
-            if(ext != 'mid') {
+            if(ext !== 'mid') {
                 let gName = item['gsName']
                 if(gName.includes("stage")){
                     this.place_image_on_screen(item['gsName'],
@@ -156,7 +156,7 @@ class AbstractLevel {
     }
 
     init_music_player(){
-        this.soundArray = new Array();
+        this.soundArray = [];
         createjs.Ticker.on("tick", this.tick.bind(this));
         createjs.Ticker.paused = true;
 
@@ -175,7 +175,6 @@ class AbstractLevel {
        
         this.playButton = document.getElementById("play");
         this.playButton.onclick = this.play_music.bind(this);
-
         // Initialize player and register event handler
         this.player = new g_midiPlayer.Player(this.play_midi.bind(this));
         this.player.on("playing", this._music_is_playing.bind(this));
@@ -296,7 +295,7 @@ class AbstractLevel {
     }
 
     duration_slider_input(){
-        if(this.totalTicks == 0){
+        if(this.totalTicks === 0){
             return;
         }
         //you need to calculate the the percentage of ticks by the value.
@@ -312,13 +311,14 @@ class AbstractLevel {
                     //20 points for having the right item
                     totalScore += 20;
                 }
-                if(musicBox.occupant.order == i){
+                if(musicBox.occupant.order === i){
                     //5 points for having it in the right order
                     totalScore += 5;
                 }
             }
         }
         this.scoreText.value = totalScore;
+        this._post_score_to_database(totalScore);
     }
     
     set_instrument(){
@@ -334,7 +334,7 @@ class AbstractLevel {
     }
 
     assign_boxes(musicArray){
-        this.boxes = new Array();
+        this.boxes = [];
 
         this._shuffle_array(musicArray);
         //create the 8 squares for the images to reside in

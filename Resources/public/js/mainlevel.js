@@ -19,7 +19,6 @@ class MainLevel extends AbstractLevel {
             {id: "mozart_20", src: g_dir + "Mozart20.png"},
             {id: "strav_20", src: g_dir + "Strav20.png"},
             {id: "rock_stage", src: g_dir + "Rockstage.png"},
-            {id: "mixer_button", src: g_dir + "MixerButton.png"},
             {id: "bubble", src: g_dir + "thoughtBubble.png"},
         ]);
 
@@ -33,10 +32,10 @@ class MainLevel extends AbstractLevel {
     navigate_buttons(evt){
         switch (evt.currentTarget.fnc_call){
             case "training":
-                window.open("exampleplayer/traininglevel.html", '_self');
+                window.open(Routing.generate("paustianmelodymixermodule_navi_level", {name: 'training'}), '_self');
                 break;
             case "basics":
-                window.open("basics/basicslevel.html", '_self');
+                window.open(Routing.generate("paustianmelodymixermodule_navi_level", {name: 'basics'}), '_self');;
                 break;
             case "rhythm":
                 break;
@@ -62,7 +61,7 @@ class MainLevel extends AbstractLevel {
         
         //create and place the mixer buttons
         let x = 50;
-        this.training_level_button = this.place_image_on_screen("mixer_button", x, 50, this.navigate_buttons.bind(this), "Training Level");
+        /*this.training_level_button = this.place_image_on_screen("mixer_button", x, 50, this.navigate_buttons.bind(this), "Training Level");
         this.training_level_button.fnc_call = "training";
         this.basics_button = this.place_image_on_screen("mixer_button", x+150, 50, this.navigate_buttons.bind(this), "Basics");
         this.basics_button.fnc_call = "basics";
@@ -84,7 +83,7 @@ class MainLevel extends AbstractLevel {
         this.cc_button = this.place_image_on_screen("mixer_button", x+600, 225, this.navigate_buttons.bind(this), "Common Chord\nProgression");
         this.cc_button.fnc_call = "cc";
         this.exp_button = this.place_image_on_screen("mixer_button", x+750, 225, this.navigate_buttons.bind(this), "Experiment\nZone");
-        this.exp_button.fnc_call = "experiment";
+        this.exp_button.fnc_call = "experiment";*/
         this.mozart_20 = this.place_image_on_screen("mozart_20", 0, 0, this.mozart_clicked.bind(this));
         this.mozart_text = this.create_textbox(this.mozart_20.x, this.mozart_20.y, 350, "I'm Wolfgang Amadeus Mozart from the Classical period." + 
         "Yeah I know, Wolfgang's a great name. Hey it's a lot better than Chrysostomus Wolfgangus Theophilus, which is how I started out. " + 

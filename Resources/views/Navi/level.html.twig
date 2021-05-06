@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>{{ name }}</title>
+</head>
+<body>
+<div>
+    <canvas id="melodyMixerArea" width="100" height="100"></canvas>
+</div>
+<div id="choice_table">
+    <table id="assignments">
+        <thead>
+        <tr>
+            <th>Example</th>
+            <th>Your Score</th>
+            <th>Max Score</th>
+            <th>Activities:</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Example 1</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['0']}) }}'">Start Basic 1</button></td>
+        </tr>
+        <tr>
+            <td>Example 2</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic2" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['1']}) }}'">Start Basic 2</button></td>
+        </tr>
+        <tr>
+            <td>Example 3</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic3" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['2']}) }}'">Start Basic 3</button></td>
+        </tr>
+        <tr>
+            <td>Example 4</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic4" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['3']}) }}'">Start Basic 4</button></td>
+        </tr>
+        <tr>
+            <td>Example 5</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic5" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['4']}) }}'">Start Basic 5</button></td>
+        </tr>
+        <tr>
+            <td>Example 6</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic6" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['5']}) }}'">Start Basic 6</button></td>
+        </tr>
+        <tr>
+            <td>Example 7</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic7" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['6']}) }}'">Start Basic 7</button></td>
+        </tr>
+        <tr>
+            <td>Example 8</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['7']}) }}'">Start Basic 9</button></td>
+        </tr>
+        <tr>
+            <td>Example 9</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic9" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['8']}) }}'">Start Basic 9</button></td>
+        </tr>
+        <tr>
+            <td>Example 10</td>
+            <td id="score">0</td>
+            <td>100</td>
+            <td><button id="basic10" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['9']}) }}'">Start Basic 10</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    document.addEventListener('readystatechange', (event) => {
+        if(document.readyState === 'complete'){
+            initLevel();
+        }
+    });
+</script>
+{% block footer %}
+    {{ pageAddAsset('stylesheet', zasset('@PaustianMelodyMixerModule:css/custom.css')) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/easeljs.js'), 100) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/preloadjs.js'), 101) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundjs.js'), 103) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/tweenjs.js'), 102) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/ScaleBitmap.js'), 201) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/abstractlevel.js'), 204) }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/' ~ name ~'.js'), 205) }}
+{% endblock %}
+</body>
+</html>

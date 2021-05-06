@@ -25,4 +25,12 @@ use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractGraphicsAndSoundRe
 class GraphicsAndSoundRepository extends AbstractGraphicsAndSoundRepository
 {
     // feel free to add your own methods here, like for example reusable DQL queries
+    public function selectGraphicsAndSoundsFromLevel(int $level) : array {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(array('tbl'))
+            ->from($this->mainEntityClass, 'tbl')
+            ->where($qb->expr()->eq('tbl.levelid', '?1'))
+            ->setParameter(1, $level);
+        return $this->getQueryFromBuilder($qb)->getArrayResult();
+    }
 }

@@ -16,11 +16,26 @@ declare(strict_types=1);
 namespace Paustian\MelodyMixerModule\Menu;
 
 use Paustian\MelodyMixerModule\Menu\Base\AbstractExtensionMenu;
-
+use Knp\Menu\ItemInterface;
 /**
  * This is the extension menu service implementation class.
  */
 class ExtensionMenu extends AbstractExtensionMenu
 {
     // feel free to add own extensions here
+    public function get(string $type = self::TYPE_ADMIN): ?ItemInterface
+    {
+        $menu = parent::get($type);
+        if($type == self::TYPE_ADMIN){
+            $menu->addChild('Tools', [
+                'uri' => '#',
+            ])->setAttribute('icon', 'fas fa-tools')
+                ->setAttribute('dropdown', true);
+
+            $menu->getChild('Tools')->addChild('Import Data', [
+                'route' => 'paustianmelodymixermodule_navi_import',
+            ])->setAttribute('icon', 'fas fa-file-import');
+        }
+        return 0 === $menu->count() ? null : $menu;
+    }
 }

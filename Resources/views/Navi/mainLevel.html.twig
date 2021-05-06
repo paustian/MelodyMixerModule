@@ -3,8 +3,56 @@
 
 </head>
 <body>
-<div>
+<div id="interface_container">
     <canvas id="melodyMixerArea" width="100" height="100"></canvas>
+    <div id="main_level_buttons" class="grid-container">
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'training'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'basics'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'rhythm'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'kss'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'intervals'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'constructs'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item mixer-label">Training Level</div>
+        <div class="grid-item mixer-label">Basics</div>
+        <div class="grid-item mixer-label">Rhythm</div>
+        <div class="grid-item mixer-label">Key Signature<br /> & Scales</div>
+        <div class="grid-item mixer-label">Intervals</div>
+        <div class="grid-item mixer-label">Constructs</div>
+        <div class="grid-item"></div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'triads'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: '7thchords'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'puncuation'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'commonchord'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item">
+            <p><a href="{{ url('paustianmelodymixermodule_navi_level', {name: 'experiment'}) }}"><img src="/images/assets/MixerButton.png" alt="Click on this takes you to the training level"/></a></p>
+        </div>
+        <div class="grid-item"></div>
+        <div class="grid-item mixer-label">Triads</div>
+        <div class="grid-item mixer-label">Seventh Chords</div>
+        <div class="grid-item mixer-label">Puncuation</div>
+        <div class="grid-item mixer-label">Common Chord<br />Progressions</div>
+        <div class="grid-item mixer-label">Experiment Zone</div>
+    </div>
 </div>
 <script>
     document.addEventListener('readystatechange', (event) => {
@@ -14,6 +62,7 @@
     });
 </script>
 {% block footer %}
+    {{ pageAddAsset('stylesheet', zasset('@PaustianMelodyMixerModule:css/custom.css')) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/easeljs.js'), 100) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/preloadjs.js'), 101) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundjs.js'), 103) }}
@@ -21,9 +70,10 @@
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/soundfont-player.min.js'), 202) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midi-parser.js', 200)) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/ScaleBitmap.js'), 201) }}
-    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/vendor/midiplayer.js'), 203) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/abstractlevel.js'), 204) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/mainlevel.js'), 205) }}
 {% endblock %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 </body>
 </html>
