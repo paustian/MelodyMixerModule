@@ -748,8 +748,12 @@ abstract class AbstractCollectionFilterHelper
             $filters[] = 'tbl.levelName LIKE :searchLevelName';
             $parameters['searchLevelName'] = '%' . $fragment . '%';
             if (is_numeric($fragment)) {
-                $filters[] = 'tbl.displayGraphicLevelId = :searchDisplayGraphicLevelId';
-                $parameters['searchDisplayGraphicLevelId'] = $fragment;
+                $filters[] = 'tbl.levelNum = :searchLevelNum';
+                $parameters['searchLevelNum'] = $fragment;
+            }
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.exNum = :searchExNum';
+                $parameters['searchExNum'] = $fragment;
             }
         }
         if ('graphicsAndSound' === $objectType) {

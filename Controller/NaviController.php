@@ -7,6 +7,7 @@ namespace Paustian\MelodyMixerModule\Controller;
 use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Paustian\MelodyMixerModule\Entity\MusicScoreEntity;
 use Paustian\MelodyMixerModule\Form\Type\ImportType;
+use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -113,7 +114,8 @@ class NaviController extends AbstractController
      */
     public function importAction(
         Request $request,
-        PermissionHelper $permissionHelper) : Response
+        PermissionHelper $permissionHelper,
+        WorkflowHelper $workflowHelper) : Response
     {
         if(!$permissionHelper->hasPermission(ACCESS_ADMIN)){
             throw new AccessDeniedException();
@@ -143,10 +145,12 @@ class NaviController extends AbstractController
                     $gAndSEntity->setYDes((int)$gAndSArray[10]);
                     $gAndSEntity->setBoxWidth(0);
                     $gAndSEntity->setGraphicAtBottom(false);
-                    $em->persist($gAndSEntity);
+                    $workflowHelper->executeAction($gAndSEntity, 'submit');
                     $itemName = $gAndSArray[2];
                     $itemExtension =pathinfo($gAndSArray[3], PATHINFO_EXTENSION);
                     if( (str_contains($itemName, 'bar')) && $itemExtension == 'mid'){
+                        //strip the last character, which will be a s
+                        $itemName =  substr($itemName, 0, -1);
                         //this is a string that we want to create a music score matrix for
                         $musicScore = new MusicScoreEntity();
                         $musicScore->setLevelId((int)$gAndSArray[0]);
@@ -161,10 +165,9 @@ class NaviController extends AbstractController
                             //The last charter of the string is the order that we want
                             $musicScore->setMusicOrder((int)$itemName[-1]);
                         }
-                        $em->persist($musicScore);
+                        $workflowHelper->executeAction($musicScore, 'submit');
                     }
                 }
-                $em->flush();
                 $this->addFlash('status', $this->trans('Items Imported'));
             } else {
                 $this->addFlash('error', $this->trans('The file that was picked was invalid or you forgot to pick a file.'));

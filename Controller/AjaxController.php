@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
-use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,40 +81,18 @@ class AjaxController extends AbstractAjaxController
         if (!$permissionHelper->hasComponentPermission('level', ACCESS_READ)) {
             return new JsonResponse($this->trans('Access forbidden since you cannot play Melody Mixer.'), Response::HTTP_FORBIDDEN);
         }
-        $level = $request->request->get('levelid');
+        $level = (int)$request->request->get('levelNum');
+        $exNum = (int)$request->request->get('exNum');
         $repo = $entityFactory->getRepository('GraphicsAndSound');
-        $levelData = $repo->selectWhere("tbl.levelid = $level");
-
-        $graphicData = [];
-        $itemData = [];
-        foreach($levelData as $levelItem){
-            $itemData['gsName'] = $levelItem->getGsName();
-            $itemData['gsPath'] = $levelItem->getGsPath();
-            $itemData['xPos'] = $levelItem->getXPos();
-            $itemData['yPos'] = $levelItem->getYPos();
-            $itemData['descText'] = $levelItem->getDescText();
-            $itemData['label'] = $levelItem->getGsLabel();
-            $itemData['url'] = $levelItem->getGsUrl();
-            $itemData['xDes'] = $levelItem->getXDes();
-            $itemData['yDes'] = $levelItem->getYDes();
-            $itemData['boxWidth'] = $levelItem->getBoxWidth();
-            $itemData['graphicAtBottom'] = $levelItem->getGraphicAtBottom();
-            $itemData['exNum'] = $levelItem->getExNum();
-            $graphicData[] = $itemData;
-        }
+        //Get the matching data from the graphics and sound table
+        $levelData = $repo->selectGraphicsAndSoundsFromLevel($level, $exNum);
 
         $repoScores = $entityFactory->getRepository('MusicScore');
-        $scores = $repoScores->selectWhere("tbl.levelId = $level");
-        $scoreData = [];
-        $scoreArray = [];
-        foreach($scores as $scoreItem){
-            $scoreArray['gsGraphic'] = $scoreItem->getGsGraphic();
-            $scoreArray['gsMidi'] = $scoreItem->getGsMidi();
-            $scoreArray['scoreIt'] = $scoreItem->getScoreIt();
-            $scoreArray['musicOrder'] = $scoreItem->getMusicOrder();
-            $scoreData[] = $scoreArray;
-        }
-        return  new JsonResponse(['graphicData' => $graphicData,
+        //Get the matching data from the MusicScores table.
+        $scoreData = $repoScores->selectMusicScoresFromLevel($level, $exNum);
+
+        return  new JsonResponse(['graphicData' => $levelData,
             'scoreData' => $scoreData]);
     }
 }
+

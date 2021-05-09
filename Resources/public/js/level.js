@@ -31,11 +31,12 @@ class MelodyMixerLevel extends AbstractLevel {
 
 
 
-function initLevel (levelId){
+function initLevel (levelId, exNum){
 
     let mixer = new MelodyMixerLevel();
     //I probably can just change this back to a number
     gLevelId = levelId;
+    gExNum = exNum;
     mixer.init_game();
     g_midiPlayer = MidiPlayer;
     window.addEventListener('resize', mixer, false);

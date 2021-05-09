@@ -261,22 +261,6 @@ abstract class AbstractMusicScoreEntity extends EntityAccess
     }
     
     /**
-     * Determines whether this entity supports hook subscribers or not.
-     */
-    public function supportsHookSubscribers(): bool
-    {
-        return true;
-    }
-    
-    /**
-     * Return lower case name of multiple items needed for hook areas.
-     */
-    public function getHookAreaPrefix(): string
-    {
-        return 'paustianmelodymixermodule.ui_hooks.musicscores';
-    }
-    
-    /**
      * Returns an array of all related objects that need to be persisted after clone.
      */
     public function getRelatedObjectsToPersist(array &$objects = []): array

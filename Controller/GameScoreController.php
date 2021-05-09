@@ -28,7 +28,6 @@ use Paustian\MelodyMixerModule\Entity\GameScoreEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Form\Handler\GameScore\EditHandler;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\ViewHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -242,7 +241,6 @@ class GameScoreController extends AbstractGameScoreController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -254,7 +252,6 @@ class GameScoreController extends AbstractGameScoreController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             true
         );
@@ -277,7 +274,6 @@ class GameScoreController extends AbstractGameScoreController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -289,7 +285,6 @@ class GameScoreController extends AbstractGameScoreController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             false
         );
@@ -308,7 +303,6 @@ class GameScoreController extends AbstractGameScoreController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -316,7 +310,6 @@ class GameScoreController extends AbstractGameScoreController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             true
         );
@@ -334,7 +327,6 @@ class GameScoreController extends AbstractGameScoreController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -342,7 +334,6 @@ class GameScoreController extends AbstractGameScoreController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             false
         );

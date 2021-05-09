@@ -26,8 +26,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\CoreBundle\Controller\AbstractController;
 use Zikula\Bundle\FormExtensionBundle\Form\Type\DeletionType;
-use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
-use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
@@ -35,7 +33,6 @@ use Paustian\MelodyMixerModule\Entity\LevelEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Form\Handler\Level\EditHandler;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\ViewHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -125,7 +122,8 @@ abstract class AbstractLevelController extends AbstractController
         
         $sortableColumns->addColumns([
             new Column('levelName'),
-            new Column('displayGraphicLevelId'),
+            new Column('levelNum'),
+            new Column('exNum'),
             new Column('createdBy'),
             new Column('createdDate'),
             new Column('updatedBy'),
@@ -135,8 +133,7 @@ abstract class AbstractLevelController extends AbstractController
         $templateParameters = $controllerHelper->processViewActionParameters(
             $objectType,
             $sortableColumns,
-            $templateParameters,
-            true
+            $templateParameters
         );
         
         // filter by permissions
@@ -167,7 +164,6 @@ abstract class AbstractLevelController extends AbstractController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id,
         bool $isAdmin = false
     ): Response {
@@ -194,12 +190,12 @@ abstract class AbstractLevelController extends AbstractController
         $logArgs = ['app' => 'PaustianMelodyMixerModule', 'user' => $currentUserApi->get('uname'), 'entity' => 'level', 'id' => $level->getKey()];
         
         // determine available workflow actions
-        /*$actions = $workflowHelper->getActionsForObject($level);
+        $actions = $workflowHelper->getActionsForObject($level);
         if (false === $actions || !is_array($actions)) {
             $this->addFlash('error', 'Error! Could not determine workflow actions.');
             $logger->error('{app}: User {user} tried to delete the {entity} with id {id}, but failed to determine available workflow actions.', $logArgs);
             throw new RuntimeException($this->trans('Error! Could not determine workflow actions.'));
-        }*/
+        }
         
         // redirect to the list of levels
         $redirectRoute = 'paustianmelodymixermodule_level_' . ($isAdmin ? 'admin' : '') . 'view';
@@ -229,71 +225,25 @@ abstract class AbstractLevelController extends AbstractController
         }
         
         $form = $this->createForm(DeletionType::class, $level);
-        if ($level->supportsHookSubscribers()) {
-            // call form aware display hooks
-            $formHook = $hookHelper->callFormDisplayHooks($form, $level, FormAwareCategory::TYPE_DELETE);
-        }
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('delete')->isClicked()) {
-                if ($level->supportsHookSubscribers()) {
-                    // Let any ui hooks perform additional validation actions
-                    $validationErrors = $hookHelper->callValidationHooks($level, UiHooksCategory::TYPE_VALIDATE_DELETE);
-                    if (0 < count($validationErrors)) {
-                        foreach ($validationErrors as $message) {
-                            $this->addFlash('error', $message);
-                        }
-                    } else {
-                        // execute the workflow action
-                        $success = $workflowHelper->executeAction($level, $deleteActionId);
-                        if ($success) {
-                            $this->addFlash(
-                                'status',
-                                $this->trans(
-                                    'Done! Level deleted.',
-                                    [],
-                                    'level'
-                                )
-                            );
-                            $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
-                        }
-                        
-                        if ($level->supportsHookSubscribers()) {
-                            // Call form aware processing hooks
-                            $hookHelper->callFormProcessHooks($form, $level, FormAwareCategory::TYPE_PROCESS_DELETE);
-                        
-                            // Let any ui hooks know that we have deleted the level
-                            $hookHelper->callProcessHooks($level, UiHooksCategory::TYPE_PROCESS_DELETE);
-                        }
-                        
-                        return $this->redirectToRoute($redirectRoute);
-                    }
-                } else {
-                    // execute the workflow action
-                    $success = $workflowHelper->executeAction($level, $deleteActionId);
-                    if ($success) {
-                        $this->addFlash(
-                            'status',
-                            $this->trans(
-                                'Done! Level deleted.',
-                                [],
-                                'level'
-                            )
-                        );
-                        $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
-                    }
-                    
-                    if ($level->supportsHookSubscribers()) {
-                        // Call form aware processing hooks
-                        $hookHelper->callFormProcessHooks($form, $level, FormAwareCategory::TYPE_PROCESS_DELETE);
-                    
-                        // Let any ui hooks know that we have deleted the level
-                        $hookHelper->callProcessHooks($level, UiHooksCategory::TYPE_PROCESS_DELETE);
-                    }
-                    
-                    return $this->redirectToRoute($redirectRoute);
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($level, $deleteActionId);
+                if ($success) {
+                    $this->addFlash(
+                        'status',
+                        $this->trans(
+                            'Done! Level deleted.',
+                            [],
+                            'level'
+                        )
+                    );
+                    $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
                 }
+                
+                return $this->redirectToRoute($redirectRoute);
             } elseif ($form->get('cancel')->isClicked()) {
                 $this->addFlash('status', 'Operation cancelled.');
         
@@ -306,11 +256,8 @@ abstract class AbstractLevelController extends AbstractController
             'deleteForm' => $form->createView(),
             $objectType => $level
         ];
-        if ($level->supportsHookSubscribers()) {
-            $templateParameters['formHookTemplates'] = $formHook->getTemplates();
-        }
         
-        $templateParameters = $controllerHelper->processDeleteActionParameters($objectType, $templateParameters, true);
+        $templateParameters = $controllerHelper->processDeleteActionParameters($objectType, $templateParameters);
         
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($objectType, 'delete', $templateParameters);
@@ -330,7 +277,6 @@ abstract class AbstractLevelController extends AbstractController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi,
         bool $isAdmin = false
     ): RedirectResponse {
@@ -362,21 +308,6 @@ abstract class AbstractLevelController extends AbstractController
             if (!in_array($action, $actionIds, true)) {
                 // action not allowed, skip this object
                 continue;
-            }
-        
-            if ($entity->supportsHookSubscribers()) {
-                // Let any ui hooks perform additional validation actions
-                $hookType = 'delete' === $action
-                    ? UiHooksCategory::TYPE_VALIDATE_DELETE
-                    : UiHooksCategory::TYPE_VALIDATE_EDIT
-                ;
-                $validationErrors = $hookHelper->callValidationHooks($entity, $hookType);
-                if (count($validationErrors) > 0) {
-                    foreach ($validationErrors as $message) {
-                        $this->addFlash('error', $message);
-                    }
-                    continue;
-                }
             }
         
             $success = false;
@@ -446,16 +377,6 @@ abstract class AbstractLevelController extends AbstractController
                         'id' => $itemId
                     ]
                 );
-            }
-        
-            if ($entity->supportsHookSubscribers()) {
-                // Let any ui hooks know that we have updated or deleted an item
-                $hookType = 'delete' === $action
-                    ? UiHooksCategory::TYPE_PROCESS_DELETE
-                    : UiHooksCategory::TYPE_PROCESS_EDIT
-                ;
-                $url = null;
-                $hookHelper->callProcessHooks($entity, $hookType, $url);
             }
         }
         

@@ -25,4 +25,13 @@ use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractMusicScoreReposito
 class MusicScoreRepository extends AbstractMusicScoreRepository
 {
     // feel free to add your own methods here, like for example reusable DQL queries
+    public function selectMusicScoresFromLevel(int $level, int $exNum) : array {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(array('tbl'))
+            ->from($this->mainEntityClass, 'tbl')
+            ->where($qb->expr()->eq('tbl.levelId', '?1'))
+            ->andWhere($qb->expr()->eq('tbl.exNum', '?2'))
+            ->setParameters([1 => $level, 2 => $exNum]);
+        return $this->getQueryFromBuilder($qb)->getArrayResult();
+    }
 }

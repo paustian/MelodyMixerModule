@@ -1,0 +1,20 @@
+<fieldset>
+    <h3>
+        <span class="fas fa-plus"></span>
+        {{ "Create Levels" | trans }}
+        {{ pageSetVar('title', 'Create Levels'|trans) }}
+    </h3>
+    {{ showflashes() }}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <fieldset>
+        <legend>{{ "Level Name"|trans }}</legend>
+        {{ form_row(form.levelname) }}
+        {{ form_row(form.levelnumber) }}
+        {{ form_row(form.numexamples) }}
+        <div class="col-lg-offset-3 col-lg-9">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-success'}}) }}
+        </div>
+    </fieldset>
+    {{ form_end(form) }}
+    </div>

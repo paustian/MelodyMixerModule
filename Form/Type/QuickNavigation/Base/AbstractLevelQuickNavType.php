@@ -225,7 +225,8 @@ abstract class AbstractLevelQuickNavType extends AbstractType
                 ],
                 'choices' => [
                     'Level name' => 'levelName',
-                    'Display graphic level id' => 'displayGraphicLevelId',
+                    'Level num' => 'levelNum',
+                    'Ex num' => 'exNum',
                     'Creation date' => 'createdDate',
                     'Creator' => 'createdBy',
                     'Update date' => 'updatedDate',

@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Paustian\MelodyMixerModule\Controller;
 
 use Paustian\MelodyMixerModule\Controller\Base\AbstractLevelController;
+use Paustian\MelodyMixerModule\Form\Type\FillLevelType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,6 @@ use Paustian\MelodyMixerModule\Entity\LevelEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Form\Handler\Level\EditHandler;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\ViewHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -177,7 +177,6 @@ class LevelController extends AbstractLevelController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -189,7 +188,6 @@ class LevelController extends AbstractLevelController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             true
         );
@@ -212,7 +210,6 @@ class LevelController extends AbstractLevelController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -224,7 +221,6 @@ class LevelController extends AbstractLevelController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             false
         );
@@ -243,7 +239,6 @@ class LevelController extends AbstractLevelController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -251,7 +246,6 @@ class LevelController extends AbstractLevelController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             true
         );
@@ -269,7 +263,6 @@ class LevelController extends AbstractLevelController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -277,7 +270,6 @@ class LevelController extends AbstractLevelController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             false
         );
@@ -300,9 +292,45 @@ class LevelController extends AbstractLevelController
         if(!$permissionHelper->hasEntityPermission($level, ACCESS_COMMENT)){
             return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
-        //return $this->render('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
+
         $output = $this->renderView('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
         $output = $assetFilter->filter($output);
         return new PlainResponse($output);
     }
+
+    /**
+     *
+     * @Route("/levels/filllevel", methods = {"GET", "POST"})
+     *
+     * @Theme("admin")
+     */
+    public function fillLevelAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        WorkflowHelper $workflowHelper) : Response{
+        if(!$permissionHelper->hasPermission(ACCESS_ADMIN)){
+            throw new AccessDeniedException();
+        }
+        $form = $this->createForm(FillLevelType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $levelName = $form->get('levelname')->getData();
+            $levelNumber = (int)$form->get('levelnumber')->getData();
+            $numExamples = (int)$form->get('numexamples')->getData() + 1;
+            if(($levelName !== null) && ($levelNumber !== null)){
+                for($i = 1; $i < $numExamples; $i++){
+                    $level = new LevelEntity();
+                    $level->setLevelName($levelName);
+                    $level->setLevelNum($levelNumber);
+                    $level->setExNum($i);
+                    $workflowHelper->executeAction($level, 'submit');
+                }
+            }
+            $this->addFlash('status', $this->trans('Levels Created'));
+        }
+        return $this->render('@PaustianMelodyMixerModule/Level/fillLevel.html.twig', ['form' => $form->createView()]);
+    }
+
 }

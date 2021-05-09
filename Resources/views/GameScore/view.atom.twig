@@ -18,7 +18,7 @@
     <rights>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</rights>
 {% for gameScore in items %}
     <entry>
-        <title type="html">{{ gameScore|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.gamescores')|safeHtml }}</title>
+        <title type="html">{{ gameScore|paustianmelodymixermodule_formattedTitle }}</title>
         <link rel="alternate" type="text/html" href="{{ url('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'view') }}" />
         {% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({ 'http://': '', '/': '' }) }},{{ gameScore.createdDate|date('Y-m-d') }}:{{ path('paustianmelodymixermodule_gamescore_' ~ routeArea ~ 'view') }}{% endset %}
         <id>{{ uniqueID }}</id>

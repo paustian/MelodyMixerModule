@@ -101,8 +101,8 @@ abstract class AbstractLevelType extends AbstractType
             'required' => true,
         ]);
         
-        $builder->add('displayGraphicLevelId', IntegerType::class, [
-            'label' => 'Display graphic level id:',
+        $builder->add('levelNum', IntegerType::class, [
+            'label' => 'Level num:',
             'label_attr' => [
                 'class' => 'tooltips',
                 'title' => 'The ID of this level. This must match the ID in Graphics and Sounds and Music Scores'
@@ -112,7 +112,23 @@ abstract class AbstractLevelType extends AbstractType
             'attr' => [
                 'maxlength' => 11,
                 'class' => '',
-                'title' => 'Enter the display graphic level id of the level. Only digits are allowed.'
+                'title' => 'Enter the level num of the level. Only digits are allowed.'
+            ],
+            'required' => true,
+        ]);
+        
+        $builder->add('exNum', IntegerType::class, [
+            'label' => 'Ex num:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The example number in the level. Normally 1 to 10'
+            ],
+            'help' => 'The example number in the level. Normally 1 to 10',
+            'empty_data' => 0,
+            'attr' => [
+                'maxlength' => 11,
+                'class' => '',
+                'title' => 'Enter the ex num of the level. Only digits are allowed.'
             ],
             'required' => true,
         ]);

@@ -28,7 +28,7 @@
 <script>
     document.addEventListener('readystatechange', (event) => {
         if(document.readyState === 'complete'){
-            initLevel({{ level.displayGraphicLevelId }});
+            initLevel({{ level.levelNum }}, {{ level.exNum }});
         }
     });
 </script>

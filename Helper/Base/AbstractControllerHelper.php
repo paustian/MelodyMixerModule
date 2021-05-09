@@ -20,7 +20,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
-use Zikula\Bundle\CoreBundle\RouteUrl;
 use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
@@ -126,8 +125,7 @@ abstract class AbstractControllerHelper
     public function processViewActionParameters(
         string $objectType,
         SortableColumns $sortableColumns,
-        array $templateParameters = [],
-        bool $hasHookSubscriber = false
+        array $templateParameters = []
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'view'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {
@@ -252,13 +250,6 @@ abstract class AbstractControllerHelper
         $templateParameters['sortdir'] = $sortdir;
         $templateParameters['items'] = $entities;
     
-        if (true === $hasHookSubscriber) {
-            // build RouteUrl instance for display hooks
-            $urlParameters['_locale'] = $request->getLocale();
-            $routeName = 'paustianmelodymixermodule_' . strtolower($objectType) . '_view';
-            $templateParameters['currentUrlObject'] = new RouteUrl($routeName, $urlParameters);
-        }
-    
         $templateParameters['sort'] = $sortableColumns->generateSortableColumns();
         $templateParameters['quickNavForm'] = $quickNavForm->createView();
     
@@ -322,8 +313,7 @@ abstract class AbstractControllerHelper
      */
     public function processDeleteActionParameters(
         string $objectType,
-        array $templateParameters = [],
-        bool $hasHookSubscriber = false
+        array $templateParameters = []
     ): array {
         $contextArgs = ['controller' => $objectType, 'action' => 'delete'];
         if (!in_array($objectType, $this->getObjectTypes('controllerAction', $contextArgs), true)) {

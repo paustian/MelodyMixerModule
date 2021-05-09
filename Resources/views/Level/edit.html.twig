@@ -15,19 +15,12 @@
         <fieldset>
             <legend>{% trans from 'messages' %}Content{% endtrans %}</legend>
             {{ form_row(form.levelName) }}
-            {{ form_row(form.displayGraphicLevelId) }}
+            {{ form_row(form.levelNum) }}
+            {{ form_row(form.exNum) }}
         </fieldset>
         
         {% if mode != 'create' %}
             {{ include('@PaustianMelodyMixerModule/Helper/includeStandardFieldsEdit.html.twig', {obj: level}) }}
-        {% endif %}
-        
-        {% if supportsHookSubscribers and formHookTemplates|length > 0 %}
-            <fieldset>
-                {% for hookTemplate in formHookTemplates %}
-                    {{ include(hookTemplate.0, hookTemplate.1, ignore_missing = true) }}
-                {% endfor %}
-            </fieldset>
         {% endif %}
         
         {% if form.moderationSpecificCreator is defined or form.moderationSpecificCreationDate is defined %}
@@ -69,16 +62,6 @@
             </div>
         {% endif %}
         {{ form_end(form) }}
-        {% if supportsHookSubscribers %}
-            {% set hookId = mode != 'create' ? level.id : null %}
-            {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.levels.form_edit', id=hookId, outputAsArray=true) %}
-            {% if hooks is iterable and hooks|length > 0 %}
-                {% for area, hook in hooks %}
-                    <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endif %}
-        
     </div>
 {% endblock %}
 {% block footer %}

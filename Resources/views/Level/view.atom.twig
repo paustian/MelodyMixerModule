@@ -18,7 +18,7 @@
     <rights>Copyright (c) {{ 'now'|date('Y') }}, {{ app.request.schemeAndHttpHost }}</rights>
 {% for level in items %}
     <entry>
-        <title type="html">{{ level|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.levels')|safeHtml }}</title>
+        <title type="html">{{ level|paustianmelodymixermodule_formattedTitle }}</title>
         <link rel="alternate" type="text/html" href="{{ url('paustianmelodymixermodule_level_' ~ routeArea ~ 'view') }}" />
         {% set uniqueID %}tag:{{ app.request.schemeAndHttpHost|replace({ 'http://': '', '/': '' }) }},{{ level.createdDate|date('Y-m-d') }}:{{ path('paustianmelodymixermodule_level_' ~ routeArea ~ 'view') }}{% endset %}
         <id>{{ uniqueID }}</id>

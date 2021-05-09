@@ -27,17 +27,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\Bundle\CoreBundle\HttpKernel\ZikulaHttpKernelInterface;
-use Zikula\Bundle\CoreBundle\RouteUrl;
 use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
-use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
-use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\PageLockModule\Api\ApiInterface\LockingApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
 use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\ModelHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -200,11 +196,6 @@ abstract class AbstractEditHandler
     protected $workflowHelper;
 
     /**
-     * @var HookHelper
-     */
-    protected $hookHelper;
-
-    /**
      * Reference to optional locking api.
      *
      * @var LockingApiInterface
@@ -239,8 +230,7 @@ abstract class AbstractEditHandler
         ControllerHelper $controllerHelper,
         ModelHelper $modelHelper,
         PermissionHelper $permissionHelper,
-        WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper
+        WorkflowHelper $workflowHelper
     ) {
         $this->kernel = $kernel;
         $this->setTranslator($translator);
@@ -256,7 +246,6 @@ abstract class AbstractEditHandler
         $this->modelHelper = $modelHelper;
         $this->permissionHelper = $permissionHelper;
         $this->workflowHelper = $workflowHelper;
-        $this->hookHelper = $hookHelper;
     }
 
     /**
@@ -397,12 +386,6 @@ abstract class AbstractEditHandler
             return false;
         }
     
-        if (method_exists($entity, 'supportsHookSubscribers') && $entity->supportsHookSubscribers()) {
-            // Call form aware display hooks
-            $formHook = $this->hookHelper->callFormDisplayHooks($this->form, $entity, FormAwareCategory::TYPE_EDIT);
-            $this->templateParameters['formHookTemplates'] = $formHook->getTemplates();
-        }
-    
         // handle form request and check validity constraints of edited entity
         $this->form->handleRequest($request);
         if ($this->form->isSubmitted()) {
@@ -538,62 +521,12 @@ abstract class AbstractEditHandler
             $this->repeatCreateAction = true;
         }
     
-        $action = $args['commandName'];
-    
         $this->fetchInputData();
-    
-        // get treated entity reference from persisted member var
-        $entity = $this->entityRef;
-    
-        if (method_exists($entity, 'supportsHookSubscribers') && $entity->supportsHookSubscribers()) {
-            // Let any ui hooks perform additional validation actions
-            $hookType = 'delete' === $action
-                ? UiHooksCategory::TYPE_VALIDATE_DELETE
-                : UiHooksCategory::TYPE_VALIDATE_EDIT
-            ;
-            $validationErrors = $this->hookHelper->callValidationHooks($entity, $hookType);
-            if (0 < count($validationErrors)) {
-                $request = $this->requestStack->getCurrentRequest();
-                if ($request->hasSession() && ($session = $request->getSession())) {
-                    foreach ($validationErrors as $message) {
-                        $session->getFlashBag()->add('error', $message);
-                    }
-                }
-    
-                return false;
-            }
-        }
     
         $success = $this->applyAction($args);
         if (!$success) {
             // the workflow operation failed
             return false;
-        }
-    
-        if (method_exists($entity, 'supportsHookSubscribers') && $entity->supportsHookSubscribers()) {
-            $entitiesWithDisplayAction = [''];
-            $hasDisplayAction = in_array($this->objectType, $entitiesWithDisplayAction, true);
-    
-            $routeUrl = null;
-            if ($hasDisplayAction && 'delete' !== $action) {
-                $urlArgs = $entity->createUrlArgs();
-                $urlArgs['_locale'] = $this->requestStack->getCurrentRequest()->getLocale();
-                $routeUrl = new RouteUrl('paustianmelodymixermodule_' . $this->objectTypeLower . '_display', $urlArgs);
-            }
-    
-            // Call form aware processing hooks
-            $hookType = 'delete' === $action
-                ? FormAwareCategory::TYPE_PROCESS_DELETE
-                : FormAwareCategory::TYPE_PROCESS_EDIT
-            ;
-            $this->hookHelper->callFormProcessHooks($this->form, $entity, $hookType, $routeUrl);
-    
-            // Let any ui hooks know that we have created, updated or deleted an item
-            $hookType = 'delete' === $action
-                ? UiHooksCategory::TYPE_PROCESS_DELETE
-                : UiHooksCategory::TYPE_PROCESS_EDIT
-            ;
-            $this->hookHelper->callProcessHooks($entity, $hookType, $routeUrl);
         }
     
         if (

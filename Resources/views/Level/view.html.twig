@@ -22,7 +22,8 @@
                     {% endif %}
                     <col id="cItemActionsStart" />
                     <col id="cLevelName" />
-                    <col id="cDisplayGraphicLevelId" />
+                    <col id="cLevelNum" />
+                    <col id="cExNum" />
                 </colgroup>
                 <thead>
                 <tr>
@@ -35,8 +36,11 @@
                     <th id="hLevelName" scope="col" class="text-left">
                         <a href="{{ sort.levelName.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'level name'}, 'messages')|e('html_attr') }}" class="{{ sort.levelName.class }}">{% trans %}Level name{% endtrans %}</a>
                     </th>
-                    <th id="hDisplayGraphicLevelId" scope="col" class="text-right">
-                        <a href="{{ sort.displayGraphicLevelId.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'display graphic level id'}, 'messages')|e('html_attr') }}" class="{{ sort.displayGraphicLevelId.class }}">{% trans %}Display graphic level id{% endtrans %}</a>
+                    <th id="hLevelNum" scope="col" class="text-right">
+                        <a href="{{ sort.levelNum.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'level num'}, 'messages')|e('html_attr') }}" class="{{ sort.levelNum.class }}">{% trans %}Level num{% endtrans %}</a>
+                    </th>
+                    <th id="hExNum" scope="col" class="text-right">
+                        <a href="{{ sort.exNum.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'ex num'}, 'messages')|e('html_attr') }}" class="{{ sort.exNum.class }}">{% trans %}Ex num{% endtrans %}</a>
                     </th>
                 </tr>
                 </thead>
@@ -59,13 +63,16 @@
                     <td headers="hLevelName" class="text-left">
                         {{ level.levelName }}
                     </td>
-                    <td headers="hDisplayGraphicLevelId" class="text-right">
-                        {{ level.displayGraphicLevelId }}
+                    <td headers="hLevelNum" class="text-right">
+                        {{ level.levelNum }}
+                    </td>
+                    <td headers="hExNum" class="text-right">
+                        {{ level.exNum }}
                     </td>
                 </tr>
             {% else %}
                 <tr class="table-info">
-                    <td colspan="{% if routeArea == 'admin' %}4{% else %}3{% endif %}" class="text-center">
+                    <td colspan="{% if routeArea == 'admin' %}5{% else %}4{% endif %}" class="text-center">
                 {% trans %}No levels found.{% endtrans %}
                   </td>
                 </tr>
@@ -96,18 +103,5 @@
             </div>
         </form>
         {% endif %}
-
-        {{ block('display_hooks') }}
     </div>
-{% endblock %}
-{% block display_hooks %}
-    {# here you can activate calling display hooks for the view page if you need it #}
-    {# % if routeArea != 'admin' %}
-        {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.levels.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
-        {% if hooks is iterable and hooks|length > 0 %}
-            {% for area, hook in hooks %}
-                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endif % #}
 {% endblock %}

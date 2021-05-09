@@ -26,8 +26,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zikula\Bundle\CoreBundle\Controller\AbstractController;
 use Zikula\Bundle\FormExtensionBundle\Form\Type\DeletionType;
-use Zikula\Bundle\HookBundle\Category\FormAwareCategory;
-use Zikula\Bundle\HookBundle\Category\UiHooksCategory;
 use Zikula\Component\SortableColumns\Column;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
@@ -35,7 +33,6 @@ use Paustian\MelodyMixerModule\Entity\MusicScoreEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Form\Handler\MusicScore\EditHandler;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\ViewHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -98,8 +95,7 @@ abstract class AbstractMusicScoreController extends AbstractController
         $templateParameters = $controllerHelper->processViewActionParameters(
             $objectType,
             $sortableColumns,
-            $templateParameters,
-            true
+            $templateParameters
         );
         
         // filter by permissions
@@ -171,7 +167,6 @@ abstract class AbstractMusicScoreController extends AbstractController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id,
         bool $isAdmin = false
     ): Response {
@@ -233,71 +228,25 @@ abstract class AbstractMusicScoreController extends AbstractController
         }
         
         $form = $this->createForm(DeletionType::class, $musicScore);
-        if ($musicScore->supportsHookSubscribers()) {
-            // call form aware display hooks
-            $formHook = $hookHelper->callFormDisplayHooks($form, $musicScore, FormAwareCategory::TYPE_DELETE);
-        }
         
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('delete')->isClicked()) {
-                if ($musicScore->supportsHookSubscribers()) {
-                    // Let any ui hooks perform additional validation actions
-                    $validationErrors = $hookHelper->callValidationHooks($musicScore, UiHooksCategory::TYPE_VALIDATE_DELETE);
-                    if (0 < count($validationErrors)) {
-                        foreach ($validationErrors as $message) {
-                            $this->addFlash('error', $message);
-                        }
-                    } else {
-                        // execute the workflow action
-                        $success = $workflowHelper->executeAction($musicScore, $deleteActionId);
-                        if ($success) {
-                            $this->addFlash(
-                                'status',
-                                $this->trans(
-                                    'Done! Music score deleted.',
-                                    [],
-                                    'musicScore'
-                                )
-                            );
-                            $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
-                        }
-                        
-                        if ($musicScore->supportsHookSubscribers()) {
-                            // Call form aware processing hooks
-                            $hookHelper->callFormProcessHooks($form, $musicScore, FormAwareCategory::TYPE_PROCESS_DELETE);
-                        
-                            // Let any ui hooks know that we have deleted the music score
-                            $hookHelper->callProcessHooks($musicScore, UiHooksCategory::TYPE_PROCESS_DELETE);
-                        }
-                        
-                        return $this->redirectToRoute($redirectRoute);
-                    }
-                } else {
-                    // execute the workflow action
-                    $success = $workflowHelper->executeAction($musicScore, $deleteActionId);
-                    if ($success) {
-                        $this->addFlash(
-                            'status',
-                            $this->trans(
-                                'Done! Music score deleted.',
-                                [],
-                                'musicScore'
-                            )
-                        );
-                        $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
-                    }
-                    
-                    if ($musicScore->supportsHookSubscribers()) {
-                        // Call form aware processing hooks
-                        $hookHelper->callFormProcessHooks($form, $musicScore, FormAwareCategory::TYPE_PROCESS_DELETE);
-                    
-                        // Let any ui hooks know that we have deleted the music score
-                        $hookHelper->callProcessHooks($musicScore, UiHooksCategory::TYPE_PROCESS_DELETE);
-                    }
-                    
-                    return $this->redirectToRoute($redirectRoute);
+                // execute the workflow action
+                $success = $workflowHelper->executeAction($musicScore, $deleteActionId);
+                if ($success) {
+                    $this->addFlash(
+                        'status',
+                        $this->trans(
+                            'Done! Music score deleted.',
+                            [],
+                            'musicScore'
+                        )
+                    );
+                    $logger->notice('{app}: User {user} deleted the {entity} with id {id}.', $logArgs);
                 }
+                
+                return $this->redirectToRoute($redirectRoute);
             } elseif ($form->get('cancel')->isClicked()) {
                 $this->addFlash('status', 'Operation cancelled.');
         
@@ -310,11 +259,8 @@ abstract class AbstractMusicScoreController extends AbstractController
             'deleteForm' => $form->createView(),
             $objectType => $musicScore
         ];
-        if ($musicScore->supportsHookSubscribers()) {
-            $templateParameters['formHookTemplates'] = $formHook->getTemplates();
-        }
         
-        $templateParameters = $controllerHelper->processDeleteActionParameters($objectType, $templateParameters, true);
+        $templateParameters = $controllerHelper->processDeleteActionParameters($objectType, $templateParameters);
         
         // fetch and return the appropriate template
         return $viewHelper->processTemplate($objectType, 'delete', $templateParameters);
@@ -334,7 +280,6 @@ abstract class AbstractMusicScoreController extends AbstractController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi,
         bool $isAdmin = false
     ): RedirectResponse {
@@ -366,21 +311,6 @@ abstract class AbstractMusicScoreController extends AbstractController
             if (!in_array($action, $actionIds, true)) {
                 // action not allowed, skip this object
                 continue;
-            }
-        
-            if ($entity->supportsHookSubscribers()) {
-                // Let any ui hooks perform additional validation actions
-                $hookType = 'delete' === $action
-                    ? UiHooksCategory::TYPE_VALIDATE_DELETE
-                    : UiHooksCategory::TYPE_VALIDATE_EDIT
-                ;
-                $validationErrors = $hookHelper->callValidationHooks($entity, $hookType);
-                if (count($validationErrors) > 0) {
-                    foreach ($validationErrors as $message) {
-                        $this->addFlash('error', $message);
-                    }
-                    continue;
-                }
             }
         
             $success = false;
@@ -450,16 +380,6 @@ abstract class AbstractMusicScoreController extends AbstractController
                         'id' => $itemId
                     ]
                 );
-            }
-        
-            if ($entity->supportsHookSubscribers()) {
-                // Let any ui hooks know that we have updated or deleted an item
-                $hookType = 'delete' === $action
-                    ? UiHooksCategory::TYPE_PROCESS_DELETE
-                    : UiHooksCategory::TYPE_PROCESS_EDIT
-                ;
-                $url = null;
-                $hookHelper->callProcessHooks($entity, $hookType, $url);
             }
         }
         

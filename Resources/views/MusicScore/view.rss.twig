@@ -27,7 +27,7 @@
         <webMaster>{{ getSystemVar('adminmail') }}</webMaster>
 {% for musicScore in items %}
     <item>
-        <title><![CDATA[{{ musicScore|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.musicscores')|safeHtml }}]]></title>
+        <title><![CDATA[{{ musicScore|paustianmelodymixermodule_formattedTitle }}]]></title>
         <link>{{ url('paustianmelodymixermodule_musicscore_' ~ routeArea ~ 'view') }}</link>
         <guid>{{ url('paustianmelodymixermodule_musicscore_' ~ routeArea ~ 'view') }}</guid>
         {% if musicScore.createdBy|default and musicScore.createdBy.getUid() > 0 %}

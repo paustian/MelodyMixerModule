@@ -9,10 +9,12 @@ application "MelodyMixer" targets ZK30 {
     generateSearchApi false
     generateModerationPanel false
     generateScribitePlugins false
+    markFiles "Controller/LevelController.php\nController/MusicScoreController.php\nController/AjaxController.php"
     entities {
         entity "gameScore" leading {
             nameMultiple "gameScores"
             displayPattern "#lastName,#firstName"
+            skipHookSubscribers true
             fields {
                 user "playerUid" unique,
                 email "playerEmail" {
@@ -38,6 +40,7 @@ application "MelodyMixer" targets ZK30 {
         entity "score" {
             nameMultiple "scores"
             displayPattern "#levelName"
+            skipHookSubscribers true
             fields {
                 integer "levelId" {
                     defaultValue "0"
@@ -120,12 +123,18 @@ application "MelodyMixer" targets ZK30 {
         entity "level" {
             nameMultiple "levels"
             displayPattern "#levelName"
+            skipHookSubscribers true
             fields {
                 string "levelName" {
                     documentation "The name of the level for Melody Mixer"
                 },
-                integer "displayGraphicLevelId" {
+                integer "levelNum" {
                     documentation "The ID of this level. This must match the ID in Graphics and Sounds and Music Scores"
+                    defaultValue "0"
+                }
+            ,
+                integer "exNum" {
+                    documentation "The example number in the level. Normally 1 to 10"
                     defaultValue "0"
                 }
             }
@@ -138,6 +147,7 @@ application "MelodyMixer" targets ZK30 {
         entity "graphicsAndSound" {
             nameMultiple "graphicsAndSound"
             displayPattern "#levelId,#gsName,#gsPath"
+            skipHookSubscribers true
             fields {
                 integer "levelid" {
                     defaultValue "0"
@@ -204,6 +214,7 @@ application "MelodyMixer" targets ZK30 {
         entity "musicScore" {
             nameMultiple "musicScores"
             displayPattern "#levelId,#gsGraphic,#gsMidi"
+            skipHookSubscribers true
             fields {
                 integer "levelId" {
                     defaultValue "0"

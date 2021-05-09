@@ -28,7 +28,6 @@ use Paustian\MelodyMixerModule\Entity\MusicScoreEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Form\Handler\MusicScore\EditHandler;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
-use Paustian\MelodyMixerModule\Helper\HookHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 use Paustian\MelodyMixerModule\Helper\ViewHelper;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
@@ -174,7 +173,6 @@ class MusicScoreController extends AbstractMusicScoreController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -186,7 +184,6 @@ class MusicScoreController extends AbstractMusicScoreController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             true
         );
@@ -209,7 +206,6 @@ class MusicScoreController extends AbstractMusicScoreController
         EntityFactory $entityFactory,
         CurrentUserApiInterface $currentUserApi,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         int $id
     ): Response {
         return $this->deleteInternal(
@@ -221,7 +217,6 @@ class MusicScoreController extends AbstractMusicScoreController
             $entityFactory,
             $currentUserApi,
             $workflowHelper,
-            $hookHelper,
             $id,
             false
         );
@@ -240,7 +235,6 @@ class MusicScoreController extends AbstractMusicScoreController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -248,7 +242,6 @@ class MusicScoreController extends AbstractMusicScoreController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             true
         );
@@ -266,7 +259,6 @@ class MusicScoreController extends AbstractMusicScoreController
         LoggerInterface $logger,
         EntityFactory $entityFactory,
         WorkflowHelper $workflowHelper,
-        HookHelper $hookHelper,
         CurrentUserApiInterface $currentUserApi
     ): RedirectResponse {
         return $this->handleSelectedEntriesActionInternal(
@@ -274,7 +266,6 @@ class MusicScoreController extends AbstractMusicScoreController
             $logger,
             $entityFactory,
             $workflowHelper,
-            $hookHelper,
             $currentUserApi,
             false
         );

@@ -59,7 +59,8 @@ abstract class AbstractLevelRepository extends EntityRepository
     {
         return [
             'levelName',
-            'displayGraphicLevelId',
+            'levelNum',
+            'exNum',
             'createdBy',
             'createdDate',
             'updatedBy',

@@ -173,18 +173,5 @@
             </div>
         </form>
         {% endif %}
-
-        {{ block('display_hooks') }}
     </div>
-{% endblock %}
-{% block display_hooks %}
-    {# here you can activate calling display hooks for the view page if you need it #}
-    {# % if routeArea != 'admin' %}
-        {% set hooks = notifyDisplayHooks(eventName='paustianmelodymixermodule.ui_hooks.scores.display_view', urlObject=currentUrlObject, outputAsArray=true) %}
-        {% if hooks is iterable and hooks|length > 0 %}
-            {% for area, hook in hooks %}
-                <div class="z-displayhook" data-area="{{ area|e('html_attr') }}">{{ hook|raw }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endif % #}
 {% endblock %}

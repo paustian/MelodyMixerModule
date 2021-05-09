@@ -1,9 +1,10 @@
 let g_canvas = '';
 let g_stage = '';
-let g_dir = "/images/assets/";
+let g_dir = "";
 let g_font = "16px Arial"
 let g_color = "#FFFFFF";
 let gLevelId = 0;
+let gExNum = 0;
 let gMaxWidth = 1300;
 
 class AbstractLevel {
@@ -28,7 +29,7 @@ class AbstractLevel {
         this.queue.on("complete", this.assets_loaded.bind(this));
         this.send_ajax(
             "paustianmelodymixermodule_ajax_getleveldata",
-            {"levelid": gLevelId},
+            {"levelNum": gLevelId, "exNum": gExNum},
             "POST",
             this.get_level_data.bind(this));
     }
@@ -61,7 +62,7 @@ class AbstractLevel {
         //We will probably need the thought bubble on every stage, so just encode it here.
         let thoughtBubble = {};
         thoughtBubble.id = "bubble";
-        thoughtBubble.src = g_dir + "thoughtBubble.png";
+        thoughtBubble.src = "/images/assets/thoughtBubble.png";
         manifest.push(thoughtBubble);
         this.queue.loadManifest(manifest);
     }
@@ -676,7 +677,7 @@ class AbstractLevel {
             success: retFunc,
             dataType: 'json',
             error: this.ajax_error.bind(this),
-            timeout: 10000,
+            timeout: 100000,
             cache: false});
     }
 

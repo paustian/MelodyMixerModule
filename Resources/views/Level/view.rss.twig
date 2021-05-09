@@ -27,7 +27,7 @@
         <webMaster>{{ getSystemVar('adminmail') }}</webMaster>
 {% for level in items %}
     <item>
-        <title><![CDATA[{{ level|paustianmelodymixermodule_formattedTitle|notifyFilters('paustianmelodymixermodule.filterhook.levels')|safeHtml }}]]></title>
+        <title><![CDATA[{{ level|paustianmelodymixermodule_formattedTitle }}]]></title>
         <link>{{ url('paustianmelodymixermodule_level_' ~ routeArea ~ 'view') }}</link>
         <guid>{{ url('paustianmelodymixermodule_level_' ~ routeArea ~ 'view') }}</guid>
         {% if level.createdBy|default and level.createdBy.getUid() > 0 %}

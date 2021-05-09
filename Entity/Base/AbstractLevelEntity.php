@@ -80,9 +80,21 @@ abstract class AbstractLevelEntity extends EntityAccess
      * @Assert\NotBlank
      * @Assert\NotEqualTo(value=0)
      * @Assert\LessThan(value=100000000000)
-     * @var int $displayGraphicLevelId
+     * @var int $levelNum
      */
-    protected $displayGraphicLevelId = 0;
+    protected $levelNum = 0;
+    
+    /**
+     * The example number in the level. Normally 1 to 10
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotBlank
+     * @Assert\NotEqualTo(value=0)
+     * @Assert\LessThan(value=100000000000)
+     * @var int $exNum
+     */
+    protected $exNum = 0;
     
     
     /**
@@ -169,15 +181,27 @@ abstract class AbstractLevelEntity extends EntityAccess
         }
     }
     
-    public function getDisplayGraphicLevelId(): int
+    public function getLevelNum(): int
     {
-        return $this->displayGraphicLevelId;
+        return $this->levelNum;
     }
     
-    public function setDisplayGraphicLevelId(int $displayGraphicLevelId): void
+    public function setLevelNum(int $levelNum): void
     {
-        if ((int)$this->displayGraphicLevelId !== $displayGraphicLevelId) {
-            $this->displayGraphicLevelId = $displayGraphicLevelId;
+        if ((int)$this->levelNum !== $levelNum) {
+            $this->levelNum = $levelNum;
+        }
+    }
+    
+    public function getExNum(): int
+    {
+        return $this->exNum;
+    }
+    
+    public function setExNum(int $exNum): void
+    {
+        if ((int)$this->exNum !== $exNum) {
+            $this->exNum = $exNum;
         }
     }
     
@@ -259,22 +283,6 @@ abstract class AbstractLevelEntity extends EntityAccess
     public function getKey(): ?int
     {
         return $this->getId();
-    }
-    
-    /**
-     * Determines whether this entity supports hook subscribers or not.
-     */
-    public function supportsHookSubscribers(): bool
-    {
-        return true;
-    }
-    
-    /**
-     * Return lower case name of multiple items needed for hook areas.
-     */
-    public function getHookAreaPrefix(): string
-    {
-        return 'paustianmelodymixermodule.ui_hooks.levels';
     }
     
     /**

@@ -464,7 +464,7 @@
                 <td headers="hGameScoreBehaviourStandardFields hGameScoreBehaviourValue1" class="text-center"><i class="fas fa-check"></i>
                 </td>
                 <th id="hGameScoreBehaviourHookSubscribers" scope="row" headers="hGameScoreBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hGameScoreBehaviourHookSubscribers hGameScoreBehaviourValue2" class="text-center"><i class="fas fa-check"></i>
+                <td headers="hGameScoreBehaviourHookSubscribers hGameScoreBehaviourValue2" class="text-center"><i class="fas fa-times"></i>
                 </td>
             </tr>
             <tr>
@@ -1028,7 +1028,7 @@
                 <td headers="hScoreBehaviourStandardFields hScoreBehaviourValue1" class="text-center"><i class="fas fa-check"></i>
                 </td>
                 <th id="hScoreBehaviourHookSubscribers" scope="row" headers="hScoreBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hScoreBehaviourHookSubscribers hScoreBehaviourValue2" class="text-center"><i class="fas fa-check"></i>
+                <td headers="hScoreBehaviourHookSubscribers hScoreBehaviourValue2" class="text-center"><i class="fas fa-times"></i>
                 </td>
             </tr>
             <tr>
@@ -1173,19 +1173,37 @@
                 </td>
             </tr>
             <tr>
-                <th id="hEntityLevelFieldDisplayGraphicLevelId" scope="row" headers="hEntityLevelFieldName">Display graphic level id</th>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldType">Ganzzahl</td>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldMandatory">true</td>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldDefault">0</td>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldDisplayType">ALL</td>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldConstraints">
+                <th id="hEntityLevelFieldLevelNum" scope="row" headers="hEntityLevelFieldName">Level num</th>
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldType">Ganzzahl</td>
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldMandatory">true</td>
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldDefault">0</td>
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldDisplayType">ALL</td>
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldConstraints">
                     <ul>
                         <li>Hat eine Länge von 11.</li>
                     </ul>
                 </td>
-                <td headers="hEntityLevelFieldDisplayGraphicLevelId hEntityLevelFieldRemarks">
+                <td headers="hEntityLevelFieldLevelNum hEntityLevelFieldRemarks">
                     <ul>
                         <li>The ID of this level. This must match the ID in Graphics and Sounds and Music Scores </li>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th id="hEntityLevelFieldExNum" scope="row" headers="hEntityLevelFieldName">Ex num</th>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldType">Ganzzahl</td>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldMandatory">true</td>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldDefault">0</td>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldDisplayType">ALL</td>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldConstraints">
+                    <ul>
+                        <li>Hat eine Länge von 11.</li>
+                    </ul>
+                </td>
+                <td headers="hEntityLevelFieldExNum hEntityLevelFieldRemarks">
+                    <ul>
+                        <li>The example number in the level. Normally 1 to 10 </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
                     </ul>
                 </td>
@@ -1403,7 +1421,7 @@
                 <td headers="hLevelBehaviourStandardFields hLevelBehaviourValue1" class="text-center"><i class="fas fa-check"></i>
                 </td>
                 <th id="hLevelBehaviourHookSubscribers" scope="row" headers="hLevelBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hLevelBehaviourHookSubscribers hLevelBehaviourValue2" class="text-center"><i class="fas fa-check"></i>
+                <td headers="hLevelBehaviourHookSubscribers hLevelBehaviourValue2" class="text-center"><i class="fas fa-times"></i>
                 </td>
             </tr>
             <tr>
@@ -1956,7 +1974,7 @@
                 <td headers="hGraphicsAndSoundBehaviourStandardFields hGraphicsAndSoundBehaviourValue1" class="text-center"><i class="fas fa-check"></i>
                 </td>
                 <th id="hGraphicsAndSoundBehaviourHookSubscribers" scope="row" headers="hGraphicsAndSoundBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hGraphicsAndSoundBehaviourHookSubscribers hGraphicsAndSoundBehaviourValue2" class="text-center"><i class="fas fa-check"></i>
+                <td headers="hGraphicsAndSoundBehaviourHookSubscribers hGraphicsAndSoundBehaviourValue2" class="text-center"><i class="fas fa-times"></i>
                 </td>
             </tr>
             <tr>
@@ -2383,7 +2401,7 @@
                 <td headers="hMusicScoreBehaviourStandardFields hMusicScoreBehaviourValue1" class="text-center"><i class="fas fa-check"></i>
                 </td>
                 <th id="hMusicScoreBehaviourHookSubscribers" scope="row" headers="hMusicScoreBehaviourName2">Hook-Abonnenten</th>
-                <td headers="hMusicScoreBehaviourHookSubscribers hMusicScoreBehaviourValue2" class="text-center"><i class="fas fa-check"></i>
+                <td headers="hMusicScoreBehaviourHookSubscribers hMusicScoreBehaviourValue2" class="text-center"><i class="fas fa-times"></i>
                 </td>
             </tr>
             <tr>
