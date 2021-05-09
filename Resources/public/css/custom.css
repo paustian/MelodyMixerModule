@@ -98,7 +98,7 @@ canvas {
     appearance: none;
     width: 18px;
     height: 30px;
-    background: url("/images/assests/note.png");
+    background: url("/images/assets/note.png");
     background-repeat: no-repeat;
     cursor: pointer;
 }
@@ -106,7 +106,7 @@ canvas {
 .tempo_slider::-moz-range-thumb {
     width: 18px;
     height: 30px;
-    background: url("/images/assests/note.png");
+    background: url("/images/assets/note.png");
     background-repeat: no-repeat;
     cursor: pointer;
 }
@@ -128,7 +128,7 @@ canvas {
     appearance: none;
     width: 18px;
     height: 30px;
-    background: url("/images/assests/note.png");
+    background: url("/images/assets/note.png");
     background-repeat: no-repeat;
     cursor: pointer;
 }
@@ -136,7 +136,7 @@ canvas {
 .time_slider::-moz-range-thumb {
     width: 18px;
     height: 30px;
-    background: url("/images/assests/note.png");
+    background: url("/images/assets/note.png");
     background-repeat: no-repeat;
     cursor: pointer;
 }

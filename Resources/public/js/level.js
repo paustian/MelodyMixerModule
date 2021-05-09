@@ -27,6 +27,10 @@ class MelodyMixerLevel extends AbstractLevel {
         }
         g_stage.update();
     }
+
+    navigate_buttons(evt){
+        window.open(Routing.generate("paustianmelodymixermodule_navi_level", {name: evt.currentTarget.url}), "_self");
+    }
 }
 
 

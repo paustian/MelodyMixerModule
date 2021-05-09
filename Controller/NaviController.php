@@ -29,9 +29,7 @@ use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 class NaviController extends AbstractController
 {
     /**
-     * @Route("/main",
-     *        methods = {"GET", "POST"}
-     * )
+     * @Route("/main", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
      *
      */
     public function mainAction(
@@ -50,9 +48,7 @@ class NaviController extends AbstractController
     }
 
     /**
-     * @Route("/level/{name}",
-     *        methods = {"GET", "POST"}
-     * )
+     * @Route("/level/{name}", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
      */
     public function levelAction(
         Request $request,
@@ -65,9 +61,11 @@ class NaviController extends AbstractController
             return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
         }
         $levelList = [];
+        //Note that that the integers are the ids of the levels stored in LevelEntity NOT the levelId or the exNum
         switch ($name){
             case 'training':
                 //This needs to be a unique since there is only 1 level.
+                $levelList = [2];
                 break;
             case 'basics':
                 $levelList = [1,2,3,4,5,6,7,8,9,10];

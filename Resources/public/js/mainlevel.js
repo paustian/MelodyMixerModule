@@ -14,12 +14,12 @@ class MainLevel extends AbstractLevel {
         this.queue.on("complete", this.assets_loaded.bind(this));
 
         this.queue.loadManifest([
-            {id: "bach_20", src: g_dir + "Bach20.png"},
-            {id: "brahms_20", src: g_dir + "Brahms20.png"},
-            {id: "mozart_20", src: g_dir + "Mozart20.png"},
-            {id: "strav_20", src: g_dir + "Strav20.png"},
-            {id: "rock_stage", src: g_dir + "Rockstage.png"},
-            {id: "bubble", src: g_dir + "thoughtBubble.png"},
+            {id: "bach_20", src: "/images/assets/Bach20.png"},
+            {id: "brahms_20", src: "/images/assets/Brahms20.png"},
+            {id: "mozart_20", src: "/images/assets/Mozart20.png"},
+            {id: "strav_20", src: "/images/assets/Strav20.png"},
+            {id: "rock_stage", src: "/images/assets/Rockstage.png"},
+            {id: "bubble", src: "/images/assets/thoughtBubble.png"},
         ]);
 
     }

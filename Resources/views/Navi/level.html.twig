@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>{{ name }}</title>
+<title>{{ name|title }}</title>
 </head>
 <body>
 <div>
@@ -17,66 +17,15 @@
         </tr>
         </thead>
         <tbody>
+        {% for level in levelList %}
         <tr>
-            <td>Example 1</td>
+            <td>Example {{ loop.index }}</td>
             <td id="score">0</td>
             <td>100</td>
-            <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['0']}) }}'">Start Basic 1</button></td>
+            <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': level}) }}'">Start
+                {{ name|title }} 1</button></td>
         </tr>
-        <tr>
-            <td>Example 2</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic2" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['1']}) }}'">Start Basic 2</button></td>
-        </tr>
-        <tr>
-            <td>Example 3</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic3" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['2']}) }}'">Start Basic 3</button></td>
-        </tr>
-        <tr>
-            <td>Example 4</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic4" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['3']}) }}'">Start Basic 4</button></td>
-        </tr>
-        <tr>
-            <td>Example 5</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic5" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['4']}) }}'">Start Basic 5</button></td>
-        </tr>
-        <tr>
-            <td>Example 6</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic6" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['5']}) }}'">Start Basic 6</button></td>
-        </tr>
-        <tr>
-            <td>Example 7</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic7" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['6']}) }}'">Start Basic 7</button></td>
-        </tr>
-        <tr>
-            <td>Example 8</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['7']}) }}'">Start Basic 9</button></td>
-        </tr>
-        <tr>
-            <td>Example 9</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic9" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['8']}) }}'">Start Basic 9</button></td>
-        </tr>
-        <tr>
-            <td>Example 10</td>
-            <td id="score">0</td>
-            <td>100</td>
-            <td><button id="basic10" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': levelList['9']}) }}'">Start Basic 10</button></td>
-        </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
@@ -97,5 +46,7 @@
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/abstractlevel.js'), 204) }}
     {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/' ~ name ~'.js'), 205) }}
 {% endblock %}
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 </body>
 </html>

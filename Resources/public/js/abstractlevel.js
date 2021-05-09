@@ -97,32 +97,29 @@ class AbstractLevel {
                         item['xPos'],
                         item['yPos'],
                         "",
-                        item['label'],
+                        item['gsLabel'],
                         item['descText'],
                         item['boxWidth'],
                         item['xDes'],
-                        item['yDes']);
+                        item['yDes'],
+                        g_font,
+                        item['gsUrl']);
                 } else {
-                    this.place_image_on_screen(item['gsName'],
+                    let container = this.place_image_on_screen(item['gsName'],
                         item['xPos'],
                         item['yPos'],
                         this.navigate_buttons.bind(this),
-                        item['label'],
+                        item['gsLabel'],
                         item['descText'],
                         item['boxWidth'],
                         item['xDes'],
-                        item['yDes']);
+                        item['yDes'],
+                        g_font,
+                        item['gsUrl']);
+                    if(gName.includes("clef")) {
+                        this.create_background_box(container, 0);
+                    }
                 }
-
-                /*if (object.width > gMaxWidth){
-
-                    object.height = gMaxWidth/object.width * object.height;
-                    maxHeight = object.height;
-                    object.width = gMaxWidth;
-                    object.image.width = object.width;
-                    object.image.height = object.height;
-                }*/
-
             }
         }
     }
@@ -135,22 +132,12 @@ class AbstractLevel {
                 return true;
             }
         }
-        if(name.includes('clef')){
-            return true;
-        }
         return false;
     }
 
     navigate_buttons(evt){
-        switch (evt.currentTarget.fnc_call){
-            case 'main':
-                window.open("../melodymixer.html", "_self");
-                break;
-            case 'basic':
-                window.open("basicslevel.html", "_self");
-                break;
-        }
     }
+
     create_music_interface(){
         this.assign_boxes(this.scoreData);
         this.init_music_player();
@@ -354,22 +341,21 @@ class AbstractLevel {
             boxBkgnd = this.set_up_drop_container(boxGraphic, item['gsMidi'], true, item['scoreIt'], item['musicOrder']);
             this.boxes.push(boxBkgnd);
         }
-        this.clefg = this.place_image_on_screen("1clefg", 500, 350);
-        this.set_up_drop_container(this.clefg, "clef", false);
         //Place the arrangement boxes on screen
         let width = boxBkgnd.width;
         let height = boxBkgnd.height;
-        this.box1 = this.create_box(500 + this.clefg.width, 350, width, height);
+        this.box1 = this.create_box(540, 350, width, height);
         this.box2 = this.create_box(this.box1.x + width, 350, width, height);
         this.box3 = this.create_box(this.box2.x + width, 350, width, height);
         this.box4 = this.create_box(this.box3.x + width, 350, width, height);
     }
     
-    place_image_on_screen(image_id, x, y, listen_function = "", text = "", textbox="", textbox_width=0, tx_x=0, tx_y=0, inFont = "16px Times black"){
+    place_image_on_screen(image_id, x, y, listen_function = "", text = "", textbox="", textbox_width=0, tx_x=0, tx_y=0, inFont = "16px Times black", url=""){
         let new_image = new createjs.Bitmap(this.queue.getResult(image_id));
         let image_container = new createjs.Container();
         if(listen_function != ""){
             image_container.addEventListener("click", listen_function);
+            image_container.url =url;
         }
         //we want text underneath the image
         if (text != ""){
@@ -462,7 +448,7 @@ class AbstractLevel {
 
     }
 
-    create_background_box(imageContainer){
+    create_background_box(imageContainer, where = 1){
         let backgroundBox = new createjs.Shape();
         backgroundBox.graphics.setStrokeStyle(3).beginStroke("#000000");
 		backgroundBox.graphics.beginFill("white").drawRect(0, 0, imageContainer.width, imageContainer.height);
@@ -472,7 +458,7 @@ class AbstractLevel {
         backgroundBox.height = imageContainer.height;
         //all drop cotainers being being occupied.
         backgroundBox.occupant = imageContainer;
-        g_stage.addChildAt(backgroundBox, 1);
+        g_stage.addChildAt(backgroundBox, where);
         return backgroundBox;
     }
 
