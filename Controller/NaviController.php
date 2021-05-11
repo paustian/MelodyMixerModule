@@ -65,10 +65,10 @@ class NaviController extends AbstractController
         switch ($name){
             case 'training':
                 //This needs to be a unique since there is only 1 level.
-                $levelList = [2];
+                $levelList = [4];
                 break;
             case 'basics':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [5,3,3,4,5,6,3,8,2,10];
                 break;
             case 'rhythm':
                 $levelList = [1,2,3,4,5,6,7,8,9,10];

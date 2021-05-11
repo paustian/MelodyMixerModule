@@ -27,6 +27,9 @@ class ExtensionMenu extends AbstractExtensionMenu
     public function get(string $type = self::TYPE_ADMIN): ? ItemInterface
     {
         $menu = parent::get($type);
+        if(null === $menu){
+            return $menu;
+        }
         if($type == self::TYPE_ADMIN){
             $menu->addChild('Tools', [
                 'uri' => '#',

@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Paustian\MelodyMixerModule\Entity\Repository;
 
 use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractScoreRepository;
+use Paustian\MelodyMixerModule\Entity\ScoreEntity;
 
 /**
  * Repository class used to implement own convenience methods for performing certain DQL queries.
@@ -25,4 +26,14 @@ use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractScoreRepository;
 class ScoreRepository extends AbstractScoreRepository
 {
     // feel free to add your own methods here, like for example reusable DQL queries
+    public function findUserScore(int $level, $uid){
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(array('tbl'))
+            ->from($this->mainEntityClass, 'tbl')
+            ->where($qb->expr()->eq('tbl.levelId', '?1'))
+            ->andWhere($qb->expr()->eq('tbl.playerUid', '?2'))
+            ->setParameters([1 => $level, 2 => $uid]);
+
+        return $this->getQueryFromBuilder($qb)->getResult();
+    }
 }

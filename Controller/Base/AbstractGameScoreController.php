@@ -219,9 +219,8 @@ abstract class AbstractGameScoreController extends AbstractController
         int $id,
         bool $isAdmin = false
     ): Response {
-        if (null === $gameScore) {
-            $gameScore = $entityFactory->getRepository('gameScore')->selectById($id);
-        }
+        $gameScore = $entityFactory->getRepository('gameScore')->selectById($id);
+
         if (null === $gameScore) {
             throw new NotFoundHttpException(
                 $this->trans(

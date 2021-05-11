@@ -151,7 +151,9 @@ abstract class AbstractCollectionFilterHelper
             $parameters['scores'] = $parameters['scores']->getId();
         }
         $parameters['workflowState'] = $request->query->get('workflowState', '');
-        $parameters['playerUid'] = $request->query->getInt('playerUid', 0);
+        //This was a bug I had to track down. You cannot return 0 for a uid if you don't find it.
+        //This breaks the form if it is empty
+        $parameters['playerUid'] = $request->query->get('playerUid', null);
         $parameters['q'] = $request->query->get('q', '');
     
         return $parameters;

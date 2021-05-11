@@ -15,13 +15,13 @@ class BasicsLevel extends AbstractLevel{
         this.queue.on("complete", this.assets_loaded.bind(this));
 
         this.queue.loadManifest([
-            {id: "bach_score", src: g_dir + "Bach_score.png"},
-            {id: "brahms_score", src: g_dir + "Brahms_score.png"},
-            {id: "football_stage", src: g_dir + "Football.png"},
-            {id: "mozart_score", src: g_dir + "Mozartscore.png"},
-            {id: "strav_score", src: g_dir + "Strav_score.png"},
-            {id: "mixer_button", src: g_dir + "MixerButton.png"},
-            {id: "bubble", src: g_dir + "thoughtBubble.png"},
+            {id: "bach_score", src: "/images/assets/Bach_score.png"},
+            {id: "brahms_score", src: "/images/assets/Brahms_score.png"},
+            {id: "football_stage", src: "/images/assets/Football.png"},
+            {id: "mozart_score", src: "/images/assets/Mozartscore.png"},
+            {id: "strav_score", src: "/images/assets/Strav_score.png"},
+            {id: "mixer_button", src: "/images/assets/MixerButton.png"},
+            {id: "bubble", src: "/images/assets/thoughtBubble.png"},
         ])
 
     }
@@ -34,7 +34,7 @@ class BasicsLevel extends AbstractLevel{
     navigate_buttons(evt){
         switch (evt.currentTarget.fnc_call){
             case 'main':
-                window.open(Routing.generate("paustianmelodymixer_navi_main"), "_self");
+                window.open(Routing.generate("paustianmelodymixermodule_navi_main"), "_self");
                 break;
         }
 
@@ -54,7 +54,7 @@ class BasicsLevel extends AbstractLevel{
         g_canvas.height = this.music_stage.getBounds().height;
         //create and place the mixer buttons
         let x = 50;
-        this.training_level_button = this.place_image_on_screen("mixer_button", x, 50, this.navigate_buttons.bind(this), "Return");
+        this.training_level_button = this.place_image_on_screen("mixer_button", x, 50, this.navigate_buttons.bind(this), "main");
         this.training_level_button.fnc_call = "main";
         this.mozart_20 = this.place_image_on_screen("mozart_score", 0, 0);
         this.brahms_20 = this.place_image_on_screen("brahms_score", 0, 0);

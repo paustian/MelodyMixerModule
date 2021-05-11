@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
+use Paustian\MelodyMixerModule\Entity\ScoreEntity;
+use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +26,9 @@ use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
 use Paustian\MelodyMixerModule\Helper\EntityDisplayHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
+use Zikula\ProfileModule\Bridge\ProfileModuleBridge;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
+use Zikula\UsersModule\ProfileModule\ProfileModuleInterface;
 
 /**
  * Ajax controller implementation class.
@@ -93,6 +97,80 @@ class AjaxController extends AbstractAjaxController
 
         return  new JsonResponse(['graphicData' => $levelData,
             'scoreData' => $scoreData]);
+    }
+
+    /**
+     * @Route("/recordscore", options={"expose"=true, "i18n"=false}, methods={"POST"})
+     */
+    public function recordScoreAction(Request $request,
+                                       CurrentUserApiInterface $currentUserApi,
+                                       EntityFactory $entityFactory,
+                                       PermissionHelper $permissionHelper,
+                                       WorkflowHelper $workflowHelper,
+                                       ProfileModuleBridge $profileModule): JsonResponse {
+        if (!$permissionHelper->hasComponentPermission('level', ACCESS_READ)) {
+            return new JsonResponse($this->trans('Access forbidden since you cannot play Melody Mixer.'), Response::HTTP_FORBIDDEN);
+        }
+
+        $level = (int)$request->request->get('levelNum');
+        $exNum = (int)$request->request->get('exNum');
+        $score = (int)$request->request->get('score');
+        $levelName = $request->request->get('name');
+
+        //I can use these because the user has to be logged in to get here.
+        $uid = $currentUserApi->get('uid');
+        $displayName = $profileModule->getDisplayName($uid);
+
+        $email = $currentUserApi->get('email');
+        $repo = $entityFactory->getRepository('Score');
+        $result = $repo->findUserScore($level, $uid);
+        $scoreTable = null;
+        $action = 'update';
+        if(count($result) === 0){
+            $scoreTable = new ScoreEntity();
+            $action = 'submit';
+        } else {
+            //there should only be one result
+            $scoreTable = $result[0];
+        }
+        $scoreTable->setLevelId($level);
+        $scoreTable->setPlayerUid($uid);
+        $scoreTable->setLevelName($levelName);
+        switch($exNum){
+            case 1:
+                $scoreTable->setScoreOne($score);
+                break;
+            case 2:
+                $scoreTable->setScoreTwo($score);
+                break;
+            case 3:
+                $scoreTable->setScoreThree($score);
+                break;
+            case 4:
+                $scoreTable->setScoreFour($score);
+                break;
+            case 5:
+                $scoreTable->setScoreFive($score);
+                break;
+            case 6:
+                $scoreTable->setScoreSix($score);
+                break;
+            case 7:
+                $scoreTable->setScoreSeven($score);
+                break;
+            case 8:
+                $scoreTable->setScoreEight($score);
+                break;
+            case 9:
+                $scoreTable->setScoreNine($score);
+                break;
+            case 10:
+                $scoreTable->setScoreTen($score);
+                break;
+        }
+        $workflowHelper->executeAction($scoreTable, $action);
+        //no data to return, but just send a response in case the caller wants to do something.
+        return new JsonResponse(['score_recorded' => true]);
     }
 }
 

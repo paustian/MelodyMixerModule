@@ -624,7 +624,6 @@ class AbstractLevel {
             //this is a hack to get around the midiPlayer always setting the tempo to 
             //120 to start.
             setTimeout(this._set_tempo_hack.bind(this), 100, this.tempo_slider.value);
-            ;
         }
         
     }
@@ -647,12 +646,26 @@ class AbstractLevel {
         this.duration_slider.value = currentBarValue;
     }
 
-    _post_score_to_database(score){
+    _post_score_to_database(inScore){
+        if(inScore <= 0){
+            return;
+        }
         //This score should communicate with a module in Zikula and post the score to the database
         //It will have to ID the example and then post the score.
         //The pages that list the table of scores will have to be able to read from the database also.
         //This will have to be hosted on Jamie's Book Site.
         //Actually make these pages part of the module. I could then enter the data in a table and have it all saved there?
+        this.send_ajax(
+            "paustianmelodymixermodule_ajax_recordscore",
+            {"levelNum": gLevelId, "exNum": gExNum, "score": inScore, "name": document.title},
+            "POST",
+            this.score_posted());
+    }
+
+    score_posted(result, textStatus, jqXHR){
+        if(result.login !== undefined){
+            window.alert(result.login);
+        }
     }
 
     send_ajax(url, data, method, retFunc) {
