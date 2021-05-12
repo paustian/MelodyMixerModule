@@ -1,0 +1,35 @@
+<div>
+    <h3>{{ "Student Scores"|trans }}</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ "Student Name"|trans }}</th>
+            <th>{{ "Student Email"|trans }}</th>
+            <th>{{ "Date"|trans }}</th>
+            <th>{{ "Basics"|trans }}</th>
+            <th>{{ "Rhythm"|trans }}</th>
+            <th>{{ "KSS"|trans }}</th>
+            <th>{{ "Intervals"|trans }}</th>
+            <th>{{ "Constructs"|trans }}</th>
+            <th>{{ "Triads"|trans }}</th>
+            <th>{{ "Seventh Cords"|trans }}</th>
+            <th>{{ "Punctuation"|trans }}</th>
+            <th>{{ "CCP"|trans }}</th>
+            <th>{{ "ExpZone"|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for row in rows %}
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.date|date("m/d/Y") }}</td>
+                    <td>{{ row.name }}</td>
+                    {% for score in row.scores %}
+                        <td>{{ score }}</td>
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -224,6 +224,8 @@ abstract class AbstractGameScoreEntity extends EntityAccess
         foreach ($this->scores as $scoreSingle) {
             $this->removeScores($scoreSingle);
         }
+        if($scores == null){return;}
+
         foreach ($scores as $scoreSingle) {
             $this->addScores($scoreSingle);
         }

@@ -42,6 +42,9 @@ class ExtensionMenu extends AbstractExtensionMenu
             $menu->getChild('Tools')->addChild('Fill Level Info', [
                 'route' => 'paustianmelodymixermodule_level_filllevel',
             ])->setAttribute('icon', 'fas fa-fill-drip');
+            $menu->getChild('Tools')->addChild('See Scores', [
+                'route' => 'paustianmelodymixermodule_navi_viewscores',
+            ])->setAttribute('icon', 'fas fa-eye');
         }
         return 0 === $menu->count() ? null : $menu;
     }

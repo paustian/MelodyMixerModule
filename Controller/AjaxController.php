@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
+use Paustian\MelodyMixerModule\Entity\GameScoreEntity;
 use Paustian\MelodyMixerModule\Entity\ScoreEntity;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -119,9 +120,6 @@ class AjaxController extends AbstractAjaxController
 
         //I can use these because the user has to be logged in to get here.
         $uid = $currentUserApi->get('uid');
-        $displayName = $profileModule->getDisplayName($uid);
-
-        $email = $currentUserApi->get('email');
         $repo = $entityFactory->getRepository('Score');
         $result = $repo->findUserScore($level, $uid);
         $scoreTable = null;
@@ -169,6 +167,26 @@ class AjaxController extends AbstractAjaxController
                 break;
         }
         $workflowHelper->executeAction($scoreTable, $action);
+        //check for the presence of an game score entity for this user. If it doesn't exist then create one.
+        $gameScoreRepo = $entityFactory->getRepository('GameScore');
+        $user = $this->getDoctrine()->getManager()->getReference('ZikulaUsersModule:UserEntity', $uid);
+        $result = $gameScoreRepo->findUser($uid);
+        $action = 'update';
+        if(count($result) === 0){
+            $displayName = $profileModule->getDisplayName($uid);
+            //we need to create an entry. Split the name if possible
+            preg_match('|(.*?)\s(.*)|', $displayName, $matches);
+            $email = $currentUserApi->get('email');
+            $gameScore = new GameScoreEntity();
+            $gameScore->setPlayerUid($user);
+            $gameScore->setPlayerEmail($email);
+            $gameScore->setFirstName($matches[1]);
+            $gameScore->setLastName($matches[2]);
+            $action = 'submit';
+        } else {
+            $gameScore = $result[0];
+        }
+        $workflowHelper->executeAction($gameScore, $action);
         //no data to return, but just send a response in case the caller wants to do something.
         return new JsonResponse(['score_recorded' => true]);
     }

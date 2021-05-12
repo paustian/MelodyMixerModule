@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Entity\Repository;
 
+use Paustian\MelodyMixerModule\Entity\GameScoreEntity;
 use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractGameScoreRepository;
 
 /**
@@ -25,4 +26,18 @@ use Paustian\MelodyMixerModule\Entity\Repository\Base\AbstractGameScoreRepositor
 class GameScoreRepository extends AbstractGameScoreRepository
 {
     // feel free to add your own methods here, like for example reusable DQL queries
+    public function findUser(int $uid) : ?GameScoreEntity
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select(array('tbl'))
+            ->from($this->mainEntityClass, 'tbl')
+            ->where($qb->expr()->eq('tbl.PlayerUid_id', '?1'))
+            ->setParameter(1,  $uid);
+        $result =  $this->getQueryFromBuilder($qb)->getResult();
+        if(count($result) > 0){
+            return $result[0];
+        } else {
+            return null;
+        }
+    }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Controller;
 
+use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Paustian\MelodyMixerModule\Entity\MusicScoreEntity;
 use Paustian\MelodyMixerModule\Form\Type\ImportType;
@@ -172,5 +173,92 @@ class NaviController extends AbstractController
             }
         }
         return $this->render('@PaustianMelodyMixerModule/Navi/import.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/viewscores", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
+     *
+     */
+    public function viewscoresAction(
+        Request $request,
+        PermissionHelper $permissionHelper,
+        EntityFactory $entityFactory
+    ): Response {
+        if(!$permissionHelper->hasPermission( ACCESS_ADMIN)){
+            return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
+        }
+        $rows = [];
+        $exerciseArray = ['Basics' => "0 - 0",
+            'Rhythm' => "0 - 0",
+            'KSS' => "0 - 0",
+            'Intervals' => "0 - 0",
+            'Constructs'  => "0 - 0",
+            'Triads'  => "0 - 0",
+            'Seventh Cords'  => "0 - 0",
+            'Punctuation'  => "0 - 0",
+            'CCP'  => "0 - 0",
+            'ExpZone'  => "0 - 0"];
+        $repo = $entityFactory->getRepository('GameScore');
+        $scoreRepo = $entityFactory->getRepository('Score');
+        $users = $repo->findAll();
+        foreach($users as $user){
+            $item = [];
+            $item['name'] = $user->getLastName . ", " . $user->getFirstName();
+            $item['email'] = $user->getPlayerEmail();
+            $item['date'] = $user->getCreationDate();
+            $playerId = $user->getPlayerUid()->getUid();
+            $scores =  $scoreRepo->findBy(['playerUid' => $playerId]);
+            $exercisesTried = 0;
+            $scoreTotal = 0;
+            $exResults = [];
+            foreach($scores as $score){
+                if($score->getLevelName() == "Training"){
+                    continue;
+                }
+                if(($theScore = $score->getScoreOne()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreTwo()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreThree()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreFour() )!== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreFive() )!== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreSix()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreSeven()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }if(($theScore = $score->getScoreEight()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreNine())!== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                if(($theScore = $score->getScoreTen()) !== 0){
+                    $exercisesTried++;
+                    $scoreTotal += $theScore;
+                }
+                $exResults[$score->getLevelName()] = $exercisesTried . "/10 -" . $theScore/$exercisesTried;
+            }
+            $item['scores'] = array_merge($exerciseArray, $exResults);
+            $rows[] = $item;
+        }
+        return $this->render('@PaustianMelodyMixerModule/Navi/viewscores.html.twig', ['rows' => $rows]);
     }
 }
