@@ -43,7 +43,7 @@ abstract class AbstractGameScoreRepository extends EntityRepository
     /**
      * @var string The default sorting field/expression
      */
-    protected $defaultSortingField = 'playerEmail';
+    protected $defaultSortingField = 'playerUid';
 
     /**
      * @var CollectionFilterHelper
@@ -58,6 +58,7 @@ abstract class AbstractGameScoreRepository extends EntityRepository
     public function getAllowedSortingFields(): array
     {
         return [
+            'playerUid',
             'playerEmail',
             'firstName',
             'lastName',
@@ -218,81 +219,6 @@ abstract class AbstractGameScoreRepository extends EntityRepository
             'userid' => $userId
         ];
         $logger->debug('{app}: User {user} deleted {entities} edited by user id {userid}.', $logArgs);
-    }
-    
-    /**
-     * Updates a user field value of all objects affected by a certain user.
-     *
-     * @throws InvalidArgumentException Thrown if invalid parameters are received
-     */
-    public function updateUserField(
-        string $userFieldName,
-        int $userId,
-        int $newUserId,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        CurrentUserApiInterface $currentUserApi
-    ): void {
-        if (empty($userFieldName) || !in_array($userFieldName, ['playerUid'], true)) {
-            throw new InvalidArgumentException($translator->trans('Invalid user field name received.'));
-        }
-        if (0 === $userId || 0 === $newUserId) {
-            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
-        }
-    
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->update($this->mainEntityClass, 'tbl')
-           ->set('tbl.' . $userFieldName, $newUserId)
-           ->where('tbl.' . $userFieldName . ' = :user')
-           ->setParameter('user', $userId);
-        $query = $qb->getQuery();
-        $query->execute();
-    
-        $logArgs = [
-            'app' => 'PaustianMelodyMixerModule',
-            'user' => $currentUserApi->get('uname'),
-            'entities' => 'game scores',
-            'field' => $userFieldName,
-            'userid' => $userId,
-            'newuserid' => $newUserId
-        ];
-        $logger->debug('{app}: User {user} updated {entities} setting {field} from {userid} to {newuserid}.', $logArgs);
-    }
-    
-    /**
-     * Deletes all objects updated by a certain user.
-     *
-     * @throws InvalidArgumentException Thrown if invalid parameters are received
-     */
-    public function deleteByUserField(
-        string $userFieldName,
-        int $userId,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        CurrentUserApiInterface $currentUserApi
-    ): void {
-        if (empty($userFieldName) || !in_array($userFieldName, ['playerUid'], true)) {
-            throw new InvalidArgumentException($translator->trans('Invalid user field name received.'));
-        }
-        if (0 === $userId) {
-            throw new InvalidArgumentException($translator->trans('Invalid user identifier received.'));
-        }
-    
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->delete($this->mainEntityClass, 'tbl')
-           ->where('tbl.' . $userFieldName . ' = :user')
-           ->setParameter('user', $userId);
-        $query = $qb->getQuery();
-        $query->execute();
-    
-        $logArgs = [
-            'app' => 'PaustianMelodyMixerModule',
-            'user' => $currentUserApi->get('uname'),
-            'entities' => 'game scores',
-            'field' => $userFieldName,
-            'userid' => $userId
-        ];
-        $logger->debug('{app}: User {user} deleted {entities} with {field} having set to user id {userid}.', $logArgs);
     }
 
     /**
@@ -628,7 +554,7 @@ abstract class AbstractGameScoreRepository extends EntityRepository
      */
     protected function addJoinsToSelection(): string
     {
-        $selection = ', tblScores';
+        $selection = '';
     
         return $selection;
     }
@@ -638,7 +564,6 @@ abstract class AbstractGameScoreRepository extends EntityRepository
      */
     protected function addJoinsToFrom(QueryBuilder $qb): QueryBuilder
     {
-        $qb->leftJoin('tbl.scores', 'tblScores');
     
         return $qb;
     }

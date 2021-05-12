@@ -28,8 +28,6 @@ use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Entity\ScoreEntity;
-use Paustian\MelodyMixerModule\Helper\CollectionFilterHelper;
-use Paustian\MelodyMixerModule\Helper\EntityDisplayHelper;
 use Paustian\MelodyMixerModule\Helper\ListEntriesHelper;
 use Paustian\MelodyMixerModule\Traits\ModerationFormFieldsTrait;
 
@@ -46,29 +44,15 @@ abstract class AbstractScoreType extends AbstractType
     protected $entityFactory;
 
     /**
-     * @var CollectionFilterHelper
-     */
-    protected $collectionFilterHelper;
-
-    /**
-     * @var EntityDisplayHelper
-     */
-    protected $entityDisplayHelper;
-
-    /**
      * @var ListEntriesHelper
      */
     protected $listHelper;
 
     public function __construct(
         EntityFactory $entityFactory,
-        CollectionFilterHelper $collectionFilterHelper,
-        EntityDisplayHelper $entityDisplayHelper,
         ListEntriesHelper $listHelper
     ) {
         $this->entityFactory = $entityFactory;
-        $this->collectionFilterHelper = $collectionFilterHelper;
-        $this->entityDisplayHelper = $entityDisplayHelper;
         $this->listHelper = $listHelper;
     }
 
@@ -363,7 +347,7 @@ abstract class AbstractScoreType extends AbstractType
                     'class' => $action['buttonClass']
                 ]
             ]);
-            if ('create' === $options['mode'] && 'submit' === $action['id'] && !$options['inline_usage']) {
+            if ('create' === $options['mode'] && 'submit' === $action['id']) {
                 // add additional button to submit item and return to create form
                 $builder->add('submitrepeat', SubmitType::class, [
                     'label' => 'Submit and repeat',
@@ -410,8 +394,6 @@ abstract class AbstractScoreType extends AbstractType
                 'has_moderate_permission' => false,
                 'allow_moderation_specific_creator' => false,
                 'allow_moderation_specific_creation_date' => false,
-                'filter_by_ownership' => true,
-                'inline_usage' => false
             ])
             ->setRequired(['mode', 'actions'])
             ->setAllowedTypes('mode', 'string')
@@ -419,8 +401,6 @@ abstract class AbstractScoreType extends AbstractType
             ->setAllowedTypes('has_moderate_permission', 'bool')
             ->setAllowedTypes('allow_moderation_specific_creator', 'bool')
             ->setAllowedTypes('allow_moderation_specific_creation_date', 'bool')
-            ->setAllowedTypes('filter_by_ownership', 'bool')
-            ->setAllowedTypes('inline_usage', 'bool')
             ->setAllowedValues('mode', ['create', 'edit'])
         ;
     }

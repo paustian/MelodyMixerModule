@@ -146,14 +146,7 @@ abstract class AbstractCollectionFilterHelper
             return $parameters;
         }
     
-        $parameters['scores'] = $request->query->get('scores', 0);
-        if (is_object($parameters['scores'])) {
-            $parameters['scores'] = $parameters['scores']->getId();
-        }
         $parameters['workflowState'] = $request->query->get('workflowState', '');
-        //This was a bug I had to track down. You cannot return 0 for a uid if you don't find it.
-        //This breaks the form if it is empty
-        $parameters['playerUid'] = $request->query->get('playerUid', null);
         $parameters['q'] = $request->query->get('q', '');
     
         return $parameters;
@@ -262,15 +255,6 @@ abstract class AbstractCollectionFilterHelper
                 }
                 continue;
             }
-            if (in_array($k, ['scores']) && !empty($v)) {
-                // multi-valued target of outgoing relation (one2many or many2many)
-                $qb->andWhere(
-                    $qb->expr()->isMemberOf(':' . $k, 'tbl.' . $k)
-                )
-                    ->setParameter($k, $v)
-                ;
-                continue;
-            }
     
             if (is_array($v)) {
                 continue;
@@ -286,14 +270,8 @@ abstract class AbstractCollectionFilterHelper
                     $qb->andWhere('tbl.' . $k . ' LIKE :' . $k)
                        ->setParameter($k, '%' . substr($v, 1) . '%');
                 } else {
-                    if (in_array($k, ['playerUid'], true)) {
-                        $qb->leftJoin('tbl.' . $k, 'tbl' . ucfirst($k))
-                           ->andWhere('tbl' . ucfirst($k) . '.uid = :' . $k)
-                           ->setParameter($k, $v);
-                    } else {
-                        $qb->andWhere('tbl.' . $k . ' = :' . $k)
-                           ->setParameter($k, $v);
-                    }
+                    $qb->andWhere('tbl.' . $k . ' = :' . $k)
+                       ->setParameter($k, $v);
                 }
             }
         }
@@ -687,6 +665,10 @@ abstract class AbstractCollectionFilterHelper
         $parameters = [];
     
         if ('gameScore' === $objectType) {
+            if (is_numeric($fragment)) {
+                $filters[] = 'tbl.playerUid = :searchPlayerUid';
+                $parameters['searchPlayerUid'] = $fragment;
+            }
             $filters[] = 'tbl.playerEmail = :searchPlayerEmail';
             $parameters['searchPlayerEmail'] = $fragment;
             $filters[] = 'tbl.firstName LIKE :searchFirstName';

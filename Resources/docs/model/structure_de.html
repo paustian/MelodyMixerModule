@@ -187,9 +187,9 @@
             </tr>
             <tr>
                 <th id="hEntityGameScoreFieldPlayerUid" scope="row" headers="hEntityGameScoreFieldName">Player uid</th>
-                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldType">Benutzer</td>
+                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldType">Ganzzahl</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldMandatory">true</td>
-                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDefault"></td>
+                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDefault">0</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDisplayType">ALL</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldConstraints">
                     <ul>
@@ -198,7 +198,8 @@
                 </td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldRemarks">
                     <ul>
-                        <li>Dieses Feld ist eindeutig und erlaubt keine Null-Werte.</li>
+                        <li>The user id of the player </li>
+                        <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
                     </ul>
                 </td>
             </tr>
@@ -254,45 +255,6 @@
                     <ul>
                         <li>The last name of the player </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fas fa-arrows-alt-h"></i> Relationen</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-sm">
-        <colgroup>
-            <col id="cGameScoreRelationName" />
-            <col id="cGameScoreRelationType" />
-            <col id="cGameScoreRelationIncoming" />
-            <col id="cGameScoreRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hGameScoreRelationName" scope="col">Name</th>
-                <th id="hGameScoreRelationType" scope="col">Typ</th>
-                <th id="hGameScoreRelationIncoming" scope="col">Eingehend</th>
-                <th id="hGameScoreRelationRemarks" scope="col">Anmerkungen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="d-none">1</span>
-            <tr>
-                <th id="hGameScoreRelation1" scope="row" headers="hGameScoreRelationName">1 game score hat n scores</th>
-                <td headers="hGameScoreRelation1 hGameScoreRelationType">1:n</td>
-                <td headers="hGameScoreRelation1 hGameScoreRelationIncoming" class="text-center"><i class="fas fa-times"></i>
-                </td>
-                <td headers="hGameScoreRelation1 hGameScoreRelationRemarks">
-                    <ul>
-                        <li>Diese Relation ist nicht eindeutig und erlaubt Null-Werte.</li>
-                        <li>Sie verwendet den Abruftyp "Lazy".</li>
-                        <li>Aus Sicht der Quelle wird keine Kaskade angewendet.</li>
-                        <li>Aus Sicht des Ziels wird keine Kaskade angewendet.</li>
-                        <li>Diese Relation wird durch eine unidirektionale Assoziation realisiert.</li>
-                        <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
-                        <li>Das Bearbeiten der Zielseite beinhaltet keine Funktionalität bezüglich der Quellelemente.</li>
                     </ul>
                 </td>
             </tr>
@@ -403,10 +365,6 @@
             <tr>
                 <th id="hGameScoreWorkflowAccountDeletionLastEditor" scope="row" headers="hGameScoreWorkflowName">Wenn letzter Bearbeiter gelöscht wird</th>
                 <td headers="hGameScoreWorkflowAccountDeletionLastEditor hGameScoreWorkflowDescription">wird als Nutzer "Admin" zugewiesen.</td>
-            </tr>
-            <tr>
-                <th id="hGameScoreWorkflowAccountDeletionPlayerUid" scope="row" headers="hGameScoreWorkflowName">Wenn "player uid" gelöscht wird</th>
-                <td headers="hGameScoreWorkflowAccountDeletionPlayerUid hGameScoreWorkflowDescription">wird als Nutzer "Gast" zugewiesen.</td>
             </tr>
         </tbody>
     </table>
@@ -830,45 +788,6 @@
                     <ul>
                         <li>Score on the tenth level </li>
                         <li>Dieses Feld ist nicht eindeutig und erlaubt keine Null-Werte.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fas fa-arrows-alt-h"></i> Relationen</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-sm">
-        <colgroup>
-            <col id="cScoreRelationName" />
-            <col id="cScoreRelationType" />
-            <col id="cScoreRelationIncoming" />
-            <col id="cScoreRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hScoreRelationName" scope="col">Name</th>
-                <th id="hScoreRelationType" scope="col">Typ</th>
-                <th id="hScoreRelationIncoming" scope="col">Eingehend</th>
-                <th id="hScoreRelationRemarks" scope="col">Anmerkungen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="d-none">1</span>
-            <tr>
-                <th id="hScoreRelation1" scope="row" headers="hScoreRelationName">1 game score hat n scores</th>
-                <td headers="hScoreRelation1 hScoreRelationType">1:n</td>
-                <td headers="hScoreRelation1 hScoreRelationIncoming" class="text-center"><i class="fas fa-check"></i>
-                </td>
-                <td headers="hScoreRelation1 hScoreRelationRemarks">
-                    <ul>
-                        <li>Diese Relation ist nicht eindeutig und erlaubt Null-Werte.</li>
-                        <li>Sie verwendet den Abruftyp "Lazy".</li>
-                        <li>Aus Sicht der Quelle wird keine Kaskade angewendet.</li>
-                        <li>Aus Sicht des Ziels wird keine Kaskade angewendet.</li>
-                        <li>Diese Relation wird durch eine unidirektionale Assoziation realisiert.</li>
-                        <li>Das Bearbeiten der Quellseite beinhaltet keine Funktionalität bezüglich der Zielelemente.</li>
-                        <li>Das Bearbeiten der Zielseite beinhaltet keine Funktionalität bezüglich der Quellelemente.</li>
                     </ul>
                 </td>
             </tr>

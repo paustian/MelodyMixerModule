@@ -105,6 +105,7 @@ abstract class AbstractGameScoreController extends AbstractController
         $sortableColumns = new SortableColumns($router, $routeName, 'sort', 'sortdir');
         
         $sortableColumns->addColumns([
+            new Column('playerUid'),
             new Column('playerEmail'),
             new Column('firstName'),
             new Column('lastName'),
@@ -219,8 +220,9 @@ abstract class AbstractGameScoreController extends AbstractController
         int $id,
         bool $isAdmin = false
     ): Response {
-        $gameScore = $entityFactory->getRepository('gameScore')->selectById($id);
-
+        if (null === $gameScore) {
+            $gameScore = $entityFactory->getRepository('gameScore')->selectById($id);
+        }
         if (null === $gameScore) {
             throw new NotFoundHttpException(
                 $this->trans(

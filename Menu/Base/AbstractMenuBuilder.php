@@ -160,18 +160,6 @@ class AbstractMenuBuilder
                     ->setExtra('translation_domain', 'gameScore')
                 ;
             }
-            
-            // more actions for adding new related items
-            
-            if ($isOwner || $this->permissionHelper->hasComponentPermission('score', ACCESS_EDIT)) {
-                $menu->addChild('Create scores', [
-                    'route' => 'paustianmelodymixermodule_score_' . $routeArea . 'edit',
-                    'routeParameters' => ['gameScore' => $entity->getKey()]
-                ])
-                    ->setAttribute('icon', 'fas fa-plus')
-                    ->setExtra('translation_domain', 'gameScore')
-                ;
-            }
         }
         if ($entity instanceof ScoreEntity) {
             $routePrefix = 'paustianmelodymixermodule_score_';

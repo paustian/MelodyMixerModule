@@ -177,8 +177,9 @@ abstract class AbstractScoreController extends AbstractController
         int $id,
         bool $isAdmin = false
     ): Response {
-        $score = $entityFactory->getRepository('score')->selectById($id);
-
+        if (null === $score) {
+            $score = $entityFactory->getRepository('score')->selectById($id);
+        }
         if (null === $score) {
             throw new NotFoundHttpException(
                 $this->trans(

@@ -58,21 +58,6 @@ class AjaxController extends AbstractAjaxController
             $entityDisplayHelper
         );
     }
-    
-    /**
-     * @Route("/checkForDuplicate", methods = {"GET"}, options={"expose"=true})
-     */
-    public function checkForDuplicateAction(
-        Request $request,
-        ControllerHelper $controllerHelper,
-        EntityFactory $entityFactory
-    ): JsonResponse {
-        return parent::checkForDuplicateAction(
-            $request,
-            $controllerHelper,
-            $entityFactory
-        );
-    }
 
     // feel free to add your own ajax controller methods here
     /**
@@ -169,26 +154,20 @@ class AjaxController extends AbstractAjaxController
         $workflowHelper->executeAction($scoreTable, $action);
         //check for the presence of an game score entity for this user. If it doesn't exist then create one.
         $gameScoreRepo = $entityFactory->getRepository('GameScore');
-        $user = $this->getDoctrine()->getManager()->getReference('ZikulaUsersModule:UserEntity', $uid);
-        $result = $gameScoreRepo->findUser($uid);
-        $action = 'update';
+        $result = $gameScoreRepo->findBy(['playerUid' => $uid]);
         if(count($result) === 0){
             $displayName = $profileModule->getDisplayName($uid);
             //we need to create an entry. Split the name if possible
             preg_match('|(.*?)\s(.*)|', $displayName, $matches);
             $email = $currentUserApi->get('email');
             $gameScore = new GameScoreEntity();
-            $gameScore->setPlayerUid($user);
+            $gameScore->setPlayerUid($uid);
             $gameScore->setPlayerEmail($email);
             $gameScore->setFirstName($matches[1]);
             $gameScore->setLastName($matches[2]);
-            $action = 'submit';
-        } else {
-            $gameScore = $result[0];
+            $workflowHelper->executeAction($gameScore, 'submit');
         }
-        $workflowHelper->executeAction($gameScore, $action);
         //no data to return, but just send a response in case the caller wants to do something.
         return new JsonResponse(['score_recorded' => true]);
     }
 }
-

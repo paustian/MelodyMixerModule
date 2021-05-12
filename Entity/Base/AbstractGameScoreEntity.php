@@ -16,12 +16,9 @@ declare(strict_types=1);
 namespace Paustian\MelodyMixerModule\Entity\Base;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
-use Zikula\UsersModule\Entity\UserEntity;
 use Paustian\MelodyMixerModule\Traits\StandardFieldsTrait;
 use Paustian\MelodyMixerModule\Validator\Constraints as MelodyMixerAssert;
 
@@ -50,6 +47,9 @@ abstract class AbstractGameScoreEntity extends EntityAccess
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", unique=true)
+     * @Assert\Type(type="integer")
+     * @Assert\NotNull
+     * @Assert\LessThan(value=1000000000)
      * @var int $id
      */
     protected $id = 0;
@@ -65,10 +65,14 @@ abstract class AbstractGameScoreEntity extends EntityAccess
     protected $workflowState = 'initial';
     
     /**
-     * @ORM\ManyToOne(targetEntity="Zikula\UsersModule\Entity\UserEntity")
-     * @ORM\JoinColumn(referencedColumnName="uid")
+     * The user id of the player
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
      * @Assert\NotBlank
-     * @var UserEntity $playerUid
+     * @Assert\NotEqualTo(value=0)
+     * @Assert\LessThan(value=100000000000)
+     * @var int $playerUid
      */
     protected $playerUid = 0;
     
@@ -104,17 +108,6 @@ abstract class AbstractGameScoreEntity extends EntityAccess
     protected $lastName = '';
     
     
-    /**
-     * Unidirectional - One gameScore [game score] has many scores [scores] (INVERSE SIDE).
-     *
-     * @ORM\ManyToMany(
-     *     targetEntity="Paustian\MelodyMixerModule\Entity\ScoreEntity"
-     * )
-     * @ORM\JoinTable(name="paustian_melody_gamescorescores")
-     * @var \Paustian\MelodyMixerModule\Entity\ScoreEntity[] $scores
-     */
-    protected $scores = null;
-    
     
     /**
      * GameScoreEntity constructor.
@@ -125,7 +118,6 @@ abstract class AbstractGameScoreEntity extends EntityAccess
      */
     public function __construct()
     {
-        $this->scores = new ArrayCollection();
     }
     
     public function get_objectType(): string
@@ -164,17 +156,15 @@ abstract class AbstractGameScoreEntity extends EntityAccess
         }
     }
     
-    public function getPlayerUid()/*: UserEntity*/
+    public function getPlayerUid(): int
     {
         return $this->playerUid;
     }
     
-    public function setPlayerUid(/*UserEntity */$playerUid): void
+    public function setPlayerUid(int $playerUid): void
     {
-        if ($this->playerUid !== $playerUid) {
-            if ($playerUid instanceof UserEntity) {
-                $this->playerUid = $playerUid;
-            }
+        if ((int)$this->playerUid !== $playerUid) {
+            $this->playerUid = $playerUid;
         }
     }
     
@@ -212,50 +202,6 @@ abstract class AbstractGameScoreEntity extends EntityAccess
         if ($this->lastName !== $lastName) {
             $this->lastName = $lastName ?? '';
         }
-    }
-    
-    public function getScores()
-    {
-        return $this->scores;
-    }
-    
-    public function setScores($scores = null): void
-    {
-        foreach ($this->scores as $scoreSingle) {
-            $this->removeScores($scoreSingle);
-        }
-        if($scores == null){return;}
-
-        foreach ($scores as $scoreSingle) {
-            $this->addScores($scoreSingle);
-        }
-    }
-    
-    /**
-     * Adds an instance of \Paustian\MelodyMixerModule\Entity\ScoreEntity to the list of scores.
-     */
-    public function addScores(\Paustian\MelodyMixerModule\Entity\ScoreEntity $score): void
-    {
-        $this->scores->add($score);
-    }
-    
-    /**
-     * Removes an instance of \Paustian\MelodyMixerModule\Entity\ScoreEntity from the list of scores.
-     */
-    public function removeScores(\Paustian\MelodyMixerModule\Entity\ScoreEntity $score): void
-    {
-        $this->scores->removeElement($score);
-    }
-    
-    /**
-     * Checks whether the playerUid field contains a valid user reference.
-     * This method is used for validation.
-     *
-     * @Assert\IsTrue(message="This value must be a valid user id.")
-     */
-    public function isPlayerUidUserValid(): bool
-    {
-        return $this['playerUid'] instanceof UserEntity;
     }
     
     /**

@@ -18,6 +18,7 @@ namespace Paustian\MelodyMixerModule\Form\Type\Base;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,10 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
 use Translation\Extractor\Annotation\Translate;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
-use Zikula\UsersModule\Form\Type\UserLiveSearchType;
 use Paustian\MelodyMixerModule\Entity\GameScoreEntity;
-use Paustian\MelodyMixerModule\Helper\CollectionFilterHelper;
-use Paustian\MelodyMixerModule\Helper\EntityDisplayHelper;
 use Paustian\MelodyMixerModule\Helper\ListEntriesHelper;
 use Paustian\MelodyMixerModule\Traits\ModerationFormFieldsTrait;
 
@@ -47,29 +45,15 @@ abstract class AbstractGameScoreType extends AbstractType
     protected $entityFactory;
 
     /**
-     * @var CollectionFilterHelper
-     */
-    protected $collectionFilterHelper;
-
-    /**
-     * @var EntityDisplayHelper
-     */
-    protected $entityDisplayHelper;
-
-    /**
      * @var ListEntriesHelper
      */
     protected $listHelper;
 
     public function __construct(
         EntityFactory $entityFactory,
-        CollectionFilterHelper $collectionFilterHelper,
-        EntityDisplayHelper $entityDisplayHelper,
         ListEntriesHelper $listHelper
     ) {
         $this->entityFactory = $entityFactory;
-        $this->collectionFilterHelper = $collectionFilterHelper;
-        $this->entityDisplayHelper = $entityDisplayHelper;
         $this->listHelper = $listHelper;
     }
 
@@ -86,16 +70,20 @@ abstract class AbstractGameScoreType extends AbstractType
     public function addEntityFields(FormBuilderInterface $builder, array $options = []): void
     {
         
-        $builder->add('playerUid', UserLiveSearchType::class, [
+        $builder->add('playerUid', IntegerType::class, [
             'label' => 'Player uid:',
+            'label_attr' => [
+                'class' => 'tooltips',
+                'title' => 'The user id of the player'
+            ],
+            'help' => 'The user id of the player',
             'empty_data' => 0,
             'attr' => [
                 'maxlength' => 11,
-                'class' => 'validate-unique',
-                'title' => 'Enter the player uid of the game score.'
+                'class' => '',
+                'title' => 'Enter the player uid of the game score. Only digits are allowed.'
             ],
             'required' => true,
-            'inline_usage' => $options['inline_usage']
         ]);
         
         $builder->add('playerEmail', EmailType::class, [
@@ -161,7 +149,7 @@ abstract class AbstractGameScoreType extends AbstractType
                     'class' => $action['buttonClass']
                 ]
             ]);
-            if ('create' === $options['mode'] && 'submit' === $action['id'] && !$options['inline_usage']) {
+            if ('create' === $options['mode'] && 'submit' === $action['id']) {
                 // add additional button to submit item and return to create form
                 $builder->add('submitrepeat', SubmitType::class, [
                     'label' => 'Submit and repeat',
@@ -202,15 +190,12 @@ abstract class AbstractGameScoreType extends AbstractType
                     return $this->entityFactory->createGameScore();
                 },
                 'error_mapping' => [
-                    'isPlayerUidUserValid' => 'playerUid',
                 ],
                 'mode' => 'create',
                 'actions' => [],
                 'has_moderate_permission' => false,
                 'allow_moderation_specific_creator' => false,
                 'allow_moderation_specific_creation_date' => false,
-                'filter_by_ownership' => true,
-                'inline_usage' => false
             ])
             ->setRequired(['mode', 'actions'])
             ->setAllowedTypes('mode', 'string')
@@ -218,8 +203,6 @@ abstract class AbstractGameScoreType extends AbstractType
             ->setAllowedTypes('has_moderate_permission', 'bool')
             ->setAllowedTypes('allow_moderation_specific_creator', 'bool')
             ->setAllowedTypes('allow_moderation_specific_creation_date', 'bool')
-            ->setAllowedTypes('filter_by_ownership', 'bool')
-            ->setAllowedTypes('inline_usage', 'bool')
             ->setAllowedValues('mode', ['create', 'edit'])
         ;
     }

@@ -17,7 +17,6 @@ namespace Paustian\MelodyMixerModule\Entity;
 
 use Paustian\MelodyMixerModule\Entity\Base\AbstractGameScoreEntity as BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Entity class that defines the entity structure and behaviours.
@@ -29,7 +28,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         @ORM\Index(name="workflowstateindex", columns={"workflowState"})
  *     }
  * )
- * @UniqueEntity(fields="playerUid", ignoreNull="false")
  */
 class GameScoreEntity extends BaseEntity
 {

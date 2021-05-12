@@ -22,9 +22,7 @@
     </a>
     <div id="collapseGameScoreQuickNav" class="collapse">
         <h3>{% trans %}Quick navigation{% endtrans %}</h3>
-        {{ _self.renderQuickNavEntry(quickNavForm, 'scores', scoresFilter is not defined or scoresFilter == true) }}
         {{ _self.renderQuickNavEntry(quickNavForm, 'workflowState', workflowStateFilter is not defined or workflowStateFilter == true) }}
-        {{ _self.renderQuickNavEntry(quickNavForm, 'playerUid', playerUidFilter is not defined or playerUidFilter == true) }}
         {{ _self.renderQuickNavEntry(quickNavForm, 'q', searchFilter is not defined or searchFilter == true) }}
         {% if quickNavForm.sort is defined and quickNavForm.sort is not null %}
             {% if sorting is defined and sorting != true %}

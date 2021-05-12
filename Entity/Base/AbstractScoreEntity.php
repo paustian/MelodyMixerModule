@@ -47,6 +47,9 @@ abstract class AbstractScoreEntity extends EntityAccess
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", unique=true)
+     * @Assert\Type(type="integer")
+     * @Assert\NotNull
+     * @Assert\LessThan(value=1000000000)
      * @var int $id
      */
     protected $id = 0;

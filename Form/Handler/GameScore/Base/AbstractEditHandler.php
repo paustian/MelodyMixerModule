@@ -21,7 +21,6 @@ use Exception;
 use RuntimeException;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Zikula\UsersModule\Constant as UsersConstant;
 use Paustian\MelodyMixerModule\Entity\GameScoreEntity;
 
 /**
@@ -96,8 +95,6 @@ abstract class AbstractEditHandler extends EditHandler
                 'allowModerationSpecificCreationDateFor' . $this->objectTypeCapital,
                 false
             ),
-            'filter_by_ownership' => !$this->permissionHelper->hasEntityPermission($this->entityRef, ACCESS_ADD),
-            'inline_usage' => $this->templateParameters['inlineUsage']
         ];
     
         return $options;
@@ -210,11 +207,6 @@ abstract class AbstractEditHandler extends EditHandler
         $entity = $this->entityRef;
     
         $action = $args['commandName'];
-        if ('delete' !== $action) {
-            if (!$entity->getPlayerUid()) {
-                $entity->setPlayerUid($this->userRepository->find(UsersConstant::USER_ID_ANONYMOUS));
-            }
-        }
     
         $success = false;
         try {

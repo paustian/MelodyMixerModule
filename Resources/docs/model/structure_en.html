@@ -187,9 +187,9 @@
             </tr>
             <tr>
                 <th id="hEntityGameScoreFieldPlayerUid" scope="row" headers="hEntityGameScoreFieldName">Player uid</th>
-                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldType">User</td>
+                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldType">Integer</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldMandatory">true</td>
-                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDefault"></td>
+                <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDefault">0</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldDisplayType">ALL</td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldConstraints">
                     <ul>
@@ -198,7 +198,8 @@
                 </td>
                 <td headers="hEntityGameScoreFieldPlayerUid hEntityGameScoreFieldRemarks">
                     <ul>
-                        <li>This field is unique and allows no null values.</li>
+                        <li>The user id of the player </li>
+                        <li>This field is not unique and allows no null values.</li>
                     </ul>
                 </td>
             </tr>
@@ -254,45 +255,6 @@
                     <ul>
                         <li>The last name of the player </li>
                         <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fas fa-arrows-alt-h"></i> Relations</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-sm">
-        <colgroup>
-            <col id="cGameScoreRelationName" />
-            <col id="cGameScoreRelationType" />
-            <col id="cGameScoreRelationIncoming" />
-            <col id="cGameScoreRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hGameScoreRelationName" scope="col">Name</th>
-                <th id="hGameScoreRelationType" scope="col">Type</th>
-                <th id="hGameScoreRelationIncoming" scope="col">Incoming</th>
-                <th id="hGameScoreRelationRemarks" scope="col">Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="d-none">1</span>
-            <tr>
-                <th id="hGameScoreRelation1" scope="row" headers="hGameScoreRelationName">1 game score has n scores</th>
-                <td headers="hGameScoreRelation1 hGameScoreRelationType">1:n</td>
-                <td headers="hGameScoreRelation1 hGameScoreRelationIncoming" class="text-center"><i class="fas fa-times"></i>
-                </td>
-                <td headers="hGameScoreRelation1 hGameScoreRelationRemarks">
-                    <ul>
-                        <li>This relation is not unique and allows null values.</li>
-                        <li>It uses the "lazy" fetch type.</li>
-                        <li>From source view no cascading is applied.</li>
-                        <li>From target view no cascading is applied.</li>
-                        <li>This relation is realised by an unidirectional association.</li>
-                        <li>Editing the source side includes no behaviour regarding target elements.</li>
-                        <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
                 </td>
             </tr>
@@ -403,10 +365,6 @@
             <tr>
                 <th id="hGameScoreWorkflowAccountDeletionLastEditor" scope="row" headers="hGameScoreWorkflowName">If last editor is deleted</th>
                 <td headers="hGameScoreWorkflowAccountDeletionLastEditor hGameScoreWorkflowDescription">the "admin" user will be assigned.</td>
-            </tr>
-            <tr>
-                <th id="hGameScoreWorkflowAccountDeletionPlayerUid" scope="row" headers="hGameScoreWorkflowName">If "player uid" is deleted</th>
-                <td headers="hGameScoreWorkflowAccountDeletionPlayerUid hGameScoreWorkflowDescription">the "guest" user will be assigned.</td>
             </tr>
         </tbody>
     </table>
@@ -830,45 +788,6 @@
                     <ul>
                         <li>Score on the tenth level </li>
                         <li>This field is not unique and allows no null values.</li>
-                    </ul>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<h4><i class="fas fa-arrows-alt-h"></i> Relations</h4>
-<div class="table-responsive">
-    <table class="table-striped table-bordered table-hover table-sm">
-        <colgroup>
-            <col id="cScoreRelationName" />
-            <col id="cScoreRelationType" />
-            <col id="cScoreRelationIncoming" />
-            <col id="cScoreRelationRemarks" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th id="hScoreRelationName" scope="col">Name</th>
-                <th id="hScoreRelationType" scope="col">Type</th>
-                <th id="hScoreRelationIncoming" scope="col">Incoming</th>
-                <th id="hScoreRelationRemarks" scope="col">Remarks</th>
-            </tr>
-        </thead>
-        <tbody>
-            <span class="d-none">1</span>
-            <tr>
-                <th id="hScoreRelation1" scope="row" headers="hScoreRelationName">1 game score has n scores</th>
-                <td headers="hScoreRelation1 hScoreRelationType">1:n</td>
-                <td headers="hScoreRelation1 hScoreRelationIncoming" class="text-center"><i class="fas fa-check"></i>
-                </td>
-                <td headers="hScoreRelation1 hScoreRelationRemarks">
-                    <ul>
-                        <li>This relation is not unique and allows null values.</li>
-                        <li>It uses the "lazy" fetch type.</li>
-                        <li>From source view no cascading is applied.</li>
-                        <li>From target view no cascading is applied.</li>
-                        <li>This relation is realised by an unidirectional association.</li>
-                        <li>Editing the source side includes no behaviour regarding target elements.</li>
-                        <li>Editing the target side includes no behaviour regarding source elements.</li>
                     </ul>
                 </td>
             </tr>

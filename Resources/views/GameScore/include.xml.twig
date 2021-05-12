@@ -2,15 +2,8 @@
 {% trans_default_domain 'gameScore' %}
 <gamescore id="{{ gameScore.getId() }}" createdon="{{ gameScore.createdDate|format_datetime('medium', 'short') }}" updatedon="{{ gameScore.updatedDate|format_datetime('medium', 'short') }}">
     <id>{{ gameScore.id }}</id>
-    <playerUid>{{ gameScore.playerUid.getUname() }}</playerUid>
+    <playerUid>{{ gameScore.playerUid }}</playerUid>
     <playerEmail>{{ gameScore.playerEmail }}</playerEmail>
     <firstName><![CDATA[{{ gameScore.firstName }}]]></firstName>
     <lastName><![CDATA[{{ gameScore.lastName }}]]></lastName>
-    <scores>
-    {% if gameScore.scores|default %}
-        {% for relatedItem in gameScore.scores %}
-        <score>{{ relatedItem|paustianmelodymixermodule_formattedTitle }}</score>
-        {% endfor %}
-    {% endif %}
-    </scores>
 </gamescore>

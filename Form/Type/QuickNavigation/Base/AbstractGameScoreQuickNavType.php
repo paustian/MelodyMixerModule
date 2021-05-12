@@ -15,21 +15,15 @@ declare(strict_types=1);
 
 namespace Paustian\MelodyMixerModule\Form\Type\QuickNavigation\Base;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Translation\Extractor\Annotation\Ignore;
-use Zikula\UsersModule\Entity\UserEntity;
-use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
-use Paustian\MelodyMixerModule\Helper\EntityDisplayHelper;
 use Paustian\MelodyMixerModule\Helper\ListEntriesHelper;
-use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 
 /**
  * Game score quick navigation form type base class.
@@ -37,41 +31,13 @@ use Paustian\MelodyMixerModule\Helper\PermissionHelper;
 abstract class AbstractGameScoreQuickNavType extends AbstractType
 {
     /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @var EntityFactory
-     */
-    protected $entityFactory;
-
-    /**
-     * @var PermissionHelper
-     */
-    protected $permissionHelper;
-
-    /**
-     * @var EntityDisplayHelper
-     */
-    protected $entityDisplayHelper;
-
-    /**
      * @var ListEntriesHelper
      */
     protected $listHelper;
 
     public function __construct(
-        RequestStack $requestStack,
-        EntityFactory $entityFactory,
-        PermissionHelper $permissionHelper,
-        EntityDisplayHelper $entityDisplayHelper,
         ListEntriesHelper $listHelper
     ) {
-        $this->requestStack = $requestStack;
-        $this->entityFactory = $entityFactory;
-        $this->permissionHelper = $permissionHelper;
-        $this->entityDisplayHelper = $entityDisplayHelper;
         $this->listHelper = $listHelper;
     }
 
@@ -84,9 +50,7 @@ abstract class AbstractGameScoreQuickNavType extends AbstractType
             ->add('tpl', HiddenType::class)
         ;
 
-        $this->addOutgoingRelationshipFields($builder, $options);
         $this->addListFields($builder, $options);
-        $this->addUserFields($builder, $options);
         $this->addSearchField($builder, $options);
         $this->addSortingFields($builder, $options);
         $this->addAmountField($builder, $options);
@@ -96,53 +60,6 @@ abstract class AbstractGameScoreQuickNavType extends AbstractType
                 'class' => 'btn-secondary btn-sm'
             ]
         ]);
-    }
-
-    /**
-     * Adds fields for outgoing relationships.
-     */
-    public function addOutgoingRelationshipFields(FormBuilderInterface $builder, array $options = []): void
-    {
-        $mainSearchTerm = '';
-        $request = $this->requestStack->getCurrentRequest();
-        if ($request->query->has('q')) {
-            // remove current search argument from request to avoid filtering related items
-            $mainSearchTerm = $request->query->get('q');
-            $request->query->remove('q');
-        }
-        $entityDisplayHelper = $this->entityDisplayHelper;
-        $objectType = 'score';
-        // select without joins
-        $entities = $this->entityFactory->getRepository($objectType)->selectWhere('', '', false);
-        $permLevel = ACCESS_READ;
-        
-        $entities = $this->permissionHelper->filterCollection(
-            $objectType,
-            $entities,
-            $permLevel
-        );
-        $choices = [];
-        foreach ($entities as $entity) {
-            $choices[$entity->getId()] = $entity;
-        }
-        
-        $builder->add('scores', ChoiceType::class, [
-            'choices' => /** @Ignore */$choices,
-            'choice_label' => function ($entity) use ($entityDisplayHelper) {
-                return $entityDisplayHelper->getFormattedTitle($entity);
-            },
-            'placeholder' => 'All',
-            'required' => false,
-            'label' => 'Scores',
-            'attr' => [
-                'class' => 'form-control-sm'
-            ]
-        ]);
-    
-        if ('' !== $mainSearchTerm) {
-            // readd current search argument
-            $request->query->set('q', $mainSearchTerm);
-        }
     }
 
     /**
@@ -168,23 +85,6 @@ abstract class AbstractGameScoreQuickNavType extends AbstractType
             'choice_attr' => $choiceAttributes,
             'multiple' => false,
             'expanded' => false
-        ]);
-    }
-
-    /**
-     * Adds user fields.
-     */
-    public function addUserFields(FormBuilderInterface $builder, array $options = []): void
-    {
-        $builder->add('playerUid', EntityType::class, [
-            'label' => 'Player uid',
-            'attr' => [
-                'class' => 'form-control-sm'
-            ],
-            'required' => false,
-            'placeholder' => 'All',
-            'class' => UserEntity::class,
-            'choice_label' => 'uname'
         ]);
     }
 
@@ -216,6 +116,7 @@ abstract class AbstractGameScoreQuickNavType extends AbstractType
                     'class' => 'form-control-sm'
                 ],
                 'choices' => [
+                    'Player uid' => 'playerUid',
                     'Player email' => 'playerEmail',
                     'First name' => 'firstName',
                     'Last name' => 'lastName',

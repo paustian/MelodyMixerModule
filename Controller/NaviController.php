@@ -66,10 +66,10 @@ class NaviController extends AbstractController
         switch ($name){
             case 'training':
                 //This needs to be a unique since there is only 1 level.
-                $levelList = [4];
+                $levelList = [3];
                 break;
             case 'basics':
-                $levelList = [5,3,3,4,5,6,3,8,2,10];
+                $levelList = [1,2,3,4,5,6,3,8,2,10];
                 break;
             case 'rhythm':
                 $levelList = [1,2,3,4,5,6,7,8,9,10];
@@ -203,10 +203,10 @@ class NaviController extends AbstractController
         $users = $repo->findAll();
         foreach($users as $user){
             $item = [];
-            $item['name'] = $user->getLastName . ", " . $user->getFirstName();
+            $item['name'] = $user->getLastName() . ", " . $user->getFirstName();
             $item['email'] = $user->getPlayerEmail();
-            $item['date'] = $user->getCreationDate();
-            $playerId = $user->getPlayerUid()->getUid();
+            $item['date'] = $user->getCreatedDate();
+            $playerId = $user->getPlayerUid();
             $scores =  $scoreRepo->findBy(['playerUid' => $playerId]);
             $exercisesTried = 0;
             $scoreTotal = 0;
@@ -254,7 +254,7 @@ class NaviController extends AbstractController
                     $exercisesTried++;
                     $scoreTotal += $theScore;
                 }
-                $exResults[$score->getLevelName()] = $exercisesTried . "/10 -" . $theScore/$exercisesTried;
+                $exResults[$score->getLevelName()] = $exercisesTried . "/10 -" . $scoreTotal/$exercisesTried;
             }
             $item['scores'] = array_merge($exerciseArray, $exResults);
             $rows[] = $item;

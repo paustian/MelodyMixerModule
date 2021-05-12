@@ -170,7 +170,19 @@ class AbstractLevel {
        
         this.totalTicks = 0;
         //now we need a sound font
-        this.ac = new AudioContext || new webkitAudioContext;
+        let AudioContext = window.AudioContext // Default
+            || window.webkitAudioContext // Safari and old versions of Chrome
+            || false;
+
+        if (AudioContext) {
+            // Do whatever you want using the Web Audio API
+            this.ac = new AudioContext;
+            // ...
+        } else {
+            // Web Audio API is not supported
+            // Alert the user
+            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Mozilla Firefox");
+        }
         this.instrument = null;
         Soundfont.instrument(this.ac, 'acoustic_grand_piano').then(this.load_instrument.bind(this));
         
@@ -658,8 +670,7 @@ class AbstractLevel {
         this.send_ajax(
             "paustianmelodymixermodule_ajax_recordscore",
             {"levelNum": gLevelId, "exNum": gExNum, "score": inScore, "name": document.title},
-            "POST",
-            this.score_posted());
+            "POST", this.score_posted);
     }
 
     score_posted(result, textStatus, jqXHR){

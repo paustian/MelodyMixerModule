@@ -16,7 +16,10 @@ application "MelodyMixer" targets ZK30 {
             displayPattern "#lastName,#firstName"
             skipHookSubscribers true
             fields {
-                user "playerUid" unique,
+                integer "playerUid" {
+                    documentation "The user id of the player"
+                    defaultValue "0"
+                },
                 email "playerEmail" {
                     documentation "The email address of the player"
                 },
@@ -247,14 +250,6 @@ application "MelodyMixer" targets ZK30 {
         }
     }
     relations {
-        one2many {
-            source 
-            "gameScore"
-            sourceAlias "gameScore"
-            target "score"
-            targetAlias "scores"
-        }
-    ,
         one2many {
             source "level"
             sourceAlias "Level"

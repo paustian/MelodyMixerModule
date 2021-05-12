@@ -23,7 +23,6 @@ use Zikula\Bundle\CoreBundle\Doctrine\EntityAccess;
 use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\Component\SortableColumns\SortableColumns;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
-use Zikula\UsersModule\Entity\UserEntity;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Helper\CollectionFilterHelper;
 use Paustian\MelodyMixerModule\Helper\PermissionHelper;
@@ -205,9 +204,6 @@ abstract class AbstractControllerHelper
                     && false === stripos($fieldName, 'permissionHelper')
                 ) {
                     // set filter as query argument, fetched inside CollectionFilterHelper
-                    if ($fieldValue instanceof UserEntity) {
-                        $fieldValue = $fieldValue->getUid();
-                    }
                     $request->query->set($fieldName, $fieldValue);
                     if ($fieldValue instanceof EntityAccess) {
                         $fieldValue = $fieldValue->getKey();

@@ -31,7 +31,6 @@ use Zikula\Bundle\CoreBundle\Translation\TranslatorTrait;
 use Zikula\ExtensionsModule\Api\ApiInterface\VariableApiInterface;
 use Zikula\PageLockModule\Api\ApiInterface\LockingApiInterface;
 use Zikula\UsersModule\Api\ApiInterface\CurrentUserApiInterface;
-use Zikula\UsersModule\Entity\RepositoryInterface\UserRepositoryInterface;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Helper\ControllerHelper;
 use Paustian\MelodyMixerModule\Helper\ModelHelper;
@@ -165,11 +164,6 @@ abstract class AbstractEditHandler
      */
     protected $currentUserApi;
 
-
-    /**
-     * @var UserRepositoryInterface
-     */
-    protected $userRepository;
     /**
      * @var EntityFactory
      */
@@ -225,7 +219,6 @@ abstract class AbstractEditHandler
         LoggerInterface $logger,
         VariableApiInterface $variableApi,
         CurrentUserApiInterface $currentUserApi,
-        UserRepositoryInterface $userRepository,
         EntityFactory $entityFactory,
         ControllerHelper $controllerHelper,
         ModelHelper $modelHelper,
@@ -240,7 +233,6 @@ abstract class AbstractEditHandler
         $this->logger = $logger;
         $this->variableApi = $variableApi;
         $this->currentUserApi = $currentUserApi;
-        $this->userRepository = $userRepository;
         $this->entityFactory = $entityFactory;
         $this->controllerHelper = $controllerHelper;
         $this->modelHelper = $modelHelper;

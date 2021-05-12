@@ -34,8 +34,8 @@
                         </th>
                     {% endif %}
                     <th id="hItemActionsStart" scope="col" class="">{% trans from 'messages' %}Actions{% endtrans %}</th>
-                    <th id="hPlayerUid" scope="col" class="text-left unsorted">
-                        {% trans %}Player uid{% endtrans %}
+                    <th id="hPlayerUid" scope="col" class="text-right">
+                        <a href="{{ sort.playerUid.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'player uid'}, 'messages')|e('html_attr') }}" class="{{ sort.playerUid.class }}">{% trans %}Player uid{% endtrans %}</a>
                     </th>
                     <th id="hPlayerEmail" scope="col" class="text-center">
                         <a href="{{ sort.playerEmail.url }}" title="{{ 'Sort by %fieldName%'|trans({'%fieldName%': 'player email'}, 'messages')|e('html_attr') }}" class="{{ sort.playerEmail.class }}">{% trans %}Player email{% endtrans %}</a>
@@ -64,9 +64,8 @@
                             {{ knp_menu_render(itemActions, {template: '@ZikulaMenuModule/Override/bootstrap_fontawesome.html.twig'}) }}
                         </div>
                     </td>
-                    <td headers="hPlayerUid" class="text-left">
-                            {{ gameScore.playerUid.uid|profileLinkByUserId }}{% if currentUser.loggedIn %}{% set sendMessageUrl = gameScore.playerUid.uid|messageSendLink(urlOnly=true) %}{% if sendMessageUrl != '#' %}{% set linkTitle = 'Send private message to %userName%'|trans({'%userName%': gameScore.playerUid.uname}, 'messages') %}<a href="{{ sendMessageUrl }}" title="{{ linkTitle|e('html_attr') }}"><i class="fas fa-envelope"></i></a>{% endif %}{% endif %}
-                            <span class="avatar">{{ userAvatar(gameScore.playerUid.uid, {rating: 'g'}) }}</span>
+                    <td headers="hPlayerUid" class="text-right">
+                        {{ gameScore.playerUid }}
                     </td>
                     <td headers="hPlayerEmail" class="text-center">
                         <a href="mailto:{{ gameScore.playerEmail|protectMail }}" title="{{ 'Send an email'|trans({}, 'messages')|e('html_attr') }}"><i class="fas fa-envelope"></i></a>

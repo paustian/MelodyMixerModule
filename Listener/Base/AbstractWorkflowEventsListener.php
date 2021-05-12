@@ -146,17 +146,6 @@ abstract class AbstractWorkflowEventsListener implements EventSubscriberInterfac
         
         if ('delete' === $transitionName) {
             // check if deleting the entity would break related child entities
-            if ('gameScore' === $objectType) {
-                $isBlocked = false;
-                if (0 < count($entity->getScores())) {
-                    $event->addTransitionBlocker(
-                        new TransitionBlocker(
-                            $this->translator->__('Sorry, but you can not delete the game score yet as it still contains scores!', [], 'gameScore')
-                        )
-                    );
-                }
-                $event->setBlocked($isBlocked);
-            }
             if ('level' === $objectType) {
                 $isBlocked = false;
                 if (0 < count($entity->getGraphicsAndSound())) {

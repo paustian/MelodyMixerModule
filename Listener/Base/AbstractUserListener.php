@@ -148,15 +148,6 @@ abstract class AbstractUserListener implements EventSubscriberInterface
             $this->logger,
             $this->currentUserApi
         );
-        // set player uid to guest (UsersConstant::USER_ID_ANONYMOUS) for all game scores affected by this user
-        $repo->updateUserField(
-            'playerUid',
-            $userId,
-            UsersConstant::USER_ID_ANONYMOUS,
-            $this->translator,
-            $this->logger,
-            $this->currentUserApi
-        );
         
         $logArgs = [
             'app' => 'PaustianMelodyMixerModule',
