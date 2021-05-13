@@ -26,7 +26,7 @@ use Paustian\MelodyMixerModule\Entity\ScoreEntity;
 class ScoreRepository extends AbstractScoreRepository
 {
     // feel free to add your own methods here, like for example reusable DQL queries
-    public function findUserScore(int $level, $uid){
+    public function findUserScore(int $level, int $uid){
         $qb = $this->_em->createQueryBuilder();
         $qb->select(array('tbl'))
             ->from($this->mainEntityClass, 'tbl')

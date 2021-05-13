@@ -20,7 +20,7 @@
         {% for level in levelList %}
         <tr>
             <td>Example {{ loop.index }}</td>
-            <td id="score">{{ scores[loop.index] }}</td>
+            <td id="score">{{ scores[loop.index0] }}</td>
             <td>100</td>
             <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': level}) }}'">Start
                 {{ name|title }} {{ loop.index }}</button></td>

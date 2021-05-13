@@ -26,11 +26,11 @@ class ExtensionMenu extends AbstractExtensionMenu
     // feel free to add own extensions here
     public function get(string $type = self::TYPE_ADMIN): ? ItemInterface
     {
-        $menu = parent::get($type);
-        if(null === $menu){
-            return $menu;
-        }
         if($type == self::TYPE_ADMIN){
+            $menu = parent::get($type);
+            if(null === $menu){
+                return $menu;
+            }
             $menu->addChild('Tools', [
                 'uri' => '#',
             ])->setAttribute('icon', 'fas fa-tools')
@@ -45,6 +45,16 @@ class ExtensionMenu extends AbstractExtensionMenu
             $menu->getChild('Tools')->addChild('See Scores', [
                 'route' => 'paustianmelodymixermodule_navi_viewscores',
             ])->setAttribute('icon', 'fas fa-eye');
+        } else {
+            $menu = $this->factory->createItem('paustianmelodymixermodule' . ucfirst($type) . 'Menu');
+            if($this->permissionHelper->hasPermission(ACCESS_EDIT)){
+                $menu->addChild('See Scores', [
+                    'route' => 'paustianmelodymixermodule_navi_viewscores',
+                ])->setAttribute('icon', 'fas fa-eye');
+                $menu->addChild('main', [
+                    'route' => 'paustianmelodymixermodule_navi_main',
+                ])->setAttribute('icon', 'fas fa-hourglass-start');
+            }
         }
         return 0 === $menu->count() ? null : $menu;
     }
