@@ -1,6 +1,6 @@
 <div>
     <h3>{{ "Student Scores"|trans }}</h3>
-    <table class="table table-striped">
+    <table id="scoreTable" class="table table-striped">
         <thead>
         <tr>
             <th>{{ "Student Name"|trans }}</th>
@@ -32,3 +32,8 @@
         </tbody>
     </table>
 </div>
+{% block footer %}
+    {{ pageAddAsset('stylesheet', 'https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css') }}
+    {{ pageAddAsset('javascript', 'https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js') }}
+    {{ pageAddAsset('javascript', zasset('@PaustianMelodyMixerModule:js/dataTableCode.js')) }}
+{% endblock %}

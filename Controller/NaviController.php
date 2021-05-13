@@ -7,6 +7,7 @@ namespace Paustian\MelodyMixerModule\Controller;
 use Paustian\MelodyMixerModule\Entity\Factory\EntityFactory;
 use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Paustian\MelodyMixerModule\Entity\MusicScoreEntity;
+use Paustian\MelodyMixerModule\Entity\Repository\ScoreRepository;
 use Paustian\MelodyMixerModule\Form\Type\ImportType;
 use Paustian\MelodyMixerModule\Helper\WorkflowHelper;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,12 +57,15 @@ class NaviController extends AbstractController
         string $name,
         PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
+        EntityFactory $entityFactory,
         AssetFilter $assetFilter
     ): Response {
         if(!$permissionHelper->hasPermission( ACCESS_COMMENT)){
             return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
         }
         $levelList = [];
+        $repo = $entityFactory->getRepository('Score');
+        $uid = $currentUserApi->get('uid');
         //Note that that the integers are the ids of the levels stored in LevelEntity NOT the levelId or the exNum
         switch ($name){
             case 'training':
@@ -69,7 +73,7 @@ class NaviController extends AbstractController
                 $levelList = [3];
                 break;
             case 'basics':
-                $levelList = [1,2,3,4,5,6,3,8,2,10];
+                $levelList = [1,2];
                 break;
             case 'rhythm':
                 $levelList = [1,2,3,4,5,6,7,8,9,10];
@@ -99,12 +103,32 @@ class NaviController extends AbstractController
                 $levelList = [1,2,3,4,5,6,7,8,9,10];
                 break;
         }
-
-        $output = $this->renderView("@PaustianMelodyMixerModule/Navi/level.html.twig", ['name' => $name, 'levelList' => $levelList]);
+        $scores = $this->_getScores($name, (int)$uid, $repo);
+        $output = $this->renderView("@PaustianMelodyMixerModule/Navi/level.html.twig",
+            ['name' => $name, 'levelList' => $levelList, 'scores' => $scores]);
         $output = $assetFilter->filter($output);
         return new PlainResponse($output);
     }
 
+    /**
+     * Given a uid and the level, retrieve the score for that level
+     */
+    private function _getScores($name, int $uid, ScoreRepository $repo){
+        $result = $repo->findUserScore($name, $uid);
+        $scores = $result[0];
+        $retScores = [];
+        $retScores[0] = $scores->getScoreOne();
+        $retScores[1] = $scores->getScoreTwo();
+        $retScores[2] = $scores->getScoreThree();
+        $retScores[3] = $scores->getScoreFour();
+        $retScores[4] = $scores->getScoreFive();
+        $retScores[5] = $scores->getScoreSix();
+        $retScores[6] = $scores->getScoreSeven();
+        $retScores[7] = $scores->getScoreEight();
+        $retScores[8] = $scores->getScoreNine();
+        $retScores[9] = $scores->getScoreTen();
+        return $retScores;
+    }
     /**
      *
      * @Route("/import", methods = {"GET","POST"})
