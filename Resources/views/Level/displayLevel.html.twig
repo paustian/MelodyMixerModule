@@ -6,21 +6,23 @@
 <div id="interface_container">
     <canvas id="melodyMixerArea" width="100" height="100"></canvas>
     <div id="overlay">
-        <div class="slidecontainer">
-            <p class="tempo">Tempo: <span id="tempoSpan"></span></p>
-            <input type="range" min="50" max="150" value="100" class="tempo_slider" id="tempo_slider" data-slider-handle="custom">
-        </div>
+
         <div class="flex_box">
             <div class="sm_slider">
+                <p class="playtext">Play</p>
                 <span id="play" class="fas fa-play-circle custom-size" ></span>
                 <input type="range" min="0" max="100" value="0" class="time_slider" id="duration_slider">
-                <p>Instrument
-                    <select id="instrumentMenu">
-                        <option>Choose an Instrument</option>
-                    </select></p>
-                <p><button id="score">Score</button><input id="scoretext" type="text" value="0" min="0" max="100" readonly>
-                </p>
             </div>
+        </div>
+        <div class="slidecontainer">
+            <p class="othertext">Instrument
+                <select id="instrumentMenu">
+                    <option>Choose an Instrument</option>
+                </select></p>
+            <p class="othertext"><button id="score">Score</button><input id="scoretext" type="text" value="{{ score }}" min="0" max="100" readonly>
+            </p>
+            <p class="othertext">Tempo: <span id="tempoSpan"></span></p>
+            <input type="range" min="50" max="150" value="100" class="tempo_slider" id="tempo_slider" data-slider-handle="custom">
         </div>
     </div>
 </div>

@@ -58,58 +58,36 @@ class MainLevel extends AbstractLevel {
         this.music_stage.alpha = 1.0;
         g_canvas.width = this.music_stage.getBounds().width;
         g_canvas.height = this.music_stage.getBounds().height;
-        
+
         //create and place the mixer buttons
         let x = 50;
-        /*this.training_level_button = this.place_image_on_screen("mixer_button", x, 50, this.navigate_buttons.bind(this), "Training Level");
-        this.training_level_button.fnc_call = "training";
-        this.basics_button = this.place_image_on_screen("mixer_button", x+150, 50, this.navigate_buttons.bind(this), "Basics");
-        this.basics_button.fnc_call = "basics";
-        this.rhythm_button = this.place_image_on_screen("mixer_button", x+300, 50, this.navigate_buttons.bind(this), "Rhythm");
-        this.rhythm_button.fnc_call = "rhythm";
-        this.ksscales_button = this.place_image_on_screen("mixer_button", x+450, 50, this.navigate_buttons.bind(this), "Key Signature\nand Scales");
-        this.ksscales_button.fnc_call = "ksscales";
-        this.ksscales_button.lineWidth = 136;
-        this.intervals_button = this.place_image_on_screen("mixer_button", x+600, 50, this.navigate_buttons.bind(this), "Intervals");
-        this.intervals_button.fnc_call = "intervals";
-        this.constructs_button = this.place_image_on_screen("mixer_button", x, 225, this.navigate_buttons.bind(this), "Constructs");
-        this.constructs_button .fnc_call = "constructs";
-        this.triads_button = this.place_image_on_screen("mixer_button", x+150, 225, this.navigate_buttons.bind(this), "Triads");
-        this.triads_button.fnc_call = "triads";
-        this.sev_cords_button = this.place_image_on_screen("mixer_button", x+300, 225, this.navigate_buttons.bind(this), "Seventh Chords");
-        this.sev_cords_button.fnc_call = "7th_cords";
-        this.punctution_button = this.place_image_on_screen("mixer_button", x+450, 225, this.navigate_buttons.bind(this), "Puncuation");
-        this.punctution_button.fnc_call = "puncuation";
-        this.cc_button = this.place_image_on_screen("mixer_button", x+600, 225, this.navigate_buttons.bind(this), "Common Chord\nProgression");
-        this.cc_button.fnc_call = "cc";
-        this.exp_button = this.place_image_on_screen("mixer_button", x+750, 225, this.navigate_buttons.bind(this), "Experiment\nZone");
-        this.exp_button.fnc_call = "experiment";*/
+
         this.mozart_20 = this.place_image_on_screen("mozart_20", 0, 0, this.mozart_clicked.bind(this));
-        this.mozart_text = this.create_textbox(this.mozart_20.x, this.mozart_20.y, 350, "I'm Wolfgang Amadeus Mozart from the Classical period." + 
-        "Yeah I know, Wolfgang's a great name. Hey it's a lot better than Chrysostomus Wolfgangus Theophilus, which is how I started out. " + 
-        "Just like Bach, I had trouble staying employed, and in fact I was once kicked out, literally in the seat of the pants, from the Archbishops house.");
+        this.mozart_text = this.create_textbox(this.mozart_20.x, this.mozart_20.y, 350, "I'm Wolfgang Amadeus Mozart from the Classical period." +
+            "Yeah I know, Wolfgang's a great name. Hey it's a lot better than Chrysostomus Wolfgangus Theophilus, which is how I started out. " +
+            "Just like Bach, I had trouble staying employed, and in fact I was once kicked out, literally in the seat of the pants, from the Archbishops house.");
         this.mozart_text.visible = false;
         this.brahms_20 = this.place_image_on_screen("brahms_20", 0, 0, this.brahms_clicked.bind(this));
-        this.brahms_text =  this.create_textbox(this.brahms_20.x, this.brahms_20.y-500, 350, "I'm Johannes Brahms, Romantic composer. People considered me to be " + 
-        "something of a slob. Maybe it had something to do with my bushy beard and baggy clothing. Sometimes I would forget to attach suspenders, and I'd have to keep grabbing" + 
-        " my pants to keep them from falling down during rehearsals. Don't want to have that happen in front of a full orhcesra!");
+        this.brahms_text =  this.create_textbox(this.brahms_20.x, this.brahms_20.y-500, 350, "I'm Johannes Brahms, Romantic composer. People considered me to be " +
+            "something of a slob. Maybe it had something to do with my bushy beard and baggy clothing. Sometimes I would forget to attach suspenders, and I'd have to keep grabbing" +
+            " my pants to keep them from falling down during rehearsals. Don't want to have that happen in front of a full orhcesra!");
         this.strav_20 = this.place_image_on_screen("strav_20", 0, 0, this.strav_clicked.bind(this));
-        this.strav_text =  this.create_textbox(this.strav_20.x, this.strav_20.y, 200, "I'm Igor Stravinsky representing the 20th century. My music caused a riot! " + 
-        "I guess those primative rhythyms really got to everyone. The entire orchestra was drowned out! Most people got use to my music eventually, but ther was " + 
-        "that $100 fine for writing an arrangement of the Star Spangled Banner after I moved to America.");
-        this.bach_20 = this.place_image_on_screen("bach_20", 0, 0, this.bach_clicked.bind(this), "", 
-                "Welcome to Melody Mixer.\nClick on one of the buttons to start composing melodies and help us work our way back through time to the Rock and Roll Hall of Fame.", 
-                200, 60, 180, "20px Times black");
-        this.bach_text = this.create_textbox(this.brahms_20.x, this.brahms_20.y, 350, "I'm Johann Sebastian Bach, and I was a composer during the Baroque period. I once " + 
-                "spent a month in jail because of my employer. He figured it was a great way to keep me from going to work for someone else. While I was in the clink" + 
-                " I wrote 46 pieces. Hey, I didn't have anything else to do, right? I'm also the one that had a bunch of kids.");
+        this.strav_text =  this.create_textbox(this.strav_20.x, this.strav_20.y, 200, "I'm Igor Stravinsky representing the 20th century. My music caused a riot! " +
+            "I guess those primative rhythyms really got to everyone. The entire orchestra was drowned out! Most people got use to my music eventually, but ther was " +
+            "that $100 fine for writing an arrangement of the Star Spangled Banner after I moved to America.");
+        this.bach_20 = this.place_image_on_screen("bach_20", 0, 0, this.bach_clicked.bind(this), "",
+            "Welcome to Melody Mixer.\nClick on one of the buttons to start composing melodies and help us work our way back through time to the Rock and Roll Hall of Fame.",
+            300, -60, 100, "20px Times black");
+        this.bach_text = this.create_textbox(this.brahms_20.x, this.brahms_20.y, 350, "I'm Johann Sebastian Bach, and I was a composer during the Baroque period. I once " +
+            "spent a month in jail because of my employer. He figured it was a great way to keep me from going to work for someone else. While I was in the clink" +
+            " I wrote 46 pieces. Hey, I didn't have anything else to do, right? I'm also the one that had a bunch of kids.");
     }
 
     calculate_positions(){
-        this.bach_20.x = this.strav_20.x + this.strav_20.getBounds().width * this.strav_20.scaleX;
-        this.brahms_20.x = this.bach_20.x +  this.bach_20.getBounds().width * this.bach_20.scaleX;
-        this.mozart_20.x = this.brahms_20.x + this.brahms_20.getBounds().width * this.brahms_20.scaleX;
-        
+        this.bach_20.x = this.strav_20.x + this.strav_20.getBounds().width * this.strav_20.scaleX - 60;
+        this.brahms_20.x = this.bach_20.x +  this.bach_20.getBounds().width * this.bach_20.scaleX - 150;
+        this.mozart_20.x = this.brahms_20.x + this.brahms_20.getBounds().width * this.brahms_20.scaleX - 30;
+
         let h = this.music_stage.getBounds().height * this.music_stage.scaleY;
         this.strav_20.y = h - this.strav_20.getBounds().height * this.strav_20.scaleY - 10;
         this.bach_20.y = h - this.bach_20.getBounds().height * this.bach_20.scaleY - 10;
@@ -189,11 +167,7 @@ class MainLevel extends AbstractLevel {
     }
     resize(){
         this.hide_text_bubbles();
-        this.calculate_widths(this.strav_20, 4, 0.85);
-        this.calculate_widths(this.bach_20);
-        this.calculate_widths(this.brahms_20, 4, 1.23);
-        this.calculate_widths(this.mozart_20);
-        this.calculate_widths(this.music_stage, 1, 1);
+
         this.calculate_positions();
         g_stage.update();
     }

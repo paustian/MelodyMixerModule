@@ -41,7 +41,7 @@ class NaviController extends AbstractController
         AssetFilter $assetFilter
     ): Response {
         if(!$permissionHelper->hasPermission( ACCESS_COMMENT)){
-            return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
+            return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
         $route = $this->get('router')->generate('paustianmelodymixermodule_navi_level', ['name' => 'basics']);
         $output = $this->renderView("@PaustianMelodyMixerModule/Navi/mainLevel.html.twig");
@@ -61,88 +61,74 @@ class NaviController extends AbstractController
         AssetFilter $assetFilter
     ): Response {
         if(!$permissionHelper->hasPermission( ACCESS_COMMENT)){
-            return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
+            return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
         $levelList = [];
         $repo = $entityFactory->getRepository('Score');
         $uid = $currentUserApi->get('uid');
         $levelId = 0;
         //Note that that the integers are the ids of the levels stored in LevelEntity NOT the levelId or the exNum
+        $pgTitle = ucwords($name);
         switch ($name){
             case 'training':
                 //This needs to be a unique since there is only 1 level.
-                $levelList = [3];
+                $levelList = [1];
                 $levelId = 1;
                 break;
             case 'basics':
-                $levelList = [1,2];
+                $levelList = [2,3,4,5,6,7,8,9,10,11];
                 $levelId = 2;
                 break;
             case 'rhythm':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [12,13,14,15,16,17,18,19,20,21];
                 $levelId = 3;
                 break;
             case 'kss':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [22,23,24,25,26,27,28,29,30,31];
                 $levelId = 4;
+                $pgTitle = 'Key Signature and Scales';
                 break;
             case 'intervals':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [32,33,34,35,36,37,38,39,40,41];
                 $levelId = 5;
                 break;
             case 'constructs':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [42,43,44,45,46,47,48,49,50,51];
                 $levelId = 6;
                 break;
             case 'triads':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [52,53,54,55,56,57,58,59,60,61];
                 $levelId = 7;
                 break;
             case '7thchords':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [62,63,64,65,66,67,68,69,70,71];
                 $levelId = 8;
+                $pgTitle = 'Seventh Chords';
                 break;
-            case 'puncuation':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+            case 'punctuation':
+                $levelList = [72,73,74,75,76,77,78,79,80,81];
                 $levelId = 9;
                 break;
             case 'commonchord':
-                $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $levelList = [82,83,84,85,86,87,88,89,90,91];
                 $levelId = 10;
+                $pgTitle = 'Common Chords';
                 break;
             case 'experiment':
                 $levelList = [1,2,3,4,5,6,7,8,9,10];
+                $pgTitle = 'Experiment Zone';
                 break;
         }
         if($levelId == 0){
             $scores = [0,0,0,0,0,0,0,0,0,0];
         } else {
-            $scores = $this->_getScores($levelId, (int)$uid, $repo);
+            $scores = $this->getScores($levelId, (int)$uid, $repo);
         }
+
         $output = $this->renderView("@PaustianMelodyMixerModule/Navi/level.html.twig",
-            ['name' => $name, 'levelList' => $levelList, 'scores' => $scores]);
+            ['name' => $name, 'levelList' => $levelList, 'scores' => $scores, 'pgTitle' => $pgTitle]);
         $output = $assetFilter->filter($output);
         return new PlainResponse($output);
-    }
-
-    /**
-     * Given a uid and the level, retrieve the score for that level
-     */
-    private function _getScores($levelId, int $uid, ScoreRepository $repo){
-        $result = $repo->findUserScore($levelId, (int)$uid);
-        $scores = $result[0];
-        $retScores = [];
-        $retScores[0] = $scores->getScoreOne();
-        $retScores[1] = $scores->getScoreTwo();
-        $retScores[2] = $scores->getScoreThree();
-        $retScores[3] = $scores->getScoreFour();
-        $retScores[4] = $scores->getScoreFive();
-        $retScores[5] = $scores->getScoreSix();
-        $retScores[6] = $scores->getScoreSeven();
-        $retScores[7] = $scores->getScoreEight();
-        $retScores[8] = $scores->getScoreNine();
-        $retScores[9] = $scores->getScoreTen();
-        return $retScores;
     }
     /**
      *
@@ -224,19 +210,18 @@ class NaviController extends AbstractController
         EntityFactory $entityFactory
     ): Response {
         if(!$permissionHelper->hasPermission( ACCESS_EDIT)){
-            return $this->render('@PaustianMelodyMixerModule/Navi/registerFirst.html.twig');
+            return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
         $rows = [];
         $exerciseArray = ['Basics' => "0 - 0",
             'Rhythm' => "0 - 0",
-            'KSS' => "0 - 0",
-            'Intervals' => "0 - 0",
-            'Constructs'  => "0 - 0",
-            'Triads'  => "0 - 0",
-            'Seventh Cords'  => "0 - 0",
-            'Punctuation'  => "0 - 0",
-            'CCP'  => "0 - 0",
-            'ExpZone'  => "0 - 0"];
+            'kss' => "0 - 0",
+            'intervals' => "0 - 0",
+            'constructs'  => "0 - 0",
+            'triads'  => "0 - 0",
+            '7thchords'  => "0 - 0",
+            'punctuation'  => "0 - 0",
+            'Common Chords'  => "0 - 0"];
         $repo = $entityFactory->getRepository('GameScore');
         $scoreRepo = $entityFactory->getRepository('Score');
         $users = $repo->findAll();
@@ -293,7 +278,9 @@ class NaviController extends AbstractController
                     $exercisesTried++;
                     $scoreTotal += $theScore;
                 }
-                $exResults[$score->getLevelName()] = $exercisesTried . "/10 -" . $scoreTotal/$exercisesTried;
+                $exResults[$score->getLevelName()] = $exercisesTried . "/10 - " . round($scoreTotal/$exercisesTried, 0);
+                $exercisesTried = 0;
+                $scoreTotal = 0;
             }
             $item['scores'] = array_merge($exerciseArray, $exResults);
             $rows[] = $item;

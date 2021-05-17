@@ -41,6 +41,9 @@ function initLevel (levelId, exNum){
     //I probably can just change this back to a number
     gLevelId = levelId;
     gExNum = exNum;
+    if(gLevelId === 10){
+        g_color = "#FFFFFF"
+    }
     mixer.init_game();
     g_midiPlayer = MidiPlayer;
     window.addEventListener('resize', mixer, false);

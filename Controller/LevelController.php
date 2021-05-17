@@ -286,14 +286,21 @@ class LevelController extends AbstractLevelController
         Request $request,
         LevelEntity $level,
         PermissionHelper $permissionHelper,
+        CurrentUserApiInterface $currentUserApi,
+        EntityFactory $entityFactory,
         AssetFilter $assetFilter): Response
     {
         //Make sure that the user is logged in, otherwise go to the registration page
         if(!$permissionHelper->hasEntityPermission($level, ACCESS_COMMENT)){
             return $this->render('@PaustianMelodyMixerModule/Navi/registerfirst.html.twig');
         }
-
-        $output = $this->renderView('@PaustianMelodyMixerModule/Level/displayLevel.html.twig', ['level' => $level]);
+        $uid = $currentUserApi->get('uid');
+        $repo = $entityFactory->getRepository('Score');
+        $scores = $repo->getScores($level->getLevelNum(), $uid);
+        $theScore = $scores[$level->getExNum()];
+        $output = $this->renderView('@PaustianMelodyMixerModule/Level/displayLevel.html.twig',
+            ['level' => $level,
+              'score' => $theScore]);
         $output = $assetFilter->filter($output);
         return new PlainResponse($output);
     }

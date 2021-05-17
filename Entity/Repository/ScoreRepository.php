@@ -36,4 +36,25 @@ class ScoreRepository extends AbstractScoreRepository
 
         return $this->getQueryFromBuilder($qb)->getResult();
     }
+
+    public function getScores($levelId, int $uid){
+        $result = $this->findUserScore($levelId, (int)$uid);
+        if(count($result) > 0){
+            $scores = $result[0];
+            $retScores = [];
+            $retScores[0] = $scores->getScoreOne();
+            $retScores[1] = $scores->getScoreTwo();
+            $retScores[2] = $scores->getScoreThree();
+            $retScores[3] = $scores->getScoreFour();
+            $retScores[4] = $scores->getScoreFive();
+            $retScores[5] = $scores->getScoreSix();
+            $retScores[6] = $scores->getScoreSeven();
+            $retScores[7] = $scores->getScoreEight();
+            $retScores[8] = $scores->getScoreNine();
+            $retScores[9] = $scores->getScoreTen();
+        } else{
+            $retScores = [0,0,0,0,0,0,0,0,0,0];
+        }
+        return $retScores;
+    }
 }

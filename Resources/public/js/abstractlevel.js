@@ -2,7 +2,7 @@ let g_canvas = '';
 let g_stage = '';
 let g_dir = "";
 let g_font = "16px Arial"
-let g_color = "#FFFFFF";
+let g_color = "#000000";
 let gLevelId = 0;
 let gExNum = 0;
 let gMaxWidth = 1300;
@@ -372,6 +372,7 @@ class AbstractLevel {
         //we want text underneath the image
         if (text != ""){
             let labelText = new createjs.Text(text, g_font, g_color);
+            labelText.lineWidth = new_image.image.width;
             labelText.x = 0;
             labelText.y = new_image.image.height + 2;
             image_container.addChild(labelText);

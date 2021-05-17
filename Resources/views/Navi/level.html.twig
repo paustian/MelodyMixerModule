@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>{{ name|title }}</title>
+<title>{{ pgTitle|title }}</title>
 </head>
 <body>
 <div>
@@ -23,7 +23,7 @@
             <td id="score">{{ scores[loop.index0] }}</td>
             <td>100</td>
             <td><button id="basic1" onclick="window.location.href='{{ url('paustianmelodymixermodule_level_levelsdisplay', {'level': level}) }}'">Start
-                {{ name|title }} {{ loop.index }}</button></td>
+                {{ pgTitle|title }} {{ loop.index }}</button></td>
         </tr>
         {% endfor %}
         </tbody>
