@@ -12,7 +12,7 @@ canvas {
 #assignments {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 50%;
+    width: 800px;
     background-color:aliceblue;
 }
 
@@ -56,6 +56,12 @@ canvas {
     border-width: 3px;
     width:400px;
     padding: 10px 10px 10px 10px;
+}
+
+#divtonic {
+    position:absolute;
+    top:403px;
+    left:496px;
 }
 
 #main_level_buttons {

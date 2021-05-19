@@ -77,15 +77,15 @@ class MainLevel extends AbstractLevel {
             "that $100 fine for writing an arrangement of the Star Spangled Banner after I moved to America.");
         this.bach_20 = this.place_image_on_screen("bach_20", 0, 0, this.bach_clicked.bind(this), "",
             "Welcome to Melody Mixer.\nClick on one of the buttons to start composing melodies and help us work our way back through time to the Rock and Roll Hall of Fame.",
-            300, -60, 100, "20px Times black");
+            300, -85, 100, "20px Times black");
         this.bach_text = this.create_textbox(this.brahms_20.x, this.brahms_20.y, 350, "I'm Johann Sebastian Bach, and I was a composer during the Baroque period. I once " +
             "spent a month in jail because of my employer. He figured it was a great way to keep me from going to work for someone else. While I was in the clink" +
             " I wrote 46 pieces. Hey, I didn't have anything else to do, right? I'm also the one that had a bunch of kids.");
     }
 
     calculate_positions(){
-        this.bach_20.x = this.strav_20.x + this.strav_20.getBounds().width * this.strav_20.scaleX - 60;
-        this.brahms_20.x = this.bach_20.x +  this.bach_20.getBounds().width * this.bach_20.scaleX - 150;
+        this.bach_20.x = this.strav_20.x + this.strav_20.getBounds().width * this.strav_20.scaleX-20;
+        this.brahms_20.x = this.bach_20.x +  this.bach_20.getBounds().width * this.bach_20.scaleX - 240;
         this.mozart_20.x = this.brahms_20.x + this.brahms_20.getBounds().width * this.brahms_20.scaleX - 30;
 
         let h = this.music_stage.getBounds().height * this.music_stage.scaleY;

@@ -122,7 +122,7 @@ class NaviController extends AbstractController
         if($levelId == 0){
             $scores = [0,0,0,0,0,0,0,0,0,0];
         } else {
-            $scores = $this->getScores($levelId, (int)$uid, $repo);
+            $scores = $repo->getScores($levelId, (int)$uid, $repo);
         }
 
         $output = $this->renderView("@PaustianMelodyMixerModule/Navi/level.html.twig",

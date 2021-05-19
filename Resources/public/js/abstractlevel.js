@@ -163,7 +163,11 @@ class AbstractLevel {
        
         this.playButton = document.getElementById("play");
         this.playButton.onclick = this.play_music.bind(this);
-        // Initialize player and register event handler
+        this.tonicButton = document.getElementById('buttontonic');
+        this.tonicButton.onclick = this.play_tonic.bind(this);
+        //each level will have a item named tonic that points to the note to play.
+        this.tonicMusic =  this.queue.getResult("tonic");
+            // Initialize player and register event handler
         this.player = new g_midiPlayer.Player(this.play_midi.bind(this));
         this.player.on("playing", this._music_is_playing.bind(this));
         this.player.on("endOfFile", this._music_done.bind(this));
@@ -365,12 +369,12 @@ class AbstractLevel {
     place_image_on_screen(image_id, x, y, listen_function = "", text = "", textbox="", textbox_width=0, tx_x=0, tx_y=0, inFont = "16px Times black", url=""){
         let new_image = new createjs.Bitmap(this.queue.getResult(image_id));
         let image_container = new createjs.Container();
-        if(listen_function != ""){
+        if(listen_function !== ""){
             image_container.addEventListener("click", listen_function);
             image_container.url =url;
         }
         //we want text underneath the image
-        if (text != ""){
+        if (text !== ""){
             let labelText = new createjs.Text(text, g_font, g_color);
             labelText.lineWidth = new_image.image.width;
             labelText.x = 0;
@@ -378,7 +382,7 @@ class AbstractLevel {
             image_container.addChild(labelText);
         }
         
-        if(textbox != ""){
+        if(textbox !== ""){
             image_container.textbox = image_container.addChild(this.create_textbox(tx_x, tx_y, textbox_width, textbox, inFont));
         }
         
@@ -519,11 +523,9 @@ class AbstractLevel {
     }
 
     _is_in_box(x, y, box){
-        if((x > box.x) && (x < (box.x + box.width)) &&
-            (y > box.y) && (y < (box.y + box.height))){
-                return true;
-        }
-        return false;
+        return (x > box.x) && (x < (box.x + box.width)) &&
+            (y > box.y) && (y < (box.y + box.height));
+
     }
  
     _move_to_target(draggedBox, box){
@@ -592,7 +594,7 @@ class AbstractLevel {
             }
         }
         let time = 0;
-        if(this.soundArray.length != 0){
+        if(this.soundArray.length !== 0){
             let sound = this.soundArray.shift();
             let midiToPlay = new Midi(sound);
             let track = midiToPlay.tracks[0];
@@ -600,7 +602,7 @@ class AbstractLevel {
             for(let t = 0; t < track.notes.length; t++){
                 time += track.notes[t].durationTicks + 1;
             }
-            while(this.soundArray.length != 0){
+            while(this.soundArray.length !== 0){
                 sound = this.soundArray.shift();
                 const midiPiece = new Midi(sound);
                 //there is only one track per midi file
@@ -644,6 +646,16 @@ class AbstractLevel {
         this.player.setTempo(tempo);
     }
 
+    play_tonic(){
+        if(this.player.isPlaying()){
+            return;
+        }
+        let midiToPlay = new Midi(this.tonicMusic);
+        let buffer = new Uint8Array(midiToPlay.toArray());
+        this.player.loadArrayBuffer(buffer);
+        this.player.play();
+    }
+
      _music_done(){
          setTimeout(this._reset_duration_slider.bind(this), 2000);
      }
@@ -655,8 +667,7 @@ class AbstractLevel {
 
     _music_is_playing(currentTick){
         //this._set_min_seconds(currentTick.tick/1000, this.current_time, "");
-        let currentBarValue = currentTick.tick/this.totalTicks * 100;
-        this.duration_slider.value = currentBarValue;
+        this.duration_slider.value = currentTick.tick / this.totalTicks * 100;
     }
 
     _post_score_to_database(inScore){

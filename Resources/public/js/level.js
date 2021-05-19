@@ -41,7 +41,7 @@ function initLevel (levelId, exNum){
     //I probably can just change this back to a number
     gLevelId = levelId;
     gExNum = exNum;
-    if(gLevelId === 10){
+    if(gLevelId === 10 || gLevelId === 1){
         g_color = "#FFFFFF"
     }
     mixer.init_game();

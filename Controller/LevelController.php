@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Paustian\MelodyMixerModule\Controller;
 
 use Paustian\MelodyMixerModule\Controller\Base\AbstractLevelController;
+use Paustian\MelodyMixerModule\Entity\GraphicsAndSoundEntity;
 use Paustian\MelodyMixerModule\Form\Type\FillLevelType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -340,4 +341,28 @@ class LevelController extends AbstractLevelController
         return $this->render('@PaustianMelodyMixerModule/Level/fillLevel.html.twig', ['form' => $form->createView()]);
     }
 
+    /**
+     *
+     * @Route("/levels/addtonics", methods = {"GET", "POST"})
+     *
+     * @Theme("admin")
+     */
+    public function addTonicsAction(Request $request,
+                                    PermissionHelper $permissionHelper,
+                                    WorkflowHelper $workflowHelper) : RedirectResponse {
+        if(!$permissionHelper->hasPermission(ACCESS_ADMIN)){
+            throw new AccessDeniedException();
+        }
+        for($i = 2; $i < 11; $i++){
+            for($j = 1; $j < 11; $j++){
+                  $gs = new GraphicsAndSoundEntity();
+                  $gs->setLevelid($i);
+                  $gs->setExNum($j);
+                  $gs->setGsName('tonic');
+                  $gs->setGsPath('/images/assets/tonics/C.mid');
+                  $workflowHelper->executeAction($gs, 'submit');
+            }
+        }
+        return $this->redirectToRoute('paustianmelodymixermodule_gamescore_view');
+    }
 }
