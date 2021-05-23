@@ -202,7 +202,7 @@ class NaviController extends AbstractController
 
     /**
      * @Route("/viewscores", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
-     *
+     * @Theme("admin")
      */
     public function viewscoresAction(
         Request $request,

@@ -68,7 +68,8 @@ class AjaxController extends AbstractAjaxController
                                        EntityFactory $entityFactory,
                                        PermissionHelper $permissionHelper): JsonResponse {
         // permission check
-        if (!$permissionHelper->hasComponentPermission('level', ACCESS_READ)) {
+        if ((!$permissionHelper->hasComponentPermission('level', ACCESS_READ)) ||
+            (!$currentUserApi->isLoggedIn()) ) {
             return new JsonResponse($this->trans('Access forbidden since you cannot play Melody Mixer.'), Response::HTTP_FORBIDDEN);
         }
         $level = (int)$request->request->get('levelNum');
@@ -80,9 +81,12 @@ class AjaxController extends AbstractAjaxController
         $repoScores = $entityFactory->getRepository('MusicScore');
         //Get the matching data from the MusicScores table.
         $scoreData = $repoScores->selectMusicScoresFromLevel($level, $exNum);
-
+        $uid = $currentUserApi->get('uid');
+        $repoStudentScores = $entityFactory->getRepository('Score');
+        $userScores = $repoStudentScores->getScores($level, $uid);
         return  new JsonResponse(['graphicData' => $levelData,
-            'scoreData' => $scoreData]);
+            'scoreData' => $scoreData,
+            'userScore' => $userScores[$exNum - 1]]);
     }
 
     /**

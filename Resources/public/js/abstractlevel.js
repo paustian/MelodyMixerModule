@@ -39,6 +39,7 @@ class AbstractLevel {
         this.graphicData = result.graphicData;
         //This we use later to create the score matrix
         this.scoreData = result.scoreData;
+        this.userScore = result.userScore;
         let manSize = this.graphicData.length;
         let manifest = [];
         //an array to keep track of dupicate requests
@@ -171,6 +172,8 @@ class AbstractLevel {
         this.player = new g_midiPlayer.Player(this.play_midi.bind(this));
         this.player.on("playing", this._music_is_playing.bind(this));
         this.player.on("endOfFile", this._music_done.bind(this));
+
+        this.lastDragSource = null;
        
         this.totalTicks = 0;
         //now we need a sound font
@@ -193,6 +196,7 @@ class AbstractLevel {
         let scoreButton = document.getElementById("score");
         scoreButton.onclick = this.calculate_score.bind(this);
         this.scoreText = document.getElementById("scoretext");
+        this.scoreText.value = this.userScore;
         this.instrument_menu = document.getElementById("instrumentMenu");
         let instrument_choices = ["acoustic_grand_piano",
         "bright_acoustic_piano",
@@ -508,6 +512,8 @@ class AbstractLevel {
         let dragOccupant = null;
         if(this.dragSource !== false){
             dragOccupant = this.dragSource.occupant;
+            //Remember the source of the last drag
+            this.lastDragSource = this.dragSource;
             this.dragSource.occupant = null;
         }
         //put this object at the top of the stack so it doesn't go behind anything
@@ -565,8 +571,9 @@ class AbstractLevel {
     drop_on_me_target(e){
         let targetBox = this._find_box(e.stageX, e.stageY);
         if(!targetBox){
-            e.currentTarget.x = this.lastDragSourceX;
-            e.currentTarget.y = this.lastDragSourceY;
+            this.lastDragSource.occupant = e.currentTarget;
+            e.currentTarget.x = this.lastDragSource.x;
+            e.currentTarget.y = this.lastDragSource.y;
         } else {
             this._move_to_target(e.currentTarget, targetBox);
         }
