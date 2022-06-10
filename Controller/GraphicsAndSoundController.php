@@ -46,7 +46,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      * )
      * @Theme("admin")
      */
-    public function adminEditAction(
+    public function adminEdit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -71,7 +71,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function editAction(
+    public function edit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -97,7 +97,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      * )
      * @Theme("admin")
      */
-    public function adminViewAction(
+    public function adminView(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -130,7 +130,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      *        methods = {"GET"}
      * )
      */
-    public function viewAction(
+    public function view(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -164,7 +164,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      * )
      * @Theme("admin")
      */
-    public function adminDeleteAction(
+    public function adminDelete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -197,7 +197,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function deleteAction(
+    public function delete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -230,7 +230,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      * )
      * @Theme("admin")
      */
-    public function adminHandleSelectedEntriesAction(
+    public function adminHandleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -254,7 +254,7 @@ class GraphicsAndSoundController extends AbstractGraphicsAndSoundController
      *        methods = {"POST"}
      * )
      */
-    public function handleSelectedEntriesAction(
+    public function handleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,

@@ -38,7 +38,7 @@ class ConfigController extends AbstractConfigController
      * )
      * @Theme("admin")
      */
-    public function configAction(
+    public function config(
         Request $request,
         PermissionHelper $permissionHelper,
         AppSettings $appSettings,

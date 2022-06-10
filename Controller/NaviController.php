@@ -34,7 +34,7 @@ class NaviController extends AbstractController
      * @Route("/main", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
      *
      */
-    public function mainAction(
+    public function main(
         Request $request,
         PermissionHelper $permissionHelper,
         CurrentUserApiInterface $currentUserApi,
@@ -52,7 +52,7 @@ class NaviController extends AbstractController
     /**
      * @Route("/level/{name}", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
      */
-    public function levelAction(
+    public function level(
         Request $request,
         string $name,
         PermissionHelper $permissionHelper,
@@ -136,7 +136,7 @@ class NaviController extends AbstractController
      * @Theme("admin")
      * import the data for creating the navigation pages. This is an admin page.
      */
-    public function importAction(
+    public function import(
         Request $request,
         PermissionHelper $permissionHelper,
         WorkflowHelper $workflowHelper) : Response
@@ -204,7 +204,7 @@ class NaviController extends AbstractController
      * @Route("/viewscores", options={"expose"=true, "i18n"=false}, methods = {"GET", "POST"})
      * @Theme("admin")
      */
-    public function viewscoresAction(
+    public function viewscores(
         Request $request,
         PermissionHelper $permissionHelper,
         EntityFactory $entityFactory

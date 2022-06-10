@@ -63,7 +63,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/getleveldata", options={"expose"=true, "i18n"=false}, methods={"POST"})
      */
-    public function getLevelDataAction(Request $request,
+    public function getLevelData(Request $request,
                                        CurrentUserApiInterface $currentUserApi,
                                        EntityFactory $entityFactory,
                                        PermissionHelper $permissionHelper): JsonResponse {
@@ -92,7 +92,7 @@ class AjaxController extends AbstractAjaxController
     /**
      * @Route("/recordscore", options={"expose"=true, "i18n"=false}, methods={"POST"})
      */
-    public function recordScoreAction(Request $request,
+    public function recordScore(Request $request,
                                        CurrentUserApiInterface $currentUserApi,
                                        EntityFactory $entityFactory,
                                        PermissionHelper $permissionHelper,

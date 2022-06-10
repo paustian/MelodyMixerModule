@@ -44,7 +44,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminIndexAction(
+    public function adminIndex(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -61,7 +61,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"GET"}
      * )
      */
-    public function indexAction(
+    public function index(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -81,7 +81,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminViewAction(
+    public function adminView(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -114,7 +114,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"GET"}
      * )
      */
-    public function viewAction(
+    public function view(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -148,7 +148,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminEditAction(
+    public function adminEdit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -173,7 +173,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function editAction(
+    public function edit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -196,7 +196,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminSetScoresAction(
+    public function adminSetScores(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -212,7 +212,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function setScoresAction(
+    public function setScores(
         Request $request,
         PermissionHelper $permissionHelper
     ): Response {
@@ -232,7 +232,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminDeleteAction(
+    public function adminDelete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -265,7 +265,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function deleteAction(
+    public function delete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -298,7 +298,7 @@ class GameScoreController extends AbstractGameScoreController
      * )
      * @Theme("admin")
      */
-    public function adminHandleSelectedEntriesAction(
+    public function adminHandleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -322,7 +322,7 @@ class GameScoreController extends AbstractGameScoreController
      *        methods = {"POST"}
      * )
      */
-    public function handleSelectedEntriesAction(
+    public function handleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,

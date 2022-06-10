@@ -51,7 +51,7 @@ class LevelController extends AbstractLevelController
      * )
      * @Theme("admin")
      */
-    public function adminEditAction(
+    public function adminEdit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -76,7 +76,7 @@ class LevelController extends AbstractLevelController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function editAction(
+    public function edit(
         Request $request,
         PermissionHelper $permissionHelper,
         ControllerHelper $controllerHelper,
@@ -102,7 +102,7 @@ class LevelController extends AbstractLevelController
      * )
      * @Theme("admin")
      */
-    public function adminViewAction(
+    public function adminView(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -135,7 +135,7 @@ class LevelController extends AbstractLevelController
      *        methods = {"GET"}
      * )
      */
-    public function viewAction(
+    public function view(
         Request $request,
         RouterInterface $router,
         PermissionHelper $permissionHelper,
@@ -169,7 +169,7 @@ class LevelController extends AbstractLevelController
      * )
      * @Theme("admin")
      */
-    public function adminDeleteAction(
+    public function adminDelete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -202,7 +202,7 @@ class LevelController extends AbstractLevelController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function deleteAction(
+    public function delete(
         Request $request,
         LoggerInterface $logger,
         PermissionHelper $permissionHelper,
@@ -235,7 +235,7 @@ class LevelController extends AbstractLevelController
      * )
      * @Theme("admin")
      */
-    public function adminHandleSelectedEntriesAction(
+    public function adminHandleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -259,7 +259,7 @@ class LevelController extends AbstractLevelController
      *        methods = {"POST"}
      * )
      */
-    public function handleSelectedEntriesAction(
+    public function handleSelectedEntries(
         Request $request,
         LoggerInterface $logger,
         EntityFactory $entityFactory,
@@ -283,7 +283,7 @@ class LevelController extends AbstractLevelController
      *        methods = {"GET", "POST"}
      * )
      */
-    public function levelsDisplayAction(
+    public function levelsDisplay(
         Request $request,
         LevelEntity $level,
         PermissionHelper $permissionHelper,
@@ -312,7 +312,7 @@ class LevelController extends AbstractLevelController
      *
      * @Theme("admin")
      */
-    public function fillLevelAction(
+    public function fillLevel(
         Request $request,
         PermissionHelper $permissionHelper,
         WorkflowHelper $workflowHelper) : Response{
@@ -347,7 +347,7 @@ class LevelController extends AbstractLevelController
      *
      * @Theme("admin")
      */
-    public function addTonicsAction(Request $request,
+    public function addTonics(Request $request,
                                     PermissionHelper $permissionHelper,
                                     WorkflowHelper $workflowHelper) : RedirectResponse {
         if(!$permissionHelper->hasPermission(ACCESS_ADMIN)){

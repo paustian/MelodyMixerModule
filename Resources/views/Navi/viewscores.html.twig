@@ -18,16 +18,16 @@
         </tr>
         </thead>
         <tbody>
+            {% for row in rows %}
             <tr>
-                {% for row in rows %}
                     <td>{{ row.name }}</td>
                     <td>{{ row.email }}</td>
                     <td>{{ row.date|date("m/d/Y") }}</td>
                     {% for score in row.scores %}
                         <td>{{ score }}</td>
                     {% endfor %}
-                {% endfor %}
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
