@@ -176,23 +176,7 @@ class AbstractLevel {
         this.lastDragSource = null;
        
         this.totalTicks = 0;
-        //now we need a sound font
-        let AudioContext = window.AudioContext // Default
-            || window.webkitAudioContext // Safari and old versions of Chrome
-            || false;
-
-        if (AudioContext) {
-            // Do whatever you want using the Web Audio API
-            this.ac = new AudioContext;
-            // ...
-        } else {
-            // Web Audio API is not supported
-            // Alert the user
-            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Mozilla Firefox");
-        }
-        this.instrument = null;
-        Soundfont.instrument(this.ac, 'acoustic_grand_piano').then(this.load_instrument.bind(this));
-        
+        this.ac = null;
         let scoreButton = document.getElementById("score");
         scoreButton.onclick = this.calculate_score.bind(this);
         this.scoreText = document.getElementById("scoretext");
@@ -330,6 +314,9 @@ class AbstractLevel {
     }
     
     set_instrument(){
+        if(this.ac == null){
+            this._set_up_audio();
+        }
         let instrument = this.instrument_menu.value;
         Soundfont.instrument(this.ac, instrument).then(this.load_instrument.bind(this));
     }
@@ -630,6 +617,9 @@ class AbstractLevel {
     }
 
     play_music(){
+        if(this.ac == null){
+            this._set_up_audio();
+        }
         if(this.player.isPlaying()){
             //set the icon back to play
             this.playButton.classList.remove("bi-pause-btn");
@@ -649,6 +639,25 @@ class AbstractLevel {
         }
         
     }
+    _set_up_audio(){
+        //now we need a sound font
+        let AudioContext = window.AudioContext // Default
+            || window.webkitAudioContext // Safari and old versions of Chrome
+            || false;
+
+        if (AudioContext) {
+            // Do whatever you want using the Web Audio API
+            this.ac = new AudioContext;
+            // ...
+        } else {
+            // Web Audio API is not supported
+            // Alert the user
+            alert("Sorry, but the Web Audio API is not supported by your browser. Please, consider upgrading to the latest version or downloading Mozilla Firefox");
+        }
+        this.instrument = null;
+        Soundfont.instrument(this.ac, 'acoustic_grand_piano').then(this.load_instrument.bind(this));
+    }
+
     _set_tempo_hack(tempo){
         this.player.setTempo(tempo);
     }
